@@ -1,11 +1,11 @@
 <template>
-  <div class="container">
+  <b-container>
     <BookForm :books="books" @bookAdded="bookAdded" />
     <book-table :books="books" @bookDeleted="bookDeleted" v-if="books.length" />
     <p v-else>
       No books yet. Add a book in the form above.
     </p>
-  </div>
+  </b-container>
 </template>
 
 <script>
@@ -14,18 +14,18 @@ import BookForm from '@/components/BookForm.vue';
 import BookTable from '@/components/BookTable.vue';
 
 const STORAGE_KEY = 'myStorageKey';
-let bookStorage = {
-  fetch: function () {
-    let books = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-    books.forEach(function (book, index) {
+const bookStorage = {
+  fetch() {
+    const books = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    books.forEach((book, index) => {
       book.id = index;
     });
     bookStorage.uid = books.length;
     return books;
   },
-  save: function (books) {
+  save(books) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(books));
-  }
+  },
 };
 
 export default {
@@ -37,7 +37,7 @@ export default {
   data() {
     return {
       books: bookStorage.fetch(),
-    }
+    };
   },
   methods: {
     bookAdded(book) {
@@ -50,11 +50,11 @@ export default {
   },
   watch: {
     books: {
-      handler: function (books) {
-        bookStorage.save(books)
+      handler(books) {
+        bookStorage.save(books);
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
 };
 </script>

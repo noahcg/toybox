@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <b-row>
     <b-form class="col-md-8 mx-auto my-5 text-left" @submit="addBook" @reset="onReset">
       <b-form-group id="exampleInputGroup1"
                     label="Book Title:"
@@ -31,29 +31,25 @@
                       placeholder="Enter number of pages">
         </b-form-input>
       </b-form-group>
-      <b-button type="submit" variant="primary" class="mr-3">Submit</b-button>
+      <b-button type="submit" variant="primary" class="mr-3">Add Book</b-button>
       <b-button type="reset" variant="danger">Reset</b-button>
     </b-form>
-  </div>
+  </b-row>
 </template>
 
 <script>
 
-let filters = {
-  all: function (books) {
+const filters = {
+  all(books) {
     return books;
   },
-  active: function (books) {
-    return books.filter(function (book) {
-      return !book.completed;
-    });
+  active(books) {
+    return books.filter(book => !book.completed);
   },
-  completed: function (books) {
-    return books.filter(function (book) {
-      return book.completed;
-    });
-  }
-}
+  completed(books) {
+    return books.filter(book => book.completed);
+  },
+};
 
 export default {
   name: 'BookForm',
@@ -61,9 +57,9 @@ export default {
     books: {
       type: Array,
       required: true,
-    }
+    },
   },
-  data () {
+  data() {
     return {
       show: false,
       newBookTitle: '',
@@ -71,39 +67,40 @@ export default {
       newBookPageCount: '',
       editedBook: null,
       visibility: 'all',
-    }
+    };
   },
   computed: {
-    filteredBooks: function () {
-      return filters[this.visibility](this.books)
+    filteredBooks() {
+      return filters[this.visibility](this.books);
     },
   },
   methods: {
-    onReset (evt) {
+    onReset(evt) {
       evt.preventDefault();
       this.newBookTitle = '';
       this.newBookAuthor = '';
       this.newBookPageCount = '';
     },
-    addBook: function () {
-      var titleValue = this.newBookTitle && this.newBookTitle.trim();
-      var authorValue = this.newBookAuthor && this.newBookAuthor.trim();
-      var pageCountValue = this.newBookPageCount && this.newBookPageCount.trim();
+    addBook(evt) {
+      evt.preventDefault();
+      const titleValue = this.newBookTitle && this.newBookTitle.trim();
+      const authorValue = this.newBookAuthor && this.newBookAuthor.trim();
+      const pageCountValue = this.newBookPageCount && this.newBookPageCount.trim();
       if (!titleValue && !authorValue && !pageCountValue) {
-        return
+        return;
       }
       const book = {
         title: titleValue,
         author: authorValue,
         pageCount: pageCountValue,
-        completed: false
+        completed: false,
       };
       this.$emit('bookAdded', book);
       this.newBookTitle = '';
       this.newBookAuthor = '';
       this.newBookPageCount = '';
     },
-  }
+  },
 };
 </script>
 
