@@ -3,7 +3,7 @@
     <BookForm :books="books" @bookAdded="bookAdded" />
     <book-table :books="books" @bookDeleted="bookDeleted" v-if="books.length" />
     <p v-else>
-      No books yet. Add a book in the form above.
+      Your library is empty. Add a book in the form above.
     </p>
   </b-container>
 </template>
@@ -45,6 +45,7 @@ export default {
       this.books.push(book);
     },
     bookDeleted(book) {
+      console.log(this.books.indexOf(book));
       this.books.splice(this.books.indexOf(book), 1);
     },
   },

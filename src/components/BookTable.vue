@@ -12,7 +12,7 @@
              striped
              fixed
              :filter="filter"
-             class="text-left">
+             class="text-left mb-5">
       <template slot="remove" slot-scope="{ value }">
         <button class="destroy" @click="removeBook(value)">&times;</button>
       </template>
@@ -50,6 +50,12 @@ export default {
           class: 'bookfields page-count-field',
         },
         {
+          key: 'date',
+          label: 'Date Read',
+          sortable: true,
+          class: 'bookfields date-field',
+        },
+        {
           key: 'remove',
           label: 'Remove',
           sortable: false,
@@ -61,8 +67,8 @@ export default {
   },
   computed: {
     sortOptions() {
-      return this.fields.filter(f => f.sortable).map(f => { return { text: f.title, value: f.key  } });
-    }
+      return this.fields.filter(f => f.sortable).map(f => ({ text: f.title, value: f.key }));
+    },
   },
   methods: {
     removeBook(book) {
