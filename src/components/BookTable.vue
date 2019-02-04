@@ -10,17 +10,19 @@
     <b-table :fields="fields"
              :items="books"
              striped
-             fixed
              :filter="filter"
              class="text-left mb-5">
-      <template slot="remove" slot-scope="{ value }">
-        <button class="destroy" @click="removeBook(value)">&times;</button>
+      <template slot="actions" slot-scope="{ value }">
+        <button class="edit" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+        <button class="destroy" @click="removeBook(value)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
       </template>
     </b-table>
   </b-row>
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   props: {
     books: {
@@ -44,6 +46,12 @@ export default {
           class: 'bookfields author-field',
         },
         {
+          key: 'category',
+          label: 'Category',
+          sortable: true,
+          class: 'bookfields category-field',
+        },
+        {
           key: 'pageCount',
           label: 'Page Count',
           sortable: true,
@@ -56,8 +64,8 @@ export default {
           class: 'bookfields date-field',
         },
         {
-          key: 'remove',
-          label: 'Remove',
+          key: 'actions',
+          label: 'Actions',
           sortable: false,
           class: 'bookfields remove-field',
         },
@@ -69,6 +77,9 @@ export default {
     sortOptions() {
       return this.fields.filter(f => f.sortable).map(f => ({ text: f.title, value: f.key }));
     },
+    ...mapState({
+      custom: 'title',
+    })
   },
   methods: {
     removeBook(book) {
@@ -82,16 +93,23 @@ export default {
 /deep/ .bookfields {
   position: relative;
 }
-.destroy {
+.edit, .destroy {
   background: none;
   border: 0;
   top: 0;
   bottom: 0;
   margin: auto 0;
   position: absolute;
-  font-size: 30px;
+  font-size: 24px;
   color: #cc9a9a;
   transition: color 0.2s ease-out;
   cursor: pointer;
+
+  &:hover {
+    color: darken(#cc9a9a, 20%);
+  }
+}
+.destroy {
+  margin-left: 35px;
 }
 </style>
