@@ -79,7 +79,7 @@ export default {
     },
     ...mapState({
       custom: 'title',
-    })
+    }),
   },
   methods: {
     removeBook(book) {

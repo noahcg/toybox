@@ -54,6 +54,8 @@
                 <date-pick v-model="date"
                         id="exampleInput5"
                         :format="format"
+                        :parseDate="parseDate"
+                        :formatDate="formatDate"
                         :inputAttributes="{size: 32}"
                         type="text"
                         class="datePickExample"
@@ -62,8 +64,8 @@
               </b-form-group>
             </b-col>
           </b-row>
-          
-          
+
+
           <b-button type="submit" variant="primary" class="mr-3">Add Book</b-button>
           <b-button type="reset" variant="danger">Reset</b-button>
         </b-form>
@@ -76,7 +78,7 @@
 
 import DatePick from 'vue-date-pick';
 import 'vue-date-pick/dist/vueDatePick.css';
-import moment from 'moment';
+import fecha from 'fecha';
 
 const filters = {
   all(books) {
@@ -100,8 +102,8 @@ export default {
       newBookPageCount: '',
       editedBook: null,
       visibility: 'all',
-      format: 'dddd MMMM Do, YYYY',
-      date: moment(new Date()).format('dddd MMMM Do, YYYY'),
+      format: 'MMMM Do, YYYY',
+      date: fecha.format(new Date(), 'MMMM Do, YYYY'),
       categorySelected: null,
       categories: [
         { value: null, text: 'Please select an option' },
@@ -120,7 +122,7 @@ export default {
         { value: 'Science & Math', text: 'Science & Math' },
         { value: 'Science Fiction & Fantasy', text: 'Science Fiction & Fantasy' },
         { value: 'Travel', text: 'Travel' },
-      ]
+      ],
     };
   },
   computed: {
@@ -135,11 +137,16 @@ export default {
       this.newBookAuthor = '';
       this.categorySelected = null;
       this.newBookPageCount = '';
-      this.date = '';
+      this.date = fecha.format(new Date(), 'MMMM Do, YYYY');
     },
     selectCategory(value, text) {
-      console.log(value);
       this.categorySelected = value;
+    },
+    parseDate(dateString, format) {
+      return fecha.parse(dateString, format);
+    },
+    formatDate(dateObj, format) {
+      return fecha.format(dateObj, format);
     },
     addBook(evt) {
       evt.preventDefault();
@@ -164,7 +171,7 @@ export default {
       this.newBookAuthor = '';
       this.categorySelected = null;
       this.newBookPageCount = '';
-      this.date = '';
+      this.date = fecha.format(new Date(), 'MMMM Do, YYYY');
     },
   },
 };
@@ -193,7 +200,7 @@ export default {
       color: #333 !important;
     }
   }
-  
+
   .collapsed > .when-opened,
   :not(.collapsed) > .when-closed {
     display: none;
