@@ -1,4 +1,4 @@
-# my-library
+# List of books I've read
 
 ## Project setup
 ```

@@ -2,8 +2,9 @@
   <v-app>
     <v-toolbar app>
       <v-toolbar-title class="headline text-uppercase">
-        <span>Library</span>
-        <span class="font-weight-light">REPO</span>
+        <span>My </span>
+        <span class="font-weight-light">personal </span>
+        <span>library</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
     </v-toolbar>
