@@ -1,4 +1,4 @@
-# book-repo
+# my-library
 
 ## Project setup
 ```

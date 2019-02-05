@@ -1,13 +1,22 @@
 import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap-vue/dist/bootstrap-vue.css';
+import './plugins/vuetify';
+import VueFire from 'vuefire';
+import firebase from 'firebase/app';
 import App from './App.vue';
 import router from './router';
 import store from './store';
+import 'firebase/firestore';
 
-Vue.use(BootstrapVue);
 Vue.config.productionTip = false;
+
+Vue.use(VueFire);
+
+firebase.initializeApp({
+  projectId: 'libraryrepo-410f1',
+  databaseURL: 'https://libraryrepo-410f1.firebaseio.com',
+});
+
+export const db = firebase.firestore();
 
 new Vue({
   router,

@@ -1,61 +1,13 @@
 <template>
-  <b-container>
-    <BookForm :books="books" @bookAdded="bookAdded" />
-    <book-table :books="books" @bookDeleted="bookDeleted" v-if="books.length" />
-    <p v-else>
-      Your library is empty. Add a book in the form above.
-    </p>
-  </b-container>
+  <Library />
 </template>
 
 <script>
-// @ is an alias to /src
-import BookForm from '@/components/BookForm.vue';
-import BookTable from '@/components/BookTable.vue';
+  import Library from '../components/Library'
 
-const STORAGE_KEY = 'myStorageKey';
-const bookStorage = {
-  fetch() {
-    const books = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-    books.forEach((book, index) => {
-      book.id = index;
-    });
-    bookStorage.uid = books.length;
-    return books;
-  },
-  save(books) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(books));
-  },
-};
-
-export default {
-  name: 'home',
-  components: {
-    BookForm,
-    BookTable,
-  },
-  data() {
-    return {
-      books: bookStorage.fetch(),
-    };
-  },
-  methods: {
-    bookAdded(book) {
-      book.id = bookStorage.uid++;
-      this.books.push(book);
-    },
-    bookDeleted(book) {
-      console.log(this.books.indexOf(book));
-      this.books.splice(this.books.indexOf(book), 1);
-    },
-  },
-  watch: {
-    books: {
-      handler(books) {
-        bookStorage.save(books);
-      },
-      deep: true,
-    },
-  },
-};
+  export default {
+    components: {
+      Library
+    }
+  }
 </script>
