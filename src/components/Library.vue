@@ -1,10 +1,23 @@
 <template>
   <div>
     <v-container>
+      <v-layout row wrap class="mb-4">
+        <v-flex xs8>
+          <v-btn @click="dialog = true" color="primary" dark>
+            <v-icon>library_add</v-icon>
+          </v-btn>
+        </v-flex>
+        <v-flex xs4>
+          <v-text-field
+                    v-model="search"
+                    append-icon="search"
+                    label="Search"
+                    single-line
+                    hide-details>
+          </v-text-field>
+        </v-flex>
+      </v-layout>
       <v-dialog v-model="dialog" max-width="500px">
-        <v-btn slot="activator" color="primary" dark class="mb-2">
-          <v-icon>library_add</v-icon>
-        </v-btn>
         <v-card>
           <v-card-title>
             <span class="headline">{{ formTitle }}</span>
@@ -35,7 +48,7 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-      <v-data-table :headers="headers" :items="books" hide-actions class="elevation-1">
+      <v-data-table :headers="headers" :items="books" :search="search" hide-actions class="elevation-1">
         <template slot="items" slot-scope="props">
             <td class="text-xs-left">{{ props.item.title }}</td>
             <td class="text-xs-left">{{ props.item.author }}</td>
@@ -50,6 +63,9 @@
               </v-btn>
             </td>
         </template>
+        <v-alert slot="no-results" :value="true" color="error" icon="warning">
+          Your search for "{{ search }}" found no results.
+        </v-alert>
       </v-data-table>
     </v-container>
   </div>
@@ -61,6 +77,8 @@ import { db } from '../main';
 
 export default {
   data: () => ({
+    search: '',
+    rowspp: 10,
     books: [],
     dialog: false,
     headers: [
@@ -78,7 +96,7 @@ export default {
     editedIndex: -1,
     editedItemID: '',
     categories: [
-      'Architecture','Art','Biography and Autobiography','Body Mind and Spirit','Business and Economics','Computers','Cooking','Crafts & Hobbies','Drama','Education','Fiction','Health and Fitness','History','Humor','Law','Literature & Fiction','Miscellaneous','Outdoors & Nature','Periodicals','Philosophy','Photography','Politics & Social Sciences','Psychology','Science Fiction','Social Science','Technology and Engineering','Transportation','Travel'
+      'Architecture','Art','Biography and Autobiography','Body Mind and Spirit','Business and Economics','Computers','Cooking','Crafts & Hobbies','Drama','Education','Fiction','Health and Fitness','History','Humor','Law','Literature & Fiction','Miscellaneous', 'Mystery, Thriller & Suspense','Outdoors & Nature','Periodicals','Philosophy','Photography','Politics & Social Sciences','Psychology','Science Fiction','Social Science','Technology and Engineering','Transportation','Travel'
     ],
     editedItem: {
       title: '',
