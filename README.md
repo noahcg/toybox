@@ -1,34 +1,25 @@
-# List of books I've read
+# My Personal Library
 
-## Project setup
-```
-npm install
-```
+## What is this?
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+I wanted to start keeping a list of the books I've read. I decided I would rather build my own app for storing my list instead of looking for a pre-built product.
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## How was it built?
 
-### Run your tests
-```
-npm run test
-```
+This app was built using Vue.js for my front end javascript framework. I used Vuetify as my material design component framework. I also used Firebase for my backend including the database, authentication, storage and hosting.
 
-### Lints and fixes files
-```
-npm run lint
-```
+## Ecosystem
 
-### Run your unit tests
-```
-npm run test:unit
-```
+This projects ecosystem includes:
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+| Project | Status | Description |
+|---------|--------|-------------|
+| [vue-router]          | [![vue-router-status]][vue-router-package] | Single-page application routing |
+| [vuex]                | [![vuex-status]][vuex-package] | Large-scale state management |
+| [vue-cli]             | [![vue-cli-status]][vue-cli-package] | Project scaffolding |
+| [vue-devtools]        | [![vue-devtools-status]][vue-devtools-package] | Browser DevTools extension |
+
+[vue-router]: https://github.com/vuejs/vue-router
+[vuex]: https://github.com/vuejs/vuex
+[vue-cli]: https://github.com/vuejs/vue-cli
+

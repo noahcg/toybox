@@ -78,7 +78,6 @@ import { db } from '../main';
 export default {
   data: () => ({
     search: '',
-    rowspp: 10,
     books: [],
     dialog: false,
     headers: [
@@ -87,6 +86,7 @@ export default {
         align: 'left',
         sortable: true,
         value: 'title',
+        width: '360px',
       },
       { text: 'Author', value: 'author' },
       { text: 'Category', value: 'category' },
