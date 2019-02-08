@@ -37,8 +37,6 @@
 
 <script>
 
-import { auth } from '../main';
-
 export default {
   name: 'LoginForm',
   data: () => ({
@@ -55,22 +53,25 @@ export default {
       v => /.+@.+/.test(v) || 'E-mail must be valid',
     ],
   }),
+  created() {
+    if (this.$auth.currentUser) {
+      this.authenticated = true;
+      this.$store.commit('setAuthenticated', true);
+    }
+  },
   mounted() {
-    if (!this.authenticated) {
+    if (this.authenticated) {
       this.$router.replace({ name: 'library' });
     }
-    // auth.signOut()
-    // .catch(function (err) {
-    //   // Handle errors
-    // });
   },
   methods: {
     login() {
-      const myPromise = auth.signInWithEmailAndPassword(this.email, this.password);
-      myPromise
-        .then(
-          this.authenticated = true,
-        )
+      this.$auth.signInWithEmailAndPassword(this.email, this.password)
+        .then(data => {
+          this.$store.commit('setAuthenticated', true);
+          this.authenticated = true;
+          this.$router.push({ name: 'library' });
+        })
         .catch(e => console.log(e.message));
     },
   },
