@@ -30,10 +30,20 @@
             <v-card-text>
               <v-layout wrap>
                   <v-flex xs12 sm6 md12>
-                    <v-text-field v-model="editedItem.title" label="Title" :rules="titleRules" required></v-text-field>
+                    <v-text-field
+                      v-model="editedItem.title"
+                      label="Title"
+                      :rules="titleRules"
+                      required
+                    />
                   </v-flex>
                   <v-flex xs12 sm6 md12>
-                    <v-text-field v-model="editedItem.author" label="Author" :rules="authorRules" required></v-text-field>
+                    <v-text-field
+                      v-model="editedItem.author"
+                      label="Author"
+                      :rules="authorRules"
+                      required
+                    />
                   </v-flex>
                   <v-flex xs12 sm6 md12>
                     <v-select @change="selectCategory($event)"
@@ -45,29 +55,39 @@
                     </v-select>
                   </v-flex>
                   <v-flex xs12 sm6 md4>
-                    <v-text-field v-model="editedItem.pagecount" label="Page Count" :rules="pagecountRules" required></v-text-field>
+                    <v-text-field
+                      v-model="editedItem.pagecount"
+                      label="Page Count"
+                      :rules="pagecountRules"
+                      required
+                    />
                   </v-flex>
                 </v-layout>
             </v-card-text>
             <v-card-actions>
-              <v-spacer></v-spacer>
+              <v-spacer/>
               <v-btn color="blue darken-1" flat @click.native="close">Cancel</v-btn>
-              <v-btn color="blue darken-1" flat @click.native="addBook(editedItem.title, editedItem.author, editedItem.category, editedItem.pagecount)">Save</v-btn>
+              <v-btn color="blue darken-1" flat @click.native="addBook(editedItem)">Save</v-btn>
             </v-card-actions>
           </v-card>
         </v-form>
       </v-dialog>
-      <v-data-table :headers="headers" :items="books" :search="search" hide-actions class="elevation-1">
+      <v-data-table
+        :headers="headers"
+        :items="books"
+        :search="search"
+        hide-actions class="elevation-1"
+      >
         <template slot="items" slot-scope="props">
             <td class="text-xs-left">{{ props.item.title }}</td>
             <td class="text-xs-left">{{ props.item.author }}</td>
             <td class="text-xs-left">{{ props.item.category }}</td>
             <td class="text-xs-left">{{ props.item.pagecount }}</td>
             <td class="justify-center layout px-0">
-              <v-btn icon class="mx-0" @click="editItem(props.item, props.item.id)">
+              <v-btn icon class="mx-0" @click="editItem(props.item)">
                   <v-icon color="teal">edit</v-icon>
               </v-btn>
-              <v-btn icon class="mx-0" @click="confirmDelete(props.item.id)">
+              <v-btn icon class="mx-0" @click="confirmDelete(props.item)">
                   <v-icon color="red darken-4">delete</v-icon>
               </v-btn>
             </td>
@@ -78,8 +98,12 @@
       </v-data-table>
       <v-dialog v-model="confirm" persistent max-width="290">
         <v-card>
-          <v-card-title class="headline">Remove book from library?</v-card-title>
-          <v-card-text>Are you sure you want to remove the book from the library?</v-card-text>
+          <v-card-title class="headline">
+            Remove {{ deletingBook.title }} from library?
+          </v-card-title>
+          <v-card-text>
+            Are you sure you want to remove {{ deletingBook.title}} from the library?
+          </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="green darken-1" flat @click="confirm = false">No</v-btn>
@@ -122,12 +146,41 @@ export default {
       { text: 'Author', value: 'author' },
       { text: 'Category', value: 'category' },
       { text: 'Page Count', value: 'pagecount' },
-      { text: 'Actions', value: 'actions', sortable: false, align: 'center' },
+      {
+        text: 'Actions', value: 'actions', sortable: false, align: 'center',
+      },
     ],
     editedIndex: -1,
-    editedItemID: '',
     categories: [
-      'Architecture','Art','Biography and Autobiography','Body Mind and Spirit','Business and Economics','Computers','Cooking','Crafts & Hobbies','Drama','Education','Fiction','Health and Fitness','History','Humor','Law','Literature & Fiction','Miscellaneous', 'Mystery, Thriller & Suspense','Outdoors & Nature','Periodicals','Philosophy','Photography','Politics & Social Sciences','Psychology','Science Fiction','Social Science','Technology and Engineering','Transportation','Travel'
+      'Architecture',
+      'Art',
+      'Biography and Autobiography',
+      'Body Mind and Spirit',
+      'Business and Economics',
+      'Computers',
+      'Cooking',
+      'Crafts & Hobbies',
+      'Drama',
+      'Education',
+      'Fiction',
+      'Health and Fitness',
+      'History',
+      'Humor',
+      'Law',
+      'Literature & Fiction',
+      'Miscellaneous',
+      'Mystery, Thriller & Suspense',
+      'Outdoors & Nature',
+      'Periodicals',
+      'Philosophy',
+      'Photography',
+      'Politics & Social Sciences',
+      'Psychology',
+      'Science Fiction',
+      'Social Science',
+      'Technology and Engineering',
+      'Transportation',
+      'Travel',
     ],
     editedItem: {
       title: '',
@@ -142,6 +195,7 @@ export default {
       pagecount: 0,
     },
     itemID: '',
+    deletingBook: {},
   }),
   firestore() {
     return {
@@ -153,37 +207,30 @@ export default {
       return this.editedIndex === -1 ? 'New Book' : 'Edit Book';
     },
   },
-  watch: {
-    dialog(val) {
-      val || this.close();
-    },
-  },
   methods: {
-    addBook(title, author, category, pagecount) {
+    addBook(book) {
       if (this.$refs.form.validate()) {
         if (this.editedIndex > -1) {
-          db.collection('books').doc(this.editedItemID).update(this.editedItem);
+          db.collection('books').doc(book.id).update(this.editedItem);
           this.close();
         } else {
-          db.collection('books').add({ title, author, category, pagecount });
+          db.collection('books').add(book);
           this.close();
         }
       }
     },
-    editItem(item, id) {
+    editItem(item) {
       this.editedIndex = this.books.indexOf(item);
-      this.editedItemID = id;
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
-    confirmDelete(id) {
+    confirmDelete(book) {
       this.confirm = true;
-      this.itemID = id;
+      this.deletingBook = book;
     },
     deleteItem() {
-      db.collection('books').doc(this.itemID).delete();
+      db.collection('books').doc(this.deletingBook.id).delete();
       this.confirm = false;
-      this.itemID = '';
     },
     close() {
       this.resetValidation();
