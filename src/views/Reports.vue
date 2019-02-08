@@ -8,12 +8,18 @@
         </p>
       </v-flex>
     </v-layout>
+    <v-layout row wrap>
+      <ReportCards />
+    </v-layout>
   </v-container>
 </template>
 
 <script>
+import ReportCards from '../components/ReportCards';
+
 export default {
   components: {
+    ReportCards
   },
 };
 </script>

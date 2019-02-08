@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-md text-xs-center>
     <v-layout row wrap>
-      <v-flex xs6>
+      <v-flex xs6 offset-xs3>
         <v-form
           ref="form"
           v-model="valid"
