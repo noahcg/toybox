@@ -18,35 +18,44 @@
         </v-flex>
       </v-layout>
       <v-dialog v-model="dialog" max-width="500px">
-        <v-card>
-          <v-card-title>
-            <span class="headline">{{ formTitle }}</span>
-          </v-card-title>
-          <v-card-text>
-            <v-layout wrap>
-                <v-flex xs12 sm6 md12>
-                  <v-text-field v-model="editedItem.title" label="Title"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md12>
-                  <v-text-field v-model="editedItem.author" label="Author"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md12>
-                  <v-select @change="selectCategory($event)"
-                    :items="categories"
-                    label="Categories">
-                  </v-select>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.pagecount" label="Page Count"></v-text-field>
-                </v-flex>
-              </v-layout>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" flat @click.native="close">Cancel</v-btn>
-            <v-btn color="blue darken-1" flat @click.native="addBook(editedItem.title, editedItem.author, editedItem.category, editedItem.pagecount)">Save</v-btn>
-          </v-card-actions>
-        </v-card>
+        <v-form
+          ref="form"
+          v-model="valid"
+          lazy-validation
+        >
+          <v-card>
+            <v-card-title>
+              <span class="headline">{{ formTitle }}</span>
+            </v-card-title>
+            <v-card-text>
+              <v-layout wrap>
+                  <v-flex xs12 sm6 md12>
+                    <v-text-field v-model="editedItem.title" label="Title" :rules="titleRules" required></v-text-field>
+                  </v-flex>
+                  <v-flex xs12 sm6 md12>
+                    <v-text-field v-model="editedItem.author" label="Author" :rules="authorRules" required></v-text-field>
+                  </v-flex>
+                  <v-flex xs12 sm6 md12>
+                    <v-select @change="selectCategory($event)"
+                      :items="categories"
+                      v-model="editedItem.category"
+                       :rules="[v => !!v || 'A category is required']"
+                      required
+                      label="Categories">
+                    </v-select>
+                  </v-flex>
+                  <v-flex xs12 sm6 md4>
+                    <v-text-field v-model="editedItem.pagecount" label="Page Count" :rules="pagecountRules" required></v-text-field>
+                  </v-flex>
+                </v-layout>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" flat @click.native="close">Cancel</v-btn>
+              <v-btn color="blue darken-1" flat @click.native="addBook(editedItem.title, editedItem.author, editedItem.category, editedItem.pagecount)">Save</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-form>
       </v-dialog>
       <v-data-table :headers="headers" :items="books" :search="search" hide-actions class="elevation-1">
         <template slot="items" slot-scope="props">
@@ -58,7 +67,7 @@
               <v-btn icon class="mx-0" @click="editItem(props.item, props.item.id)">
                   <v-icon color="teal">edit</v-icon>
               </v-btn>
-              <v-btn icon class="mx-0" @click="deleteItem(props.item.id)">
+              <v-btn icon class="mx-0" @click="confirmDelete(props.item.id)">
                   <v-icon color="red darken-4">delete</v-icon>
               </v-btn>
             </td>
@@ -67,6 +76,17 @@
           Your search for "{{ search }}" found no results.
         </v-alert>
       </v-data-table>
+      <v-dialog v-model="confirm" persistent max-width="290">
+        <v-card>
+          <v-card-title class="headline">Remove book from library?</v-card-title>
+          <v-card-text>Are you sure you want to remove the book from the library?</v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="green darken-1" flat @click="confirm = false">No</v-btn>
+            <v-btn color="green darken-1" flat @click="deleteItem">Yes</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-container>
   </div>
 </template>
@@ -77,9 +97,20 @@ import { db } from '../main';
 
 export default {
   data: () => ({
+    valid: false,
+    titleRules: [
+      v => !!v || 'Title is required',
+    ],
+    authorRules: [
+      v => !!v || 'Author is required',
+    ],
+    pagecountRules: [
+      v => !!v || 'Page count is required',
+    ],
     search: '',
     books: [],
     dialog: false,
+    confirm: false,
     headers: [
       {
         text: 'Title',
@@ -110,6 +141,7 @@ export default {
       category: '',
       pagecount: 0,
     },
+    itemID: '',
   }),
   firestore() {
     return {
@@ -128,12 +160,15 @@ export default {
   },
   methods: {
     addBook(title, author, category, pagecount) {
-      if (this.editedIndex > -1) {
-        db.collection('books').doc(this.editedItemID).update(this.editedItem);
-      } else {
-        db.collection('books').add({ title, author, category, pagecount });
+      if (this.$refs.form.validate()) {
+        if (this.editedIndex > -1) {
+          db.collection('books').doc(this.editedItemID).update(this.editedItem);
+          this.close();
+        } else {
+          db.collection('books').add({ title, author, category, pagecount });
+          this.close();
+        }
       }
-      this.close();
     },
     editItem(item, id) {
       this.editedIndex = this.books.indexOf(item);
@@ -141,18 +176,28 @@ export default {
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
-    deleteItem(id) {
-      db.collection('books').doc(id).delete();
+    confirmDelete(id) {
+      this.confirm = true;
+      this.itemID = id;
+    },
+    deleteItem() {
+      db.collection('books').doc(this.itemID).delete();
+      this.confirm = false;
+      this.itemID = '';
     },
     close() {
-      this.dialog = false;
+      this.resetValidation();
       setTimeout(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
-      }, 300);
+        this.dialog = false;
+      }, 0);
     },
     selectCategory(event) {
       this.editedItem.category = event;
+    },
+    resetValidation() {
+      this.$refs.form.resetValidation();
     },
   },
 };

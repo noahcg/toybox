@@ -2,7 +2,7 @@
 
 ### What is this?
 
-I wanted to start keeping a list of the books I've read. I decided I would rather build my own app for storing my list instead of looking for a pre-built product.
+This project was started so I could keep track of the books I've read. I decided I would rather build my own app for storing my list instead of looking for a pre-built product.
 
 ### How was it built?
 

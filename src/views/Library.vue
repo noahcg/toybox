@@ -1,13 +1,13 @@
 <template>
-  <Library />
+  <LibraryForm />
 </template>
 
 <script>
-  import Library from '../components/Library'
+  import LibraryForm from '../components/LibraryForm';
 
   export default {
     components: {
-      Library
+      LibraryForm
     }
   }
 </script>
