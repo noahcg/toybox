@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="isConfirmed" persistent max-width="290">
+  <v-dialog v-model="show" persistent max-width="290">
     <v-card>
       <v-card-title class="headline">
         Remove {{ deletedBook.title }} from library?
@@ -22,14 +22,16 @@ import { db } from '../main';
 
 export default {
   name: 'ConfirmationDialog',
-  props: ['isConfirmed', 'deletedBook'],
+  props: ['show', 'deletedBook'],
   methods: {
     deleteItem() {
       db.collection('books').doc(this.deletedBook.id).delete();
-      this.$emit('update:isConfirmed', false);
+      // this.show = false;
+      this.$emit('confirmation:close', false);
     },
     cancelDialog() {
-      this.$emit('update:isConfirmed', false);
+      // this.show = false;
+      this.$emit('confirmation:close', false);
     }
   }
 };
