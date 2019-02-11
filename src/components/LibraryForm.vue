@@ -2,12 +2,12 @@
   <div>
     <v-container>
       <v-layout row wrap class="mb-4">
-        <v-flex xs8>
+        <v-flex xs4 sm6 md8>
           <v-btn @click="dialog = true" color="primary" dark>
             <v-icon>library_add</v-icon>
           </v-btn>
         </v-flex>
-        <v-flex xs4>
+        <v-flex xs8 sm6 md4>
           <v-text-field
                     v-model="search"
                     append-icon="search"
@@ -96,21 +96,7 @@
           Your search for "{{ search }}" found no results.
         </v-alert>
       </v-data-table>
-      <v-dialog v-model="confirm" persistent max-width="290">
-        <v-card>
-          <v-card-title class="headline">
-            Remove {{ deletingBook.title }} from library?
-          </v-card-title>
-          <v-card-text>
-            Are you sure you want to remove {{ deletingBook.title}} from the library?
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="green darken-1" flat @click="confirm = false">No</v-btn>
-            <v-btn color="green darken-1" flat @click="deleteItem">Yes</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+      <confirmation-dialog :is-confirmed.sync="confirm" v-on:update:confirm="confirm = $event" :deleted-book="deletingBook" />
     </v-container>
   </div>
 </template>
@@ -118,8 +104,12 @@
 <script>
 
 import { db } from '../main';
+import ConfirmationDialog from './ConfirmationDialog';
 
 export default {
+  components: {
+    ConfirmationDialog
+  },
   data: () => ({
     valid: false,
     titleRules: [
@@ -228,10 +218,6 @@ export default {
       this.confirm = true;
       this.deletingBook = book;
     },
-    deleteItem() {
-      db.collection('books').doc(this.deletingBook.id).delete();
-      this.confirm = false;
-    },
     close() {
       this.resetValidation();
       setTimeout(() => {
@@ -250,6 +236,20 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+/deep/.v-datatable thead th.column.sortable:first-child {
+  min-width: 230px !important;
+}
+/deep/.v-datatable thead th.column.sortable:nth-child(2) {
+  min-width: 180px;
+}
+/deep/.v-datatable thead th.column.sortable:nth-child(3) {
+  min-width: 190px;
+}
 
+@media(min-width: 1024px) {
+  /deep/.v-datatable thead th.column.sortable:first-child, /deep/.v-datatable thead th.column.sortable:nth-child(2), /deep/.v-datatable thead th.column.sortable:nth-child(3) {
+    min-width: inherit !important;
+  }
+}
 </style>

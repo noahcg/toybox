@@ -17,6 +17,32 @@
     <v-content>
       <router-view/>
     </v-content>
+    <v-card height="60px" flat class="hidden-md-and-up bottom-nav">
+      <v-bottom-nav
+        absolute
+        color="transparent"
+      >
+        <v-btn
+          color="teal"
+          flat
+          value="library"
+          to="/library"
+        >
+          <span>Library</span>
+          <v-icon>library_books</v-icon>
+        </v-btn>
+
+        <v-btn
+          color="teal"
+          flat
+          value="reports"
+          to="/reports"
+        >
+          <span>Reports</span>
+          <v-icon>bar_chart</v-icon>
+        </v-btn>
+      </v-bottom-nav>
+    </v-card>
   </v-app>
 </template>
 
@@ -28,7 +54,8 @@ export default {
   name: 'App',
   data() {
     return {
-      //
+      drawer: false,
+      left: false,
     };
   },
   computed: mapState({
@@ -44,3 +71,4 @@ export default {
   },
 };
 </script>
+
