@@ -96,7 +96,7 @@
           Your search for "{{ search }}" found no results.
         </v-alert>
       </v-data-table>
-      <confirmation-dialog :is-confirmed.sync="confirm" v-on:update:confirm="confirm = $event" :deleted-book="deletingBook" />
+      <confirmation-dialog :show="confirm" @confirmation:close="confirm = $event" :deleted-book="deletingBook" />
     </v-container>
   </div>
 </template>
