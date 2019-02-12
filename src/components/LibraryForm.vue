@@ -17,61 +17,9 @@
           </v-text-field>
         </v-flex>
       </v-layout>
-      <v-dialog v-model="dialog" max-width="500px">
-        <v-form
-          ref="form"
-          v-model="valid"
-          lazy-validation
-        >
-          <v-card>
-            <v-card-title>
-              <span class="headline">{{ formTitle }}</span>
-            </v-card-title>
-            <v-card-text>
-              <v-layout wrap>
-                  <v-flex xs12 sm6 md12>
-                    <v-text-field
-                      v-model="editedItem.title"
-                      label="Title"
-                      :rules="titleRules"
-                      required
-                    />
-                  </v-flex>
-                  <v-flex xs12 sm6 md12>
-                    <v-text-field
-                      v-model="editedItem.author"
-                      label="Author"
-                      :rules="authorRules"
-                      required
-                    />
-                  </v-flex>
-                  <v-flex xs12 sm6 md12>
-                    <v-select @change="selectCategory($event)"
-                      :items="categories"
-                      v-model="editedItem.category"
-                       :rules="[v => !!v || 'A category is required']"
-                      required
-                      label="Categories">
-                    </v-select>
-                  </v-flex>
-                  <v-flex xs12 sm6 md4>
-                    <v-text-field
-                      v-model="editedItem.pagecount"
-                      label="Page Count"
-                      :rules="pagecountRules"
-                      required
-                    />
-                  </v-flex>
-                </v-layout>
-            </v-card-text>
-            <v-card-actions>
-              <v-spacer/>
-              <v-btn color="blue darken-1" flat @click.native="close">Cancel</v-btn>
-              <v-btn color="blue darken-1" flat @click.native="addBook(editedItem)">Save</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-form>
-      </v-dialog>
+
+      <new-book-dialog :is-open.sync="dialog" v-on:update:dialog="dialog = $event" :new-or-edit="editedIndex" @clearItem="clearBook" :edited-book="editedItem"  />
+      
       <v-data-table
         :headers="headers"
         :items="books"
@@ -96,7 +44,9 @@
           Your search for "{{ search }}" found no results.
         </v-alert>
       </v-data-table>
+
       <confirmation-dialog :is-confirmed.sync="confirm" v-on:update:confirm="confirm = $event" :deleted-book="deletingBook" />
+
     </v-container>
   </div>
 </template>
@@ -105,22 +55,15 @@
 
 import { db } from '../main';
 import ConfirmationDialog from './ConfirmationDialog';
+import NewBookDialog from './NewBookDialog';
 
 export default {
   components: {
-    ConfirmationDialog
+    ConfirmationDialog,
+    NewBookDialog
   },
   data: () => ({
     valid: false,
-    titleRules: [
-      v => !!v || 'Title is required',
-    ],
-    authorRules: [
-      v => !!v || 'Author is required',
-    ],
-    pagecountRules: [
-      v => !!v || 'Page count is required',
-    ],
     search: '',
     books: [],
     dialog: false,
@@ -141,37 +84,6 @@ export default {
       },
     ],
     editedIndex: -1,
-    categories: [
-      'Architecture',
-      'Art',
-      'Biography and Autobiography',
-      'Body Mind and Spirit',
-      'Business and Economics',
-      'Computers',
-      'Cooking',
-      'Crafts & Hobbies',
-      'Drama',
-      'Education',
-      'Fiction',
-      'Health and Fitness',
-      'History',
-      'Humor',
-      'Law',
-      'Literature & Fiction',
-      'Miscellaneous',
-      'Mystery, Thriller & Suspense',
-      'Outdoors & Nature',
-      'Periodicals',
-      'Philosophy',
-      'Photography',
-      'Politics & Social Sciences',
-      'Psychology',
-      'Science Fiction',
-      'Social Science',
-      'Technology and Engineering',
-      'Transportation',
-      'Travel',
-    ],
     editedItem: {
       title: '',
       author: '',
@@ -192,23 +104,7 @@ export default {
       books: db.collection('books'),
     };
   },
-  computed: {
-    formTitle() {
-      return this.editedIndex === -1 ? 'New Book' : 'Edit Book';
-    },
-  },
   methods: {
-    addBook(book) {
-      if (this.$refs.form.validate()) {
-        if (this.editedIndex > -1) {
-          db.collection('books').doc(book.id).update(this.editedItem);
-          this.close();
-        } else {
-          db.collection('books').add(book);
-          this.close();
-        }
-      }
-    },
     editItem(item) {
       this.editedIndex = this.books.indexOf(item);
       this.editedItem = Object.assign({}, item);
@@ -218,19 +114,11 @@ export default {
       this.confirm = true;
       this.deletingBook = book;
     },
-    close() {
-      this.resetValidation();
+    clearBook() {
       setTimeout(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
-        this.dialog = false;
       }, 0);
-    },
-    selectCategory(event) {
-      this.editedItem.category = event;
-    },
-    resetValidation() {
-      this.$refs.form.resetValidation();
     },
   },
 };
