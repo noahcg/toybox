@@ -184,6 +184,7 @@ export default {
       category: '',
       pagecount: 0,
     },
+    editedItemID: '',
     itemID: '',
     deletingBook: {},
   }),
@@ -201,7 +202,7 @@ export default {
     addBook(book) {
       if (this.$refs.form.validate()) {
         if (this.editedIndex > -1) {
-          db.collection('books').doc(book.id).update(this.editedItem);
+          db.collection('books').doc(this.editedItemID).update(this.editedItem);
           this.close();
         } else {
           db.collection('books').add(book);
@@ -212,6 +213,7 @@ export default {
     editItem(item) {
       this.editedIndex = this.books.indexOf(item);
       this.editedItem = Object.assign({}, item);
+      this.editedItemID = item.id;
       this.dialog = true;
     },
     confirmDelete(book) {
