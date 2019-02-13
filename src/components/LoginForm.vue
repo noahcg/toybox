@@ -26,6 +26,7 @@
             :disabled="!valid"
             color="success"
             @click="login"
+            @keydown.enter="login"
           >
             Login
           </v-btn>
