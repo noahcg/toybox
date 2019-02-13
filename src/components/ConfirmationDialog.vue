@@ -32,8 +32,8 @@ export default {
     cancelDialog() {
       // this.show = false;
       this.$emit('confirmation:close', false);
-    }
-  }
+    },
+  },
 };
 </script>
 

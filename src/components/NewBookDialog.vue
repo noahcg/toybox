@@ -140,7 +140,7 @@ export default {
     resetValidation() {
       this.$refs.form.resetValidation();
     },
-  }
+  },
 };
 </script>
 

@@ -17,9 +17,12 @@
           </v-text-field>
         </v-flex>
       </v-layout>
-
-      <new-book-dialog :is-open.sync="dialog" :new-or-edit="editedIndex" :edited-book="editedItem" @closeDialog="close()"  />
-      
+      <new-book-dialog
+        :is-open.sync="dialog"
+        :new-or-edit="editedIndex"
+        :edited-book="editedItem"
+        @closeDialog="close()"
+      />
       <v-data-table
         :headers="headers"
         :items="books"
@@ -44,7 +47,11 @@
           Your search for "{{ search }}" found no results.
         </v-alert>
       </v-data-table>
-      <confirmation-dialog :show="confirm" @confirmation:close="confirm = $event" :deleted-book="deletingBook" />
+      <confirmation-dialog
+        :show="confirm"
+        @confirmation:close="confirm = $event"
+        :deleted-book="deletingBook"
+      />
     </v-container>
   </div>
 </template>
@@ -52,13 +59,13 @@
 <script>
 
 import { db } from '../main';
-import ConfirmationDialog from './ConfirmationDialog';
-import NewBookDialog from './NewBookDialog';
+import ConfirmationDialog from './ConfirmationDialog.vue';
+import NewBookDialog from './NewBookDialog.vue';
 
 export default {
   components: {
     ConfirmationDialog,
-    NewBookDialog
+    NewBookDialog,
   },
   data: () => ({
     valid: false,
@@ -94,8 +101,6 @@ export default {
       category: '',
       pagecount: 0,
     },
-    editedItemID: '',
-    itemID: '',
     deletingBook: {},
   }),
   firestore() {
@@ -107,7 +112,7 @@ export default {
     addBook(book) {
       if (this.$refs.form.validate()) {
         if (this.editedIndex > -1) {
-          db.collection('books').doc(this.editedItemID).update(this.editedItem);
+          db.collection('books').doc(book.id).update(this.editedItem);
           this.close();
         } else {
           db.collection('books').add(book);
@@ -118,7 +123,7 @@ export default {
     editItem(item) {
       this.editedIndex = this.books.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      this.editedItemID = item.id;
+      this.editedItem.id = item.id;
       this.dialog = true;
     },
     confirmDelete(book) {

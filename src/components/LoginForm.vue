@@ -68,7 +68,7 @@ export default {
   methods: {
     login() {
       this.$auth.signInWithEmailAndPassword(this.email, this.password)
-        .then(data => {
+        .then(() => {
           this.$store.commit('setAuthenticated', true);
           this.authenticated = true;
           this.$router.push({ name: 'library' });
