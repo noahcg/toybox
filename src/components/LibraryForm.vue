@@ -18,7 +18,7 @@
         </v-flex>
       </v-layout>
 
-      <new-book-dialog :is-open.sync="dialog" v-on:update:dialog="dialog = $event" :new-or-edit="editedIndex" @clearItem="clearBook" :edited-book="editedItem"  />
+      <new-book-dialog :is-open.sync="dialog" :new-or-edit="editedIndex" :edited-book="editedItem" @closeDialog="close()"  />
       
       <v-data-table
         :headers="headers"
@@ -96,6 +96,7 @@ export default {
       category: '',
       pagecount: 0,
     },
+    editedItemID: '',
     itemID: '',
     deletingBook: {},
   }),
@@ -108,16 +109,17 @@ export default {
     editItem(item) {
       this.editedIndex = this.books.indexOf(item);
       this.editedItem = Object.assign({}, item);
+      this.editedItem.id = item.id;
       this.dialog = true;
     },
     confirmDelete(book) {
       this.confirm = true;
       this.deletingBook = book;
     },
-    clearBook() {
+    close() {
       setTimeout(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
+        this.dialog = false;
       }, 0);
     },
   },

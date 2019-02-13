@@ -48,7 +48,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer/>
-          <v-btn color="blue darken-1" flat @click.native="close">Cancel</v-btn>
+          <v-btn color="blue darken-1" flat @click.native="cancel">Cancel</v-btn>
           <v-btn color="blue darken-1" flat @click.native="addBook(editedBook)">Save</v-btn>
         </v-card-actions>
       </v-card>
@@ -123,20 +123,16 @@ export default {
       if (this.$refs.form.validate()) {
         if (this.newOrEdit > -1) {
           db.collection('books').doc(book.id).update(this.editedBook);
-          this.close();
+          this.$emit('closeDialog');
         } else {
           db.collection('books').add(book);
-          this.close();
+          this.$emit('closeDialog');
         }
       }
     },
-    close() {
+    cancel() {
+      this.$emit('closeDialog');
       this.resetValidation();
-      setTimeout(() => {
-        this.editedBook = Object.assign({}, this.defaultItem);
-        this.$emit('update:isOpen', false);
-        this.$emit('clearItem');
-      }, 0);
     },
     selectCategory(event) {
       this.editedBook.category = event;
