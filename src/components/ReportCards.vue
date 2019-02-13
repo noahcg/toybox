@@ -1,9 +1,31 @@
 <template>
-  <div>
-    <p>You have read {{ numOfBooks }} books so far.</p>
-    <v-btn @click.native="getTotalPageCount">Click Me</v-btn>
-    <p>You have read {{ numOfPages }} pages so far.</p>
-  </div>
+  <v-container
+    fluid
+    grid-list-md
+  >
+    <v-layout row wrap>
+      <v-flex xs3>
+        <v-card>
+          <v-card-title primary-title>
+            <div class="card-text">
+              <h2 class="headline mb-0">{{ books.length }}</h2>
+              <h3>Books</h3>
+            </div>
+          </v-card-title>
+        </v-card>
+      </v-flex>
+      <v-flex xs3>
+        <v-card>
+          <v-card-title primary-title>
+            <div class="card-text">
+              <h2 class="headline mb-0">{{ totalPages }}</h2>
+              <h3>Pages</h3>
+            </div>
+          </v-card-title>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -12,35 +34,35 @@ export default {
   name: 'ReportCards',
   data: () => ({
     books: [],
-    numOfBooks: '',
-    numOfPages: '',
+    dataReady: false,
     pageCountArr: [],
+    totalPages: '',
   }),
-  firestore() {
-    return {
-      books: db.collection('books'),
-    };
-  },
-  watch: {
-    numOfBooks: function() {
-      return this.books.length;
-    }
+  mounted() {
+    this.$bind('books', db.collection('books'))
+      .then(() => {
+        this.dataReady = true;
+        this.createCountArray();
+      })
+      .catch((error) => {
+        console.log('error in loading: ' + error);
+      })
   },
   methods: {
-    getTotalBooks() {
-      this.numOfBooks = this.books.length;
-    },
-    getTotalPageCount() {
-      this.books.forEach((item, index) => {
+    createCountArray() {
+      this.books.forEach((item) => {
         this.pageCountArr.push(parseInt(item.pagecount));
       });
-      const reducer = (accumulator, currentValue) => accumulator + currentValue;
-      this.numOfPages = this.pageCountArr.reduce(reducer);
-    },
-  },
+
+      this.totalPages = this.pageCountArr.reduce((a, b) => a + b, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+  }
 };
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.card-text {
+  width: 100% !important;
+}
 </style>
+
