@@ -44,9 +44,7 @@
           Your search for "{{ search }}" found no results.
         </v-alert>
       </v-data-table>
-
-      <confirmation-dialog :is-confirmed.sync="confirm" v-on:update:confirm="confirm = $event" :deleted-book="deletingBook" />
-
+      <confirmation-dialog :show="confirm" @confirmation:close="confirm = $event" :deleted-book="deletingBook" />
     </v-container>
   </div>
 </template>
@@ -106,10 +104,21 @@ export default {
     };
   },
   methods: {
+    addBook(book) {
+      if (this.$refs.form.validate()) {
+        if (this.editedIndex > -1) {
+          db.collection('books').doc(this.editedItemID).update(this.editedItem);
+          this.close();
+        } else {
+          db.collection('books').add(book);
+          this.close();
+        }
+      }
+    },
     editItem(item) {
       this.editedIndex = this.books.indexOf(item);
       this.editedItem = Object.assign({}, item);
-      this.editedItem.id = item.id;
+      this.editedItemID = item.id;
       this.dialog = true;
     },
     confirmDelete(book) {
