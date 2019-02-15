@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-toolbar app>
+    <v-toolbar>
       <v-toolbar-title class="headline text-uppercase">
         <span>My </span>
         <span class="font-weight-light">personal </span>
@@ -17,10 +17,9 @@
     <v-content>
       <router-view/>
     </v-content>
-    <v-card height="60px" flat class="hidden-md-and-up bottom-nav">
+    <v-card flat class="hidden-md-and-up bottom-nav">
       <v-bottom-nav
-        absolute
-        color="transparent"
+        fixed
       >
         <v-btn
           color="teal"
@@ -71,3 +70,9 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.v-item-group.v-bottom-nav {
+  bottom: 60px !important;
+}
+</style>
+
