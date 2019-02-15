@@ -4,7 +4,7 @@
     grid-list-md
   >
     <v-layout row wrap>
-      <v-flex xs3>
+      <v-flex xs12 md4>
         <v-card>
           <v-card-title primary-title>
             <div class="card-text">
@@ -14,12 +14,22 @@
           </v-card-title>
         </v-card>
       </v-flex>
-      <v-flex xs3>
+      <v-flex xs12 md4>
         <v-card>
           <v-card-title primary-title>
             <div class="card-text">
               <h2 class="headline mb-0">{{ totalPages }}</h2>
               <h3>Pages</h3>
+            </div>
+          </v-card-title>
+        </v-card>
+      </v-flex>
+      <v-flex xs12 md4>
+        <v-card>
+          <v-card-title primary-title>
+            <div class="card-text">
+              <h2 class="headline mb-0">{{ uniqueCategories.length }}</h2>
+              <h3>Categories</h3>
             </div>
           </v-card-title>
         </v-card>
@@ -36,25 +46,30 @@ export default {
     books: [],
     dataReady: false,
     pageCountArr: [],
-    totalPages: '',
+    categoryArray: [],
+    uniqueCategories: [],
+    totalPages: 0,
   }),
   mounted() {
     this.$bind('books', db.collection('books'))
       .then(() => {
         this.dataReady = true;
-        this.createCountArray();
+        this.separateData();
       })
       .catch((error) => {
         console.log('error in loading: ' + error);
       })
   },
   methods: {
-    createCountArray() {
+    separateData() {
       this.books.forEach((item) => {
         this.pageCountArr.push(parseInt(item.pagecount));
+        this.categoryArray.push(item.category);
       });
 
       this.totalPages = this.pageCountArr.reduce((a, b) => a + b, 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+      this.uniqueCategories = [...new Set(this.categoryArray)];
     }
   }
 };
