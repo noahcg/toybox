@@ -9,7 +9,7 @@ export default new Vuex.Store({
   },
   mutations: {
     setAuthenticated(state, authState) {
-      state.authenticated = authState;
+      Vue.set(state, 'authenticated', authState);
     },
   },
   actions: {
