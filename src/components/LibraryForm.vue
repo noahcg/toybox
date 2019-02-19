@@ -108,6 +108,9 @@ export default {
       books: db.collection('books'),
     };
   },
+  mounted() {
+    console.log(this.books);
+  },
   methods: {
     addBook(book) {
       if (this.$refs.form.validate()) {
