@@ -6,6 +6,7 @@
           ref="form"
           v-model="valid"
           lazy-validation
+          @keydown.enter="login"
         >
           <v-text-field
             v-model="email"
@@ -26,7 +27,6 @@
             :disabled="!valid"
             color="success"
             @click="login"
-            @keydown.enter="login"
           >
             Login
           </v-btn>
