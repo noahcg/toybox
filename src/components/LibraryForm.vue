@@ -34,6 +34,7 @@
             <td class="text-xs-left">{{ props.item.author }}</td>
             <td class="text-xs-left">{{ props.item.category }}</td>
             <td class="text-xs-left">{{ props.item.pagecount }}</td>
+            <td class="text-xs-left">{{ props.item.date | moment("MM-DD-YYYY") }}</td>
             <td class="justify-center layout px-0">
               <v-btn icon class="mx-0" @click="editItem(props.item)">
                   <v-icon color="teal">edit</v-icon>
@@ -84,6 +85,7 @@ export default {
       { text: 'Author', value: 'author' },
       { text: 'Category', value: 'category' },
       { text: 'Page Count', value: 'pagecount' },
+      { text: 'Date', value: 'date' },
       {
         text: 'Actions', value: 'actions', sortable: false, align: 'center',
       },
@@ -94,12 +96,14 @@ export default {
       author: '',
       category: '',
       pagecount: 0,
+      date: '',
     },
     defaultItem: {
       title: '',
       author: '',
       category: '',
       pagecount: 0,
+      date: '',
     },
     deletingBook: {},
   }),
@@ -107,9 +111,6 @@ export default {
     return {
       books: db.collection('books'),
     };
-  },
-  mounted() {
-    console.log(this.books);
   },
   methods: {
     addBook(book) {

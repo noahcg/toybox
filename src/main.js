@@ -12,6 +12,7 @@ import env from '../env.json';
 Vue.config.productionTip = false;
 
 Vue.use(VueFire);
+Vue.use(require('vue-moment'));
 
 firebase.initializeApp(env.firebase);
 
