@@ -3,7 +3,7 @@
     fluid
     grid-list-md
   >
-  <h1 class="text-xs-left font-weight-regular">Stats</h1>
+  <h1 class="text-xs-left font-weight-regular">Statistics</h1>
     <v-layout row wrap class="mb-5">
       <v-flex xs12 md3>
         <v-card>
@@ -12,7 +12,7 @@
           </v-card-title>
           <v-divider light></v-divider>
           <v-card-text class="py-5">
-            <p class="display-2 mb-0 blue--text">{{ books.length }}</p>
+            <p class="display-2 mb-0 blue--text font-weight-black">{{ books.length }}</p>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -23,7 +23,7 @@
           </v-card-title>
           <v-divider light></v-divider>
           <v-card-text class="py-5">
-            <p class="display-2 mb-0 blue--text">{{ totalPages }}</p>
+            <p class="display-2 mb-0 blue--text font-weight-black">{{ totalPages }}</p>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -34,7 +34,7 @@
           </v-card-title>
           <v-divider light></v-divider>
           <v-card-text class="py-5">
-            <p class="display-2 mb-0 blue--text">{{ uniqueCategories.length }}</p>
+            <p class="display-2 mb-0 blue--text font-weight-black">{{ uniqueCategories.length }}</p>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -45,7 +45,7 @@
           </v-card-title>
           <v-divider light></v-divider>
           <v-card-text class="py-5">
-            <p class="display-2 mb-0 blue--text">{{ uniqueAuthors.length }}</p>
+            <p class="display-2 mb-0 blue--text font-weight-black">{{ uniqueAuthors.length }}</p>
           </v-card-text>
         </v-card>
       </v-flex>
