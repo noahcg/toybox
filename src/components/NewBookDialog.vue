@@ -44,6 +44,9 @@
                   required
                 />
               </v-flex>
+              <v-flex xs12 sm6 md12>
+                <v-date-picker color="blue" v-model="editedBook.date" :landscape="landscape" :reactive="reactive"></v-date-picker>
+              </v-flex>
             </v-layout>
         </v-card-text>
         <v-card-actions>
@@ -110,8 +113,11 @@ export default {
       author: '',
       category: '',
       pagecount: 0,
+      date: '',
     },
     itemID: '',
+    landscape: true,
+    reactive: true
   }),
   computed: {
     formTitle() {
