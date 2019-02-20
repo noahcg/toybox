@@ -14,6 +14,10 @@
           <v-card-text class="py-5">
             <p class="display-2 mb-0 blue--text font-weight-black">{{ books.length }}</p>
           </v-card-text>
+          <v-divider light></v-divider>
+          <v-card-text class="px-2 py-0">
+            <p class="body-1 text-xs-right font-weight-thin font-italic">As of: {{ this.$moment.max(this.dateArray).format("MMM Do YYYY") }}</p>
+          </v-card-text>
         </v-card>
       </v-flex>
       <v-flex xs12 md3>
@@ -91,6 +95,7 @@ export default {
     books: [],
     pageCountArr: [],
     categoryArray: [],
+    dateArray: [],
     uniqueCategories: [],
     authorArray: [],
     uniqueAuthors: [],
@@ -118,6 +123,10 @@ export default {
         this.pageCountArr.push(parseInt(item.pagecount, 10));
         this.categoryArray.push(item.category);
         this.authorArray.push(item.author);
+
+        if (item.date != "" && item.date != undefined) {
+          this.dateArray.push(this.$moment(item.date));
+        }
       });
 
       this.totalPages = this.pageCountArr.reduce((a, b) => a + b, 0).toLocaleString();
