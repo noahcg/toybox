@@ -3,85 +3,75 @@
     fluid
     grid-list-md
   >
+  <h1 class="text-xs-left font-weight-regular">Stats</h1>
+    <v-layout row wrap class="mb-5">
+      <v-flex xs12 md3>
+        <v-card>
+          <v-card-title primary-title>
+            <span class="title font-weight-light">Books</span>
+          </v-card-title>
+          <v-divider light></v-divider>
+          <v-card-text class="py-5">
+            <p class="display-2 mb-0 blue--text">{{ books.length }}</p>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+      <v-flex xs12 md3>
+        <v-card>
+          <v-card-title primary-title>
+            <span class="title font-weight-light">Pages</span>
+          </v-card-title>
+          <v-divider light></v-divider>
+          <v-card-text class="py-5">
+            <p class="display-2 mb-0 blue--text">{{ totalPages }}</p>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+      <v-flex xs12 md3>
+        <v-card>
+          <v-card-title primary-title>
+            <span class="title font-weight-light">Categories</span>
+          </v-card-title>
+          <v-divider light></v-divider>
+          <v-card-text class="py-5">
+            <p class="display-2 mb-0 blue--text">{{ uniqueCategories.length }}</p>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+      <v-flex xs12 md3>
+        <v-card>
+          <v-card-title primary-title>
+            <span class="title font-weight-light">Authors</span>
+          </v-card-title>
+          <v-divider light></v-divider>
+          <v-card-text class="py-5">
+            <p class="display-2 mb-0 blue--text">{{ uniqueAuthors.length }}</p>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
+    <h1 class="text-xs-left font-weight-regular">Breakdowns</h1>
     <v-layout row wrap>
       <v-flex xs12 md4>
         <v-card>
           <v-card-title primary-title>
-            <div class="card-text">
-              <h2 class="headline mb-0">{{ books.length }}</h2>
-              <h3>Books</h3>
-            </div>
+            <span class="title font-weight-light">Categories</span>
           </v-card-title>
+          <v-divider light></v-divider>
+          <v-card-text class="py-5">
+            <doughnut-chart :chart-data="categorycollection"></doughnut-chart>
+          </v-card-text>
         </v-card>
       </v-flex>
       <v-flex xs12 md4>
         <v-card>
           <v-card-title primary-title>
-            <div class="card-text">
-              <h2 class="headline mb-0">{{ totalPages }}</h2>
-              <h3>Pages</h3>
-            </div>
+            <span class="title font-weight-light">Authors</span>
           </v-card-title>
-        </v-card>
-      </v-flex>
-      <v-flex xs12 md4>
-        <v-card>
-          <v-card-title primary-title>
-            <div class="card-text">
-              <h2 class="headline mb-0">{{ uniqueCategories.length }}</h2>
-              <h3>Categories</h3>
-            </div>
-          </v-card-title>
-        </v-card>
-      </v-flex>
-      <v-flex xs12 md4>
-        <v-card>
-          <v-card-title primary-title>
-            <div class="card-text">
-              <h3>Categories</h3>
-              <doughnut-chart :chart-data="categorycollection"></doughnut-chart>
-              <!-- <v-list>
-                 <template v-for="(category, index) in uniqueCategories">
-                   <v-list-tile :key="index">
-                     <v-list-tile-content>
-                      <v-list-tile-title> {{ category }} </v-list-tile-title>
-                    </v-list-tile-content>
-                   </v-list-tile>
-                   <v-divider :key="index"></v-divider>
-                 </template>
-              </v-list> -->
-            </div>
-          </v-card-title>
-        </v-card>
-      </v-flex>
-      <v-flex xs12 md4>
-        <v-card>
-          <v-card-title primary-title>
-            <div class="card-text">
-              <h2 class="headline mb-0">{{ uniqueAuthors.length }}</h2>
-              <h3>Authors</h3>
-            </div>
-          </v-card-title>
-        </v-card>
-      </v-flex>
-      <v-flex xs12 md4>
-        <v-card>
-          <v-card-title primary-title>
-            <div class="card-text">
-              <h3>Authors</h3>
-              <doughnut-chart :chart-data="authorcollection"></doughnut-chart>
-              <!-- <v-list>
-                 <template v-for="(author, index) in uniqueAuthors">
-                   <v-list-tile :key="index">
-                     <v-list-tile-content>
-                      <v-list-tile-title> {{ author }} </v-list-tile-title>
-                    </v-list-tile-content>
-                   </v-list-tile>
-                   <v-divider :key="index"></v-divider>
-                 </template>
-              </v-list> -->
-            </div>
-          </v-card-title>
+          <v-divider light></v-divider>
+          <v-card-text class="py-5">
+            <doughnut-chart :chart-data="authorcollection"></doughnut-chart>
+          </v-card-text>
         </v-card>
       </v-flex>
     </v-layout>
@@ -169,14 +159,14 @@ export default {
     compressArray(original, compressed) {
  
       // make a copy of the input array
-      var copy = original.slice(0);
+      let copy = original.slice(0);
     
       // first loop goes over every element
-      for (var i = 0; i < original.length; i++) {
+      for (let i = 0; i < original.length; i++) {
     
-        var myCount = 0;	
+        let myCount = 0;	
         // loop over every element in the copy and see if it's the same
-        for (var w = 0; w < copy.length; w++) {
+        for (let w = 0; w < copy.length; w++) {
           if (original[i] == copy[w]) {
             // increase amount of times duplicate is found
             myCount++;
@@ -193,9 +183,9 @@ export default {
       return compressed;
     },
     dynamicColors() {
-      var r = Math.floor(Math.random() * 255);
-      var g = Math.floor(Math.random() * 255);
-      var b = Math.floor(Math.random() * 255);
+      let r = Math.floor(Math.random() * 255);
+      let g = Math.floor(Math.random() * 255);
+      let b = Math.floor(Math.random() * 255);
       return "rgb(" + r + "," + g + "," + b + ")";
     }
   },
@@ -203,6 +193,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 .card-text {
   width: 100% !important;
 }
