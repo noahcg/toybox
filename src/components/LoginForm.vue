@@ -6,7 +6,7 @@
           ref="form"
           v-model="valid"
           lazy-validation
-          @keydown.enter="login"
+          @keydown.enter.native="login"
         >
           <v-text-field
             v-model="email"
