@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import LibraryForm from '../components/LibraryForm';
+import LibraryForm from '../components/LibraryForm.vue';
 
 export default {
   components: {
