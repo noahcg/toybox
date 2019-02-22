@@ -3,7 +3,14 @@
     fluid
     grid-list-md
   >
-  <h1 class="text-xs-left font-weight-regular">Statistics</h1>
+    <v-layout row wrap>
+      <v-flex xs12 md6>
+        <h1 class="text-xs-left font-weight-regular">Statistics</h1>
+      </v-flex>
+      <v-flex xs12 md6>
+        <h2 class="text-xs-right font-weight-regular">Last book read on {{ this.$moment.max(this.dateArray).format("MMM Do YYYY") }}</h2>
+      </v-flex>
+    </v-layout>
     <v-layout row wrap class="mb-5">
       <v-flex xs12 md3>
         <v-card>
@@ -14,10 +21,6 @@
           <v-card-text class="py-5">
             <p class="display-2 mb-0 blue--text font-weight-black">{{ books.length }}</p>
           </v-card-text>
-          <v-divider light></v-divider>
-          <v-card-text class="px-2 py-0">
-            <p class="body-1 text-xs-right font-weight-thin font-italic">As of: {{ this.$moment.max(this.dateArray).format("MMM Do YYYY") }}</p>
-          </v-card-text>
         </v-card>
       </v-flex>
       <v-flex xs12 md3>
@@ -27,7 +30,7 @@
           </v-card-title>
           <v-divider light></v-divider>
           <v-card-text class="py-5">
-            <p class="display-2 mb-0 blue--text font-weight-black">{{ totalPages }}</p>
+            <p class="display-2 mb-0 blue--text font-weight-black">{{ totalPageCount }}</p>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -63,7 +66,7 @@
           </v-card-title>
           <v-divider light></v-divider>
           <v-card-text class="py-5">
-            <doughnut-chart :chart-data="categorycollection"></doughnut-chart>
+            <doughnut-chart :chart-data="categorycollection" :options="categorycollection.options"></doughnut-chart>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -74,7 +77,18 @@
           </v-card-title>
           <v-divider light></v-divider>
           <v-card-text class="py-5">
-            <doughnut-chart :chart-data="authorcollection"></doughnut-chart>
+            <doughnut-chart :chart-data="authorcollection" :options="authorcollection.options"></doughnut-chart>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+      <v-flex xs12 md4>
+        <v-card>
+          <v-card-title primary-title>
+            <span class="title font-weight-light">Books read per month</span>
+          </v-card-title>
+          <v-divider light></v-divider>
+          <v-card-text class="py-5">
+            <bar-chart :chart-data="monthcollection" :options="monthcollection.options"></bar-chart>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -84,76 +98,130 @@
 
 <script>
 import { db } from '../main';
-import DoughnutChart from './CategoryChart.vue';
+import DoughnutChart from './DoughnutChart.vue';
+import BarChart from './BarChart.vue';
 
 export default {
   name: 'ReportCards',
   components: {
     DoughnutChart,
+    BarChart,
   },
   data: () => ({
     books: [],
-    pageCountArr: [],
-    categoryArray: [],
-    dateArray: [],
     uniqueCategories: [],
-    authorArray: [],
     uniqueAuthors: [],
     totalPages: 0,
-    categorycollection: null,
-    authorcollection: null,
+    categorycollection: {},
+    authorcollection: {},
     compressedAuthors: [],
     compressedCategories: [],
     authorColors: [],
     categoryColors: [],
+    monthcollection: {},
+    uniqueMonths: [],
+    compressedMonths: [],
+    monthColors: [],
   }),
   mounted() {
     this.$bind('books', db.collection('books'))
       .then(() => {
         this.separateData();
-        this.fillData();
+        this.fillDoughnut();
+        this.fillBar();
       })
       .catch((error) => {
         console.log(`error in loading: ${error}`);
       });
   },
+  computed: {
+    totalPageCount() {
+      return this.pageCountArray.reduce((a, b) => a + b, 0).toLocaleString();
+    },
+    monthCount() {
+      return this.getCountMap(this.monthArray);
+    },
+    pageCountArray() {
+      const pageCount = [];
+      this.books.forEach(item => {
+        pageCount.push(parseInt(item.pagecount, 10));
+      });
+      return pageCount;
+    },
+    categoryArray() {
+      return this.books.map(book => {
+        return book.category;
+      });
+    },
+    authorArray() {
+      return this.books.map(book => {
+        return book.author;
+      });
+    },
+    dateArray() {
+      return this.books.map(book => {
+        return this.$moment(book.date);
+      });
+    },
+    monthArray() {
+      return this.books.map(book => {
+        return this.$moment(book.date).format('MMMM');
+      });
+    },
+  },
   methods: {
     separateData() {
-      this.books.forEach((item) => {
-        this.pageCountArr.push(parseInt(item.pagecount, 10));
-        this.categoryArray.push(item.category);
-        this.authorArray.push(item.author);
 
-        if (item.date != "" && item.date != undefined) {
-          this.dateArray.push(this.$moment(item.date));
+      // Remove duplicates in arrays
+      this.uniqueCategories = [...new Set(this.categoryArray)];
+      this.uniqueAuthors = [...new Set(this.authorArray)];
+      this.uniqueMonths = [...new Set(this.monthArray)];
+
+      const authorCount = {};
+      this.authorArray.forEach(author => {
+        if (authorCount[author]) {
+          authorCount[author]++;
+        } else {
+          authorCount[author] = 1;
         }
       });
 
-      this.totalPages = this.pageCountArr.reduce((a, b) => a + b, 0).toLocaleString();
-
-      this.uniqueCategories = [...new Set(this.categoryArray)];
-      this.uniqueAuthors = [...new Set(this.authorArray)];
-
+      // Get count of how many times an item appears in an array
       this.compressArray(this.authorArray, this.compressedAuthors);
       this.compressArray(this.categoryArray, this.compressedCategories);
+      this.compressArray(this.monthArray, this.compressedMonths);
 
-      for (var i in this.authorArray) {
+      // Generate dynamic colors for authors
+      for (let i in this.authorArray) {
         this.authorColors.push(this.dynamicColors());
       }
 
-      for (var i in this.categoryArray) {
+      // Generate dynamic colors for categories
+      for (let i in this.categoryArray) {
         this.categoryColors.push(this.dynamicColors());
       }
+
+      // Generate dynamic colors for months
+      for (let i in this.monthArray) {
+        this.monthColors.push(this.dynamicColors());
+      }
     },
-    fillData () {
+    fillDoughnut() {
       this.categorycollection = {
         labels: this.uniqueCategories,
         datasets: [
           {
             backgroundColor: this.categoryColors,
             data: this.compressedCategories,
-          }
+          },
         ],
+        options: {
+          legend: {
+            labels: {
+              boxWidth: 10,
+            },
+          },
+        },
       };
       this.authorcollection = {
         labels: this.uniqueAuthors,
@@ -161,41 +229,80 @@ export default {
           {
             backgroundColor: this.authorColors,
             data: this.compressedAuthors,
-          }
+          },
         ],
-      }
+        options: {
+          legend: {
+            labels: {
+              boxWidth: 10,
+            },
+          },
+        },
+      };
+    },
+    fillBar() {
+      this.monthcollection = {
+        labels: this.uniqueMonths,
+        datasets: [
+          {
+            label: 'Books',
+            backgroundColor: this.monthColors,
+            data: this.compressedMonths,
+          },
+        ],
+        options: {
+          legend: {
+            display: false,
+          },
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true,
+                max: Math.max(...this.compressedMonths) + 1,
+              },
+            }],
+          },
+        },
+      };
     },
     compressArray(original, compressed) {
- 
       // make a copy of the input array
-      let copy = original.slice(0);
-    
+      const copy = original.slice(0);
       // first loop goes over every element
       for (let i = 0; i < original.length; i++) {
-    
-        let myCount = 0;	
+        let myCount = 0;
         // loop over every element in the copy and see if it's the same
         for (let w = 0; w < copy.length; w++) {
-          if (original[i] == copy[w]) {
+          if (original[i] === copy[w]) {
             // increase amount of times duplicate is found
             myCount++;
             // sets item to undefined
             delete copy[w];
           }
         }
-    
         if (myCount > 0) {
           compressed.push(myCount);
         }
       }
-    
       return compressed;
     },
     dynamicColors() {
-      let r = Math.floor(Math.random() * 255);
-      let g = Math.floor(Math.random() * 255);
-      let b = Math.floor(Math.random() * 255);
-      return "rgb(" + r + "," + g + "," + b + ")";
+      const r = Math.floor(Math.random() * 255);
+      const g = Math.floor(Math.random() * 255);
+      const b = Math.floor(Math.random() * 255);
+      return `rgb(${r} ${g} ${b})`;
+    },
+    getCountMap(values) {
+      const countMap = new Map();
+      values.forEach(value => {
+        if (countMap.has(value)) {
+          const count = countMap.get(value);
+          const newCount = count++;
+          countMap.set(value, newCount);
+        } else {
+          countMap.set(value, 1);
+        }
+      });
     }
   },
 };
