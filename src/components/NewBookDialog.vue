@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="isOpen" max-width="500px">
+  <v-dialog v-model="isOpen" persistent max-width="500px">
     <v-form
       ref="form"
       v-model="valid"
@@ -11,7 +11,7 @@
         </v-card-title>
         <v-card-text>
           <v-layout wrap>
-              <v-flex xs12 sm6 md12>
+              <v-flex xs12 md12>
                 <v-text-field
                   v-model="editedBook.title"
                   label="Title"
@@ -19,7 +19,7 @@
                   required
                 />
               </v-flex>
-              <v-flex xs12 sm6 md12>
+              <v-flex xs12 md12>
                 <v-text-field
                   v-model="editedBook.author"
                   label="Author"
@@ -27,16 +27,16 @@
                   required
                 />
               </v-flex>
-              <v-flex xs12 sm6 md12>
+              <v-flex xs12 md12>
                 <v-select @change="selectCategory($event)"
                   :items="categories"
                   v-model="editedBook.category"
-                    :rules="[v => !!v || 'A category is required']"
+                  :rules="[v => !!v || 'A category is required']"
                   required
                   label="Categories">
                 </v-select>
               </v-flex>
-              <v-flex xs12 sm6 md4>
+              <v-flex xs12 md4>
                 <v-text-field
                   v-model="editedBook.pagecount"
                   label="Page Count"
@@ -44,8 +44,14 @@
                   required
                 />
               </v-flex>
-              <v-flex xs12 sm6 md12>
-                <v-date-picker color="blue" v-model="editedBook.date" :landscape="landscape" :reactive="reactive"></v-date-picker>
+              <v-flex xs12 md12>
+                <v-date-picker
+                  color="blue"
+                  v-model="editedBook.date"
+                  :landscape="landscape"
+                  :reactive="reactive"
+                  :full-width="true">
+                </v-date-picker>
               </v-flex>
             </v-layout>
         </v-card-text>
@@ -116,8 +122,8 @@ export default {
       date: '',
     },
     itemID: '',
-    landscape: true,
-    reactive: true
+    landscape: false,
+    reactive: true,
   }),
   computed: {
     formTitle() {

@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-toolbar>
+    <v-toolbar color="amber">
       <v-toolbar-title class="headline text-uppercase">
         <span>My </span>
         <span class="font-weight-light">personal </span>
@@ -22,7 +22,7 @@
         fixed
       >
         <v-btn
-          color="teal"
+          color="secondary"
           flat
           value="library"
           to="/library"
@@ -32,7 +32,7 @@
         </v-btn>
 
         <v-btn
-          color="teal"
+          color="secondary"
           flat
           value="reports"
           to="/reports"
@@ -42,6 +42,10 @@
         </v-btn>
       </v-bottom-nav>
     </v-card>
+    <v-footer class="pa-3" color="amber">
+      <v-spacer></v-spacer>
+      <div>My Personal Library &copy; {{ new Date().getFullYear() }}</div>
+    </v-footer>
   </v-app>
 </template>
 
@@ -75,4 +79,3 @@ export default {
   bottom: 60px !important;
 }
 </style>
-

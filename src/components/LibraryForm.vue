@@ -3,7 +3,7 @@
     <v-container>
       <v-layout row wrap class="mb-4">
         <v-flex xs4 sm6 md8>
-          <v-btn @click="dialog = true" color="primary" dark>
+          <v-btn @click="dialog = true" color="#D5A209" dark>
             <v-icon>library_add</v-icon>
           </v-btn>
         </v-flex>
@@ -156,7 +156,9 @@ export default {
 }
 
 @media(min-width: 1024px) {
-  /deep/.v-datatable thead th.column.sortable:first-child, /deep/.v-datatable thead th.column.sortable:nth-child(2), /deep/.v-datatable thead th.column.sortable:nth-child(3) {
+  /deep/.v-datatable thead th.column.sortable:first-child,
+  /deep/.v-datatable thead th.column.sortable:nth-child(2),
+  /deep/.v-datatable thead th.column.sortable:nth-child(3) {
     min-width: inherit !important;
   }
 }
