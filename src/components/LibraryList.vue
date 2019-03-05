@@ -3,6 +3,7 @@
     <v-container>
       <v-layout row wrap class="mb-4">
         <v-flex xs4 sm6 md8>
+          
         </v-flex>
         <v-flex xs8 sm6 md4>
           <v-text-field
@@ -15,18 +16,25 @@
         </v-flex>
       </v-layout>
       <v-data-table
-        :headers="headers"
         :items="books"
         :search="search"
-        hide-actions class="elevation-1"
+        :headers="headers"
+        hide-actions class="elevation-0"
       >
         <template slot="items" slot-scope="props">
-          <td class="text-xs-left">{{ props.item.title }}</td>
-          <td class="text-xs-left">{{ props.item.author }}</td>
-          <td class="text-xs-left">{{ props.item.category }}</td>
-          <td class="text-xs-left">{{ props.item.ownership }}</td>
-          <td class="text-xs-left">{{ props.item.pagecount }}</td>
-          <td class="text-xs-left">{{ props.item.date | moment("MM-DD-YYYY") }}</td>
+          <td class="text-xs-left font-weight-black headline">
+            <v-expansion-panel>
+              <v-expansion-panel-content>
+                <div slot="header">{{ props.item.title }}</div>
+                <p class="subheading font-weight-light">
+                  Author: {{ props.item.author }}<br />
+                  Category: {{ props.item.category }}<br />
+                  Ownership: {{ props.item.ownership }}<br />
+                  Page Count: {{ props.item.pagecount }}
+                </p>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </td>
         </template>
         <v-alert slot="no-results" :value="true" color="error" icon="warning">
           Your search for "{{ search }}" found no results.
@@ -50,13 +58,7 @@ export default {
         align: 'left',
         sortable: true,
         value: 'title',
-        width: '360px',
       },
-      { text: 'Author', value: 'author' },
-      { text: 'Category', value: 'category' },
-      { text: 'Ownership', value: 'ownership' },
-      { text: 'Page Count', value: 'pagecount' },
-      { text: 'Date', value: 'date' },
     ],
   }),
   firestore() {
@@ -68,19 +70,20 @@ export default {
 </script>
 
 <style lang="scss">
-.librarylist li {
-  background-color: inherit !important;
+.theme--light.v-table {
+   background: none !important;
 }
-.v-expansion-panel__header > *:not(.v-expansion-panel__header__icon) {
-  order: 2;
+.v-expansion-panel {
+  box-shadow: none !important;
 }
-.theme--light.v-sheet {
-  background: none;
+.v-expansion-panel__header {
+  padding: 12px 0;
 }
-.v-expansion-panel__container > .v-expansion-panel__header .v-expansion-panel__header__icon .v-icon {
-  transform: rotate(-90deg);
+.v-expansion-panel__body {
+  padding: 0 20px;
 }
-.v-expansion-panel__container--active > .v-expansion-panel__header .v-expansion-panel__header__icon .v-icon {
-  transform: rotate(0deg);
+.theme--light.v-expansion-panel .v-expansion-panel__container,
+.theme--light.v-datatable .v-datatable__actions {
+  background: none !important;
 }
 </style>
