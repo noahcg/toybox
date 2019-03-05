@@ -165,9 +165,14 @@ export default {
     },
     monthArray() {
       return this.books.map(book => {
-        return this.$moment(book.date).format('MMMM');
+        return book.date;
       });
     },
+    convertedMonths() {
+      return this.uniqueMonths.map(month => {
+        return this.$moment(month).format('MMMM');
+      });
+    }
   },
   methods: {
     separateData() {
@@ -175,7 +180,7 @@ export default {
       // Remove duplicates in arrays
       this.uniqueCategories = [...new Set(this.categoryArray)];
       this.uniqueAuthors = [...new Set(this.authorArray)];
-      this.uniqueMonths = [...new Set(this.monthArray)];
+      this.uniqueMonths = [...new Set(this.monthArray.sort())];
 
       const authorCount = {};
       this.authorArray.forEach(author => {
@@ -242,7 +247,7 @@ export default {
     },
     fillBar() {
       this.monthcollection = {
-        labels: this.uniqueMonths,
+        labels: this.convertedMonths,
         datasets: [
           {
             label: 'Books',
