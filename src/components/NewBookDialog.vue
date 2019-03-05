@@ -36,6 +36,15 @@
                   label="Categories">
                 </v-select>
               </v-flex>
+              <v-flex xs12 md12>
+                <v-select @change="selectOwnership($event)"
+                  :items="ownership"
+                  v-model="editedBook.ownership"
+                  :rules="[v => !!v || 'An ownership is required']"
+                  required
+                  label="Ownership">
+                </v-select>
+              </v-flex>
               <v-flex xs12 md4>
                 <v-text-field
                   v-model="editedBook.pagecount"
@@ -114,6 +123,10 @@ export default {
       'Transportation',
       'Travel',
     ],
+    ownership: [
+      'Own',
+      'Library',
+    ],
     defaultItem: {
       title: '',
       author: '',
@@ -148,6 +161,9 @@ export default {
     },
     selectCategory(event) {
       this.editedBook.category = event;
+    },
+    selectOwnership(event) {
+      this.editedBook.ownership = event;
     },
     resetValidation() {
       this.$refs.form.resetValidation();
