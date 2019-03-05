@@ -172,7 +172,7 @@ export default {
       return this.uniqueMonths.map(month => {
         return this.$moment(month).format('MMMM');
       });
-    }
+    },
   },
   methods: {
     separateData() {
@@ -292,10 +292,12 @@ export default {
       return compressed;
     },
     dynamicColors() {
-      const r = Math.floor(Math.random() * 255);
-      const g = Math.floor(Math.random() * 255);
-      const b = Math.floor(Math.random() * 255);
-      return `rgb(${r} ${g} ${b})`;
+      var letters = '0123456789ABCDEF';
+      var color = '#';
+      for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
     },
     getCountMap(values) {
       const countMap = new Map();
