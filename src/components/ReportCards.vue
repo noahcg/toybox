@@ -5,7 +5,7 @@
   >
     <v-layout row wrap>
       <v-flex xs12 md6>
-        <h1 class="text-xs-left font-weight-regular">Statistics</h1>
+        <h1 class="text-xs-left font-weight-regular">By the numbers</h1>
       </v-flex>
       <v-flex xs12 md6>
         <h2 class="text-xs-right font-weight-regular">Last book read on {{ this.$moment.max(this.dateArray).format("MMM Do YYYY") }}</h2>
