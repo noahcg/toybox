@@ -10,6 +10,7 @@
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn to="/library" flat>Library</v-btn>
         <v-btn to="/reports" flat>Reports</v-btn>
+        <v-btn to="/management" flat>Management</v-btn>
         <v-btn v-if="!authStatus" to="/" flat>Login</v-btn>
         <v-btn v-if="authStatus" @click.native="signOut" flat>Logout</v-btn>
       </v-toolbar-items>
