@@ -3,7 +3,7 @@
     <v-container>
       <v-layout row wrap class="mb-4">
         <v-flex xs4 sm6 md8>
-          <v-btn @click="dialog = true" color="#D5A209" dark>
+          <v-btn @click="dialog = true" color="blue-grey darken-2" dark>
             <v-icon>library_add</v-icon>
           </v-btn>
         </v-flex>
