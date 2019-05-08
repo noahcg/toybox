@@ -5,7 +5,7 @@
   >
     <v-layout row wrap>
       <v-flex xs12 md6>
-        <h1 class="text-xs-left font-weight-regular">Statistics</h1>
+        <h1 class="text-xs-left font-weight-regular">By the numbers</h1>
       </v-flex>
       <v-flex xs12 md6>
         <h2 class="text-xs-right font-weight-regular">Last book read on {{ this.$moment.max(this.dateArray).format("MMM Do YYYY") }}</h2>
@@ -60,36 +60,63 @@
     <h1 class="text-xs-left font-weight-regular">Breakdowns</h1>
     <v-layout row wrap>
       <v-flex xs12 md4>
-        <v-card>
-          <v-card-title primary-title>
-            <span class="title font-weight-light">Categories</span>
-          </v-card-title>
-          <v-divider light></v-divider>
-          <v-card-text class="py-5">
+        <v-card class="v-card--material-stats">
+          <div class="v-offset" style="top: -24px; margin-bottom: -24px;">
+            <div class="pa-4 v-card theme--dark green elevation-10">
+              <i aria-hidden="true" class="v-icon mdi mdi-tag theme--dark" style="font-size: 40px;"></i>
+            </div>
+          </div>
+          <div class="v-card__text">
+            <div class="text-xs-right">
+              <h3 class="title display-1 font-weight-light">Top Categories <small></small></h3>
+            </div>
+          </div>
+          <v-card-text class="pt-4 pb-4">
             <doughnut-chart :chart-data="categorycollection" :options="categorycollection.options"></doughnut-chart>
           </v-card-text>
+          <v-card-actions class="card-actions">
+            <p class="category grey--text font-weight-light"><v-icon class="calendar-icon">folder_special</v-icon> Top Categories</p>
+          </v-card-actions>
         </v-card>
       </v-flex>
       <v-flex xs12 md4>
-        <v-card>
-          <v-card-title primary-title>
-            <span class="title font-weight-light">Authors</span>
-          </v-card-title>
-          <v-divider light></v-divider>
-          <v-card-text class="py-5">
+        <v-card class="v-card--material-stats">
+          <div class="v-offset" style="top: -24px; margin-bottom: -24px;">
+            <div class="pa-4 v-card theme--dark orange elevation-10">
+              <i aria-hidden="true" class="v-icon mdi mdi-face theme--dark" style="font-size: 40px;"></i>
+            </div>
+          </div>
+          <div class="v-card__text">
+            <div class="text-xs-right">
+              <h3 class="title display-1 font-weight-light">Top Authors <small></small></h3>
+            </div>
+          </div>
+          <v-card-text class="pt-4 pb-4">
             <doughnut-chart :chart-data="authorcollection" :options="authorcollection.options"></doughnut-chart>
           </v-card-text>
+          <v-card-actions class="card-actions">
+            <p class="category grey--text font-weight-light"><v-icon class="calendar-icon">stars</v-icon> Top Authors</p>
+          </v-card-actions>
         </v-card>
       </v-flex>
       <v-flex xs12 md4>
-        <v-card>
-          <v-card-title primary-title>
-            <span class="title font-weight-light">Books read per month</span>
-          </v-card-title>
-          <v-divider light></v-divider>
-          <v-card-text class="py-5">
+        <v-card class="v-card--material-stats">
+          <div class="v-offset" style="top: -24px; margin-bottom: -24px;">
+            <div class="pa-4 v-card theme--dark info elevation-10">
+              <i aria-hidden="true" class="v-icon mdi mdi-book theme--dark" style="font-size: 40px;"></i>
+            </div>
+          </div>
+          <div class="v-card__text">
+            <div class="text-xs-right">
+              <h3 class="title display-1 font-weight-light">Completed <small></small></h3>
+            </div>
+          </div>
+          <v-card-text class="pt-4 pb-4">
             <bar-chart :chart-data="monthcollection" :options="monthcollection.options"></bar-chart>
           </v-card-text>
+          <v-card-actions class="card-actions">
+            <p class="category grey--text font-weight-light"><v-icon class="calendar-icon">mdi-calendar</v-icon> Last 3 Months</p>
+          </v-card-actions>
         </v-card>
       </v-flex>
     </v-layout>
@@ -135,6 +162,15 @@ export default {
       });
   },
   computed: {
+    reducedBooks() {
+      const withinThreeMonths = [];
+      this.books.forEach(book => {
+        if (this.$moment(book.date) >= this.threeMonthsAgo && this.$moment(book.date) <= this.$moment(new Date())) {
+          withinThreeMonths.push(book);
+        }
+      });
+      return withinThreeMonths;
+    },
     totalPageCount() {
       return this.pageCountArray.reduce((a, b) => a + b, 0).toLocaleString();
     },
@@ -159,15 +195,23 @@ export default {
       });
     },
     dateArray() {
-      return this.books.map(book => {
+      return this.reducedBooks.map(book => {
         return this.$moment(book.date);
       });
     },
     monthArray() {
-      return this.books.map(book => {
-        return this.$moment(book.date).format('MMMM');
+      return this.reducedBooks.map(book => {
+        return book.date;
       });
     },
+    convertedMonths() {
+      return this.uniqueMonths.map(month => {
+        return this.$moment(month).format('MMMM');
+      });
+    },
+    threeMonthsAgo() {
+      return this.$moment(new Date()).subtract(3,'months');
+    }
   },
   methods: {
     separateData() {
@@ -175,7 +219,7 @@ export default {
       // Remove duplicates in arrays
       this.uniqueCategories = [...new Set(this.categoryArray)];
       this.uniqueAuthors = [...new Set(this.authorArray)];
-      this.uniqueMonths = [...new Set(this.monthArray)];
+      this.uniqueMonths = [...new Set(this.monthArray.sort())];
 
       const authorCount = {};
       this.authorArray.forEach(author => {
@@ -242,7 +286,7 @@ export default {
     },
     fillBar() {
       this.monthcollection = {
-        labels: this.uniqueMonths,
+        labels: this.convertedMonths,
         datasets: [
           {
             label: 'Books',
@@ -287,10 +331,12 @@ export default {
       return compressed;
     },
     dynamicColors() {
-      const r = Math.floor(Math.random() * 255);
-      const g = Math.floor(Math.random() * 255);
-      const b = Math.floor(Math.random() * 255);
-      return `rgb(${r} ${g} ${b})`;
+      var letters = '0123456789ABCDEF';
+      var color = '#';
+      for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
     },
     getCountMap(values) {
       const countMap = new Map();
@@ -310,7 +356,18 @@ export default {
 
 <style lang="scss" scoped>
 
+@import '../scss/materials';
+
 .card-text {
   width: 100% !important;
+}
+.calendar-icon {
+  font-size: 16px;
+}
+
+.card-actions {
+  border-top: 1px solid #ccc;
+  padding: 10px 20px;
+  line-height: 22px;
 }
 </style>

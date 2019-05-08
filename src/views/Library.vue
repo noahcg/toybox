@@ -1,13 +1,13 @@
 <template>
-  <LibraryForm />
+  <LibraryList />
 </template>
 
 <script>
-import LibraryForm from '../components/LibraryForm.vue';
+import LibraryList from '../components/LibraryList.vue';
 
 export default {
   components: {
-    LibraryForm,
+    LibraryList,
   },
 };
 </script>

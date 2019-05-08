@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="isOpen" persistent max-width="500px">
+  <v-dialog v-model="isOpen" persistent max-width="800px">
     <v-form
       ref="form"
       v-model="valid"
@@ -10,8 +10,9 @@
           <span class="headline">{{ formTitle }}</span>
         </v-card-title>
         <v-card-text>
-          <v-layout wrap>
-              <v-flex xs12 md12>
+          <v-container class="newbook-container" grid-list-md>
+            <v-layout row wrap>
+              <v-flex xs12 md6>
                 <v-text-field
                   v-model="editedBook.title"
                   label="Title"
@@ -19,7 +20,7 @@
                   required
                 />
               </v-flex>
-              <v-flex xs12 md12>
+              <v-flex xs12 md6>
                 <v-text-field
                   v-model="editedBook.author"
                   label="Author"
@@ -27,7 +28,7 @@
                   required
                 />
               </v-flex>
-              <v-flex xs12 md12>
+              <v-flex xs12 md6>
                 <v-select @change="selectCategory($event)"
                   :items="categories"
                   v-model="editedBook.category"
@@ -36,7 +37,16 @@
                   label="Categories">
                 </v-select>
               </v-flex>
-              <v-flex xs12 md4>
+              <v-flex xs12 md6>
+                <v-select @change="selectOwnership($event)"
+                  :items="ownership"
+                  v-model="editedBook.ownership"
+                  :rules="[v => !!v || 'An ownership is required']"
+                  required
+                  label="Ownership">
+                </v-select>
+              </v-flex>
+              <v-flex xs12 md2>
                 <v-text-field
                   v-model="editedBook.pagecount"
                   label="Page Count"
@@ -44,9 +54,9 @@
                   required
                 />
               </v-flex>
-              <v-flex xs12 md12>
+              <v-flex xs12 offset-md2 md8>
                 <v-date-picker
-                  color="blue"
+                  color="blue-grey"
                   v-model="editedBook.date"
                   :landscape="landscape"
                   :reactive="reactive"
@@ -54,6 +64,7 @@
                 </v-date-picker>
               </v-flex>
             </v-layout>
+          </v-container>
         </v-card-text>
         <v-card-actions>
           <v-spacer/>
@@ -114,6 +125,10 @@ export default {
       'Transportation',
       'Travel',
     ],
+    ownership: [
+      'Own',
+      'Library',
+    ],
     defaultItem: {
       title: '',
       author: '',
@@ -122,7 +137,7 @@ export default {
       date: '',
     },
     itemID: '',
-    landscape: false,
+    landscape: true,
     reactive: true,
   }),
   computed: {
@@ -149,6 +164,9 @@ export default {
     selectCategory(event) {
       this.editedBook.category = event;
     },
+    selectOwnership(event) {
+      this.editedBook.ownership = event;
+    },
     resetValidation() {
       this.$refs.form.resetValidation();
     },
@@ -156,6 +174,12 @@ export default {
 };
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.newbook-container {
+  padding: 0;
+}
+.v-card__text {
+  padding-top: 0;
+}
 </style>
+

@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-toolbar color="amber">
+    <v-toolbar color="blue lighten-4">
       <v-toolbar-title class="headline text-uppercase">
         <span>My </span>
         <span class="font-weight-light">personal </span>
@@ -10,6 +10,7 @@
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn to="/library" flat>Library</v-btn>
         <v-btn to="/reports" flat>Reports</v-btn>
+        <v-btn to="/management" flat>Management</v-btn>
         <v-btn v-if="!authStatus" to="/" flat>Login</v-btn>
         <v-btn v-if="authStatus" @click.native="signOut" flat>Logout</v-btn>
       </v-toolbar-items>
@@ -42,7 +43,7 @@
         </v-btn>
       </v-bottom-nav>
     </v-card>
-    <v-footer class="pa-3" color="amber">
+    <v-footer class="pa-3" color="blue lighten-4">
       <v-spacer></v-spacer>
       <div>My Personal Library &copy; {{ new Date().getFullYear() }}</div>
     </v-footer>

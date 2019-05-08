@@ -3,7 +3,7 @@
     <v-container>
       <v-layout row wrap class="mb-4">
         <v-flex xs4 sm6 md8>
-          <v-btn @click="dialog = true" color="#D5A209" dark>
+          <v-btn @click="dialog = true" color="blue-grey darken-2" dark>
             <v-icon>library_add</v-icon>
           </v-btn>
         </v-flex>
@@ -30,19 +30,20 @@
         hide-actions class="elevation-1"
       >
         <template slot="items" slot-scope="props">
-            <td class="text-xs-left">{{ props.item.title }}</td>
-            <td class="text-xs-left">{{ props.item.author }}</td>
-            <td class="text-xs-left">{{ props.item.category }}</td>
-            <td class="text-xs-left">{{ props.item.pagecount }}</td>
-            <td class="text-xs-left">{{ props.item.date | moment("MM-DD-YYYY") }}</td>
-            <td class="justify-center layout px-0">
-              <v-btn icon class="mx-0" @click="editItem(props.item)">
-                  <v-icon color="teal">edit</v-icon>
-              </v-btn>
-              <v-btn icon class="mx-0" @click="confirmDelete(props.item)">
-                  <v-icon color="red darken-4">delete</v-icon>
-              </v-btn>
-            </td>
+          <td class="text-xs-left">{{ props.item.title }}</td>
+          <td class="text-xs-left">{{ props.item.author }}</td>
+          <td class="text-xs-left">{{ props.item.category }}</td>
+          <td class="text-xs-left">{{ props.item.ownership }}</td>
+          <td class="text-xs-left">{{ props.item.pagecount }}</td>
+          <td class="text-xs-left">{{ props.item.date | moment("MM-DD-YYYY") }}</td>
+          <td class="justify-center layout px-0">
+            <v-btn icon class="mx-0" @click="editItem(props.item)">
+              <v-icon color="teal">edit</v-icon>
+            </v-btn>
+            <v-btn icon class="mx-0" @click="confirmDelete(props.item)">
+              <v-icon color="red darken-4">delete</v-icon>
+            </v-btn>
+          </td>
         </template>
         <v-alert slot="no-results" :value="true" color="error" icon="warning">
           Your search for "{{ search }}" found no results.
@@ -84,6 +85,7 @@ export default {
       },
       { text: 'Author', value: 'author' },
       { text: 'Category', value: 'category' },
+      { text: 'Ownership', value: 'ownership' },
       { text: 'Page Count', value: 'pagecount' },
       { text: 'Date', value: 'date' },
       {
@@ -95,6 +97,7 @@ export default {
       title: '',
       author: '',
       category: '',
+      ownership: '',
       pagecount: 0,
       date: '',
     },
@@ -102,6 +105,7 @@ export default {
       title: '',
       author: '',
       category: '',
+      ownership: '',
       pagecount: 0,
       date: '',
     },
@@ -145,21 +149,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/deep/.v-datatable thead th.column.sortable:first-child {
-  min-width: 230px !important;
-}
-/deep/.v-datatable thead th.column.sortable:nth-child(2) {
-  min-width: 180px;
-}
-/deep/.v-datatable thead th.column.sortable:nth-child(3) {
-  min-width: 190px;
-}
+// /deep/.v-datatable thead th.column.sortable:first-child {
+//   min-width: 230px !important;
+// }
+// /deep/.v-datatable thead th.column.sortable:nth-child(2) {
+//   min-width: 180px;
+// }
+// /deep/.v-datatable thead th.column.sortable:nth-child(3) {
+//   min-width: 190px;
+// }
 
-@media(min-width: 1024px) {
-  /deep/.v-datatable thead th.column.sortable:first-child,
-  /deep/.v-datatable thead th.column.sortable:nth-child(2),
-  /deep/.v-datatable thead th.column.sortable:nth-child(3) {
-    min-width: inherit !important;
-  }
-}
+// @media(min-width: 1024px) {
+//   /deep/.v-datatable thead th.column.sortable:first-child,
+//   /deep/.v-datatable thead th.column.sortable:nth-child(2),
+//   /deep/.v-datatable thead th.column.sortable:nth-child(3) {
+//     min-width: inherit !important;
+//   }
+// }
 </style>
