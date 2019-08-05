@@ -2,42 +2,30 @@
   <v-app>
     <v-toolbar color="blue lighten-4">
       <v-toolbar-title class="headline text-uppercase">
-        <span>My </span>
-        <span class="font-weight-light">personal </span>
+        <span>My</span>
+        <span class="font-weight-light">personal</span>
         <span>library</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn to="/library" flat>Library</v-btn>
-        <v-btn to="/reports" flat>Reports</v-btn>
-        <v-btn to="/management" flat>Management</v-btn>
-        <v-btn v-if="!authStatus" to="/" flat>Login</v-btn>
+        <v-btn v-if="authStatus" to="/reports" flat>Reports</v-btn>
+        <v-btn v-if="authStatus" to="/management" flat>Management</v-btn>
+        <v-btn v-if="!authStatus" to="/login" flat>Login</v-btn>
         <v-btn v-if="authStatus" @click.native="signOut" flat>Logout</v-btn>
       </v-toolbar-items>
     </v-toolbar>
     <v-content>
-      <router-view/>
+      <router-view />
     </v-content>
     <v-card flat class="hidden-md-and-up bottom-nav">
-      <v-bottom-nav
-        fixed
-      >
-        <v-btn
-          color="secondary"
-          flat
-          value="library"
-          to="/library"
-        >
+      <v-bottom-nav fixed>
+        <v-btn color="secondary" flat value="library" to="/library">
           <span>Library</span>
           <v-icon>library_books</v-icon>
         </v-btn>
 
-        <v-btn
-          color="secondary"
-          flat
-          value="reports"
-          to="/reports"
-        >
+        <v-btn color="secondary" flat value="reports" to="/reports">
           <span>Reports</span>
           <v-icon>bar_chart</v-icon>
         </v-btn>
@@ -51,28 +39,28 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import { auth } from './main';
+import { mapState } from "vuex";
+import { auth } from "./main";
 
 export default {
-  name: 'App',
+  name: "App",
   data() {
     return {
       drawer: false,
-      left: false,
+      left: false
     };
   },
   computed: mapState({
-    authStatus: state => state.authenticated,
+    authStatus: state => state.authenticated
   }),
   methods: {
     signOut() {
       auth.signOut().then(() => {
-        this.$store.commit('setAuthenticated', false);
-        this.$router.push('/');
+        this.$store.commit("setAuthenticated", false);
+        this.$router.push("/");
       });
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
