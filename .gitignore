@@ -19,6 +19,6 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
-env.json
+# env.json
 .firebaserc
 .firebase/
