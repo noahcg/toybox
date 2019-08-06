@@ -2,7 +2,13 @@
   <v-container grid-list-md text-xs-center>
     <v-layout row wrap>
       <v-flex xs10 sm6 offset-xs1 offset-sm3>
-        <v-form ref="form" v-model="valid" lazy-validation @keydown.enter.native="login">
+        <v-form
+          class="login-form"
+          ref="form"
+          v-model="valid"
+          lazy-validation
+          @keydown.enter.native="login"
+        >
           <v-text-field v-model="email" :rules="emailRules" label="E-mail" required ref="myEmail"></v-text-field>
 
           <v-text-field v-model="password" :rules="passwordRules" label="Password" required></v-text-field>
@@ -56,6 +62,19 @@ export default {
   }
 };
 </script>
-
-<style>
+<style lang="scss">
+.login-form {
+  .v-text-field .v-input__control > .v-input__slot:before {
+    border-color: #814923;
+  }
+  .v-label {
+    color: #814923;
+  }
+  .v-input:not(.v-input--is-disabled) input,
+  .theme--dark.v-input:not(.v-input--is-disabled) textarea {
+    color: #814923;
+  }
+}
 </style>
+
+
