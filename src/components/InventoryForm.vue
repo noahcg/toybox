@@ -27,7 +27,7 @@
         :headers="headers"
         :items="beers"
         :search="search"
-        hide-actions
+        :pagination.sync="pagination"
         class="elevation-1"
       >
         <template slot="items" slot-scope="props">
@@ -35,7 +35,7 @@
           <td class="text-xs-left">{{ props.item.beer }}</td>
           <td class="text-xs-left">{{ props.item.style }}</td>
           <td class="text-xs-left">{{ props.item.quantity }}</td>
-          <td class="text-xs-left">{{ props.item.abv }}</td>
+          <td class="text-xs-left">{{ convertABV(props.item.abv) }}</td>
           <td class="text-xs-left">{{ props.item.year }}</td>
           <td class="text-xs-left">{{ props.item.fridge }}</td>
           <td class="justify-center layout px-0">
@@ -113,7 +113,10 @@ export default {
       year: "",
       fridge: ""
     },
-    deletingBeer: {}
+    deletingBeer: {},
+    pagination: {
+      rowsPerPage: 10
+    }
   }),
   firestore() {
     return {
@@ -149,6 +152,9 @@ export default {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.dialog = false;
       }, 0);
+    },
+    convertABV(val) {
+      return parseInt(val).toFixed(1) + "%";
     }
   }
 };
