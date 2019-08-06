@@ -3,7 +3,7 @@
     <v-container>
       <v-layout row wrap class="mb-4">
         <v-flex xs4 sm6 md8>
-          <v-btn @click="dialog = true" color="#c60">
+          <v-btn @click="dialog = true" color="#c60" class="add-beer-button">
             <v-icon>library_add</v-icon>
           </v-btn>
         </v-flex>
@@ -159,3 +159,9 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+.add-beer-button .v-btn__content {
+  color: #fff;
+}
+</style>
+
