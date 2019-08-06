@@ -41,7 +41,7 @@
                 <v-text-field v-model="editedBeer.abv" label="ABV" :rules="abvRules" required />
               </v-flex>
               <v-flex xs12 md2>
-                <v-text-field v-model="editedBeer.year" label="Year" :rules="yearRules" required />
+                <v-text-field v-model="editedBeer.year" label="Year" />
               </v-flex>
               <v-flex xs12 md4>
                 <v-select
@@ -79,7 +79,6 @@ export default {
     styleRules: [v => !!v || "Style is required"],
     quantityRules: [v => !!v || "A quantity is required"],
     abvRules: [v => !!v || "ABV is required"],
-    yearRules: [v => !!v || "A year is required"],
     fridgeRules: [v => !!v || "A fridge is required"],
     style: [
       "Altbier",
