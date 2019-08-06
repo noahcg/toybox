@@ -20,7 +20,7 @@
               :items="beers"
               :search="search"
               :headers="headers"
-              hide-actions
+              :pagination.sync="pagination"
               class="elevation-0"
             >
               <template slot="items" slot-scope="props">
@@ -103,7 +103,10 @@ export default {
         value: "fridge",
         class: ["subheading", "font-weight-light", "text--darken-3"]
       }
-    ]
+    ],
+    pagination: {
+      rowsPerPage: 10
+    }
   }),
   firestore() {
     return {
