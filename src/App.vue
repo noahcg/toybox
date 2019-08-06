@@ -1,5 +1,5 @@
 <template>
-  <v-app dark>
+  <v-app>
     <v-toolbar color="#ffcc00">
       <v-toolbar-title class="headline text-uppercase">
         <span>Dave's Beer Cellar</span>
