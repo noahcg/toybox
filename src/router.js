@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Library from "./views/Library.vue";
+import Inventory from "./views/Inventory.vue";
 import Management from "./views/Management.vue";
 import Reports from "./views/Reports.vue";
 import Login from "./views/Login.vue";
@@ -13,9 +13,9 @@ const router = new Router({
   routes: [
     {
       path: "/",
-      name: "library",
-      component: Library,
-      alias: "/library"
+      name: "inventory",
+      component: Inventory,
+      alias: "/inventory"
     },
     {
       path: "/reports",

@@ -1,14 +1,12 @@
 <template>
-  <v-app>
-    <v-toolbar color="blue lighten-4">
+  <v-app dark>
+    <v-toolbar color="#ffcc00">
       <v-toolbar-title class="headline text-uppercase">
-        <span>My</span>
-        <span class="font-weight-light">personal</span>
-        <span>library</span>
+        <span>Dave's Beer Cellar</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn to="/library" flat>Library</v-btn>
+        <v-btn to="/inventory" flat>Inventory</v-btn>
         <v-btn v-if="authStatus" to="/reports" flat>Reports</v-btn>
         <v-btn v-if="authStatus" to="/management" flat>Management</v-btn>
         <v-btn v-if="!authStatus" to="/login" flat>Login</v-btn>
@@ -31,9 +29,9 @@
         </v-btn>
       </v-bottom-nav>
     </v-card>
-    <v-footer class="pa-3" color="blue lighten-4">
+    <v-footer class="pa-3" color="#ffcc00">
       <v-spacer></v-spacer>
-      <div>My Personal Library &copy; {{ new Date().getFullYear() }}</div>
+      <div class="footer-copy">Dave's Beer Cellar &copy; {{ new Date().getFullYear() }}</div>
     </v-footer>
   </v-app>
 </template>
@@ -66,5 +64,12 @@ export default {
 <style lang="scss" scoped>
 .v-item-group.v-bottom-nav {
   bottom: 60px !important;
+}
+.headline,
+.footer-copy {
+  color: #814923;
+}
+.theme--dark.application {
+  background: #f5f2e8;
 }
 </style>
