@@ -28,7 +28,7 @@
                 <td>{{ props.item.beer }}</td>
                 <td>{{ props.item.style }}</td>
                 <td>{{ props.item.quantity }}</td>
-                <td>{{ props.item.abv }}</td>
+                <td>{{ convertABV(props.item.abv) }}</td>
                 <td>{{ props.item.year }}</td>
                 <td>{{ props.item.fridge }}</td>
               </template>
@@ -112,6 +112,11 @@ export default {
     return {
       beers: db.collection("beers")
     };
+  },
+  methods: {
+    convertABV(val) {
+      return parseInt(val).toFixed(1) + "%";
+    }
   }
 };
 </script>
