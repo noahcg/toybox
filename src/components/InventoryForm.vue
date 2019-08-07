@@ -154,7 +154,7 @@ export default {
       }, 0);
     },
     convertABV(val) {
-      return parseInt(val).toFixed(1) + "%";
+      return parseFloat(val).toFixed(2) + "%";
     }
   }
 };
