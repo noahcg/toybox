@@ -20,17 +20,38 @@ const router = new Router({
     {
       path: "/reports",
       name: "reports",
-      component: Reports
+      component: Reports,
+      beforeEnter: (to, from, next) => {
+        if (!store.state.authenticated && to.name !== "login") {
+          next("/login");
+        } else {
+          next();
+        }
+      }
     },
     {
       path: "/management",
       name: "management",
-      component: Management
+      component: Management,
+      beforeEnter: (to, from, next) => {
+        if (!store.state.authenticated && to.name !== "login") {
+          next("/login");
+        } else {
+          next();
+        }
+      }
     },
     {
       path: "/login",
       name: "login",
-      component: Login
+      component: Login,
+      beforeEnter: (to, from, next) => {
+        if (!store.state.authenticated && to.name !== "login") {
+          next("/login");
+        } else {
+          next();
+        }
+      }
     }
   ]
 });
