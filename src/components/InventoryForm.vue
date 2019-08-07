@@ -148,9 +148,10 @@ export default {
       this.deletingBeer = beer;
     },
     close() {
+      this.dialog = false;
       setTimeout(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
-        this.dialog = false;
+        this.editedIndex = -1;
       }, 0);
     },
     convertABV(val) {
