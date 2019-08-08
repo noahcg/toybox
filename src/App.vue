@@ -61,7 +61,7 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .v-item-group.v-bottom-nav {
   bottom: 60px !important;
 }
