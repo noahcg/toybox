@@ -18,14 +18,25 @@
     </v-content>
     <v-card flat class="hidden-md-and-up bottom-nav">
       <v-bottom-nav fixed>
-        <v-btn color="secondary" flat value="library" to="/library">
-          <span>Library</span>
-          <v-icon>library_books</v-icon>
+        <v-btn color="secondary" flat value="inventory" to="/inventory">
+          <span>Inventory</span>
+          <v-icon>local_drink</v-icon>
         </v-btn>
-
-        <v-btn color="secondary" flat value="reports" to="/reports">
+        <v-btn v-if="authStatus" color="secondary" flat value="reports" to="/reports">
           <span>Reports</span>
-          <v-icon>bar_chart</v-icon>
+          <v-icon>assessment</v-icon>
+        </v-btn>
+        <v-btn v-if="authStatus" color="secondary" flat value="management" to="/management">
+          <span>Management</span>
+          <v-icon>assignment</v-icon>
+        </v-btn>
+        <v-btn v-if="!authStatus" color="secondary" flat value="login" to="/login">
+          <span>Login</span>
+          <v-icon>exit_to_app</v-icon>
+        </v-btn>
+        <v-btn v-if="authStatus" color="secondary" flat value="logout" @click.native="signOut">
+          <span>Logout</span>
+          <v-icon class="logout-icon">exit_to_app</v-icon>
         </v-btn>
       </v-bottom-nav>
     </v-card>
@@ -71,5 +82,10 @@ export default {
 }
 .theme--dark.application {
   background: #f5f2e8;
+}
+.v-btn:not(.v-btn--disabled):not(.v-btn--floating):not(.v-btn--icon)
+  .v-btn__content
+  .v-icon.logout-icon {
+  transform: rotate(180deg);
 }
 </style>
