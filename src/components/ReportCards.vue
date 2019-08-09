@@ -1,58 +1,55 @@
 <template>
-  <v-container
-    fluid
-    grid-list-md
-  >
+  <v-container fluid grid-list-md>
     <v-layout row wrap>
+      <v-flex xs12 md6></v-flex>
       <v-flex xs12 md6>
-        <h1 class="text-xs-left font-weight-regular">By the numbers</h1>
-      </v-flex>
-      <v-flex xs12 md6>
-        <h2 class="text-xs-right font-weight-regular">Last book read on {{ this.$moment.max(this.dateArray).format("MMM Do YYYY") }}</h2>
+        <!-- <h2
+          class="text-xs-right font-weight-regular"
+        >Last beer added on {{ this.$moment.max(this.dateArray).format("MMM Do YYYY") }}</h2>-->
       </v-flex>
     </v-layout>
     <v-layout row wrap class="mb-5">
       <v-flex xs12 md3>
         <v-card>
           <v-card-title primary-title>
-            <span class="title font-weight-light">Books</span>
+            <span class="title font-weight-light">Breweries</span>
           </v-card-title>
           <v-divider light></v-divider>
           <v-card-text class="py-5">
-            <p class="display-2 mb-0 blue--text font-weight-black">{{ books.length }}</p>
+            <p class="display-2 mb-0 brown--text font-weight-black">{{ uniqueBreweries.length }}</p>
           </v-card-text>
         </v-card>
       </v-flex>
       <v-flex xs12 md3>
         <v-card>
           <v-card-title primary-title>
-            <span class="title font-weight-light">Pages</span>
+            <span class="title font-weight-light">Total Beers</span>
           </v-card-title>
           <v-divider light></v-divider>
           <v-card-text class="py-5">
-            <p class="display-2 mb-0 blue--text font-weight-black">{{ totalPageCount }}</p>
+            <p class="display-2 mb-0 brown--text font-weight-black">{{ totalBeerCount }}</p>
           </v-card-text>
         </v-card>
       </v-flex>
       <v-flex xs12 md3>
         <v-card>
           <v-card-title primary-title>
-            <span class="title font-weight-light">Categories</span>
+            <span class="title font-weight-light">Unique Beers</span>
           </v-card-title>
           <v-divider light></v-divider>
           <v-card-text class="py-5">
-            <p class="display-2 mb-0 blue--text font-weight-black">{{ uniqueCategories.length }}</p>
+            <p class="display-2 mb-0 brown--text font-weight-black">{{ beers.length }}</p>
           </v-card-text>
         </v-card>
       </v-flex>
       <v-flex xs12 md3>
         <v-card>
           <v-card-title primary-title>
-            <span class="title font-weight-light">Authors</span>
+            <span class="title font-weight-light">Number of Styles</span>
           </v-card-title>
           <v-divider light></v-divider>
           <v-card-text class="py-5">
-            <p class="display-2 mb-0 blue--text font-weight-black">{{ uniqueAuthors.length }}</p>
+            <p class="display-2 mb-0 brown--text font-weight-black">{{ uniqueStyles.length }}</p>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -68,14 +65,19 @@
           </div>
           <div class="v-card__text">
             <div class="text-xs-right">
-              <h3 class="title display-1 font-weight-light">Top Categories <small></small></h3>
+              <h3 class="title display-1 font-weight-light">
+                Top Breweries
+                <small></small>
+              </h3>
             </div>
           </div>
           <v-card-text class="pt-4 pb-4">
-            <doughnut-chart :chart-data="categorycollection" :options="categorycollection.options"></doughnut-chart>
+            <doughnut-chart :chart-data="brewerycollection" :options="brewerycollection.options"></doughnut-chart>
           </v-card-text>
           <v-card-actions class="card-actions">
-            <p class="category grey--text font-weight-light"><v-icon class="calendar-icon">folder_special</v-icon> Top Categories</p>
+            <p class="category grey--text font-weight-light">
+              <v-icon class="calendar-icon">folder_special</v-icon>Top Breweries
+            </p>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -83,19 +85,28 @@
         <v-card class="v-card--material-stats">
           <div class="v-offset" style="top: -24px; margin-bottom: -24px;">
             <div class="pa-4 v-card theme--dark orange elevation-10">
-              <i aria-hidden="true" class="v-icon mdi mdi-face theme--dark" style="font-size: 40px;"></i>
+              <i
+                aria-hidden="true"
+                class="v-icon mdi mdi-face theme--dark"
+                style="font-size: 40px;"
+              ></i>
             </div>
           </div>
           <div class="v-card__text">
             <div class="text-xs-right">
-              <h3 class="title display-1 font-weight-light">Top Authors <small></small></h3>
+              <h3 class="title display-1 font-weight-light">
+                Top Beers
+                <small></small>
+              </h3>
             </div>
           </div>
           <v-card-text class="pt-4 pb-4">
-            <doughnut-chart :chart-data="authorcollection" :options="authorcollection.options"></doughnut-chart>
+            <doughnut-chart :chart-data="popularcollection" :options="popularcollection.options"></doughnut-chart>
           </v-card-text>
           <v-card-actions class="card-actions">
-            <p class="category grey--text font-weight-light"><v-icon class="calendar-icon">stars</v-icon> Top Authors</p>
+            <p class="category grey--text font-weight-light">
+              <v-icon class="calendar-icon">stars</v-icon>Top Beers
+            </p>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -103,19 +114,28 @@
         <v-card class="v-card--material-stats">
           <div class="v-offset" style="top: -24px; margin-bottom: -24px;">
             <div class="pa-4 v-card theme--dark info elevation-10">
-              <i aria-hidden="true" class="v-icon mdi mdi-book theme--dark" style="font-size: 40px;"></i>
+              <i
+                aria-hidden="true"
+                class="v-icon mdi mdi-book theme--dark"
+                style="font-size: 40px;"
+              ></i>
             </div>
           </div>
           <div class="v-card__text">
             <div class="text-xs-right">
-              <h3 class="title display-1 font-weight-light">Completed <small></small></h3>
+              <h3 class="title display-1 font-weight-light">
+                Top Styles
+                <small></small>
+              </h3>
             </div>
           </div>
           <v-card-text class="pt-4 pb-4">
-            <bar-chart :chart-data="monthcollection" :options="monthcollection.options"></bar-chart>
+            <doughnut-chart :chart-data="stylecollection" :options="stylecollection.options"></doughnut-chart>
           </v-card-text>
           <v-card-actions class="card-actions">
-            <p class="category grey--text font-weight-light"><v-icon class="calendar-icon">mdi-calendar</v-icon> Last 3 Months</p>
+            <p class="category grey--text font-weight-light">
+              <v-icon class="calendar-icon">mdi-calendar</v-icon>Top Styles
+            </p>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -124,189 +144,189 @@
 </template>
 
 <script>
-import { db } from '../main';
-import DoughnutChart from './DoughnutChart.vue';
-import BarChart from './BarChart.vue';
+import { db } from "../main";
+import DoughnutChart from "./DoughnutChart.vue";
 
 export default {
-  name: 'ReportCards',
+  name: "ReportCards",
   components: {
-    DoughnutChart,
-    BarChart,
+    DoughnutChart
   },
   data: () => ({
-    books: [],
-    uniqueCategories: [],
-    uniqueAuthors: [],
-    totalPages: 0,
-    categorycollection: {},
-    authorcollection: {},
-    compressedAuthors: [],
-    compressedCategories: [],
-    authorColors: [],
-    categoryColors: [],
-    monthcollection: {},
-    uniqueMonths: [],
-    compressedMonths: [],
-    monthColors: [],
+    beers: [],
+    uniqueBreweries: [],
+    uniqueBeers: [],
+    uniqueStyles: [],
+    brewerycollection: {},
+    beercollection: {},
+    stylecollection: {},
+    popularcollection: {},
+    compressedBreweries: [],
+    compressedBeers: [],
+    compressedStyles: [],
+    compressedPopular: [],
+    beerColors: [],
+    breweryColors: [],
+    styleColors: [],
+    popularColors: [],
+    popularBreweries: [],
+    popBeerLabels: [],
+    popBeerValues: []
   }),
   mounted() {
-    this.$bind('books', db.collection('books'))
+    this.$bind("beers", db.collection("beers"))
       .then(() => {
         this.separateData();
         this.fillDoughnut();
-        this.fillBar();
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(`error in loading: ${error}`);
       });
   },
   computed: {
-    reducedBooks() {
-      const withinThreeMonths = [];
-      this.books.forEach(book => {
-        if (this.$moment(book.date) >= this.threeMonthsAgo && this.$moment(book.date) <= this.$moment(new Date())) {
-          withinThreeMonths.push(book);
+    totalBeerCount() {
+      return this.beerCountArray.reduce((a, b) => a + b, 0).toLocaleString();
+    },
+    beerCountArray() {
+      const beerCount = [];
+      this.beers.forEach(item => {
+        beerCount.push(parseInt(item.quantity, 10));
+      });
+      return beerCount;
+    },
+    breweryArray() {
+      return this.beers.map(beer => {
+        return beer.brewery;
+      });
+    },
+    beerArray() {
+      return this.beers.map(beer => {
+        if (beer.quantity > 1) {
+          return beer.beer;
         }
       });
-      return withinThreeMonths;
     },
-    totalPageCount() {
-      return this.pageCountArray.reduce((a, b) => a + b, 0).toLocaleString();
-    },
-    monthCount() {
-      return this.getCountMap(this.monthArray);
-    },
-    pageCountArray() {
-      const pageCount = [];
-      this.books.forEach(item => {
-        pageCount.push(parseInt(item.pagecount, 10));
+    popularBeerArray() {
+      const popularBeers = [];
+      this.beers.forEach(item => {
+        if (item.quantity > 1) {
+          popularBeers.push({ beer: item.beer, quantity: item.quantity });
+        }
       });
-      return pageCount;
+      return popularBeers;
     },
-    categoryArray() {
-      return this.books.map(book => {
-        return book.category;
+    styleArray() {
+      return this.beers.map(beer => {
+        return beer.style;
       });
-    },
-    authorArray() {
-      return this.books.map(book => {
-        return book.author;
-      });
-    },
-    dateArray() {
-      return this.reducedBooks.map(book => {
-        return this.$moment(book.date);
-      });
-    },
-    monthArray() {
-      return this.reducedBooks.map(book => {
-        return book.date;
-      });
-    },
-    convertedMonths() {
-      return this.uniqueMonths.map(month => {
-        return this.$moment(month).format('MMMM');
-      });
-    },
-    threeMonthsAgo() {
-      return this.$moment(new Date()).subtract(3,'months');
     }
   },
   methods: {
     separateData() {
+      let findDuplicates = arr =>
+        arr.filter((item, index) => arr.indexOf(item) != index);
 
-      // Remove duplicates in arrays
-      this.uniqueCategories = [...new Set(this.categoryArray)];
-      this.uniqueAuthors = [...new Set(this.authorArray)];
-      this.uniqueMonths = [...new Set(this.monthArray.sort())];
+      this.uniqueBreweries = [...new Set(this.breweryArray)];
+      this.uniqueBeers = [...new Set(this.beerArray)];
+      this.uniqueStyles = [...new Set(this.styleArray)];
+      this.uniqueStyleLabels = [...new Set(findDuplicates(this.styleArray))];
+      this.popularBreweries = [...new Set(findDuplicates(this.breweryArray))];
 
-      const authorCount = {};
-      this.authorArray.forEach(author => {
-        if (authorCount[author]) {
-          authorCount[author]++;
-        } else {
-          authorCount[author] = 1;
-        }
+      this.popularBeerArray.forEach(item => {
+        this.popBeerLabels.push(item.beer);
+        this.popBeerValues.push(item.quantity);
       });
 
-      // Get count of how many times an item appears in an array
-      this.compressArray(this.authorArray, this.compressedAuthors);
-      this.compressArray(this.categoryArray, this.compressedCategories);
-      this.compressArray(this.monthArray, this.compressedMonths);
+      // Get count of how many times an item appears in an array to create chart values
+      this.compressArray(this.beerArray, this.compressedBeers);
+      this.compressArray(this.breweryArray, this.compressedBreweries);
+      this.compressArray(this.styleArray, this.compressedStyles);
+      this.compressArray(this.popularBeerArray, this.compressedPopular);
 
-      // Generate dynamic colors for authors
-      for (let i in this.authorArray) {
-        this.authorColors.push(this.dynamicColors());
+      // Generate dynamic colors for beers
+      for (let i in this.beerArray) {
+        this.beerColors.push(this.dynamicColors());
       }
 
-      // Generate dynamic colors for categories
-      for (let i in this.categoryArray) {
-        this.categoryColors.push(this.dynamicColors());
+      // Generate dynamic colors for breweries
+      for (let i in this.breweryArray) {
+        this.breweryColors.push(this.dynamicColors());
       }
 
-      // Generate dynamic colors for months
-      for (let i in this.monthArray) {
-        this.monthColors.push(this.dynamicColors());
+      // Generate dynamic colors for styles
+      for (let i in this.styleArray) {
+        this.styleColors.push(this.dynamicColors());
+      }
+
+      // Generate dynamic colors for popular beers
+      for (let i in this.popularBeerArray) {
+        this.popularColors.push(this.dynamicColors());
       }
     },
     fillDoughnut() {
-      this.categorycollection = {
-        labels: this.uniqueCategories,
+      this.brewerycollection = {
+        labels: this.popularBreweries,
         datasets: [
           {
-            backgroundColor: this.categoryColors,
-            data: this.compressedCategories,
-          },
+            backgroundColor: this.breweryColors,
+            data: this.compressedBreweries
+          }
         ],
         options: {
           legend: {
             labels: {
-              boxWidth: 10,
-            },
-          },
-        },
+              boxWidth: 10
+            }
+          }
+        }
       };
-      this.authorcollection = {
-        labels: this.uniqueAuthors,
+      this.beercollection = {
+        labels: this.uniqueBeers,
         datasets: [
           {
-            backgroundColor: this.authorColors,
-            data: this.compressedAuthors,
-          },
+            backgroundColor: this.beerColors,
+            data: this.compressedBeers
+          }
         ],
         options: {
           legend: {
             labels: {
-              boxWidth: 10,
-            },
-          },
-        },
+              boxWidth: 10
+            }
+          }
+        }
       };
-    },
-    fillBar() {
-      this.monthcollection = {
-        labels: this.convertedMonths,
+      this.stylecollection = {
+        labels: this.uniqueStyleLabels,
         datasets: [
           {
-            label: 'Books',
-            backgroundColor: this.monthColors,
-            data: this.compressedMonths,
-          },
+            backgroundColor: this.styleColors,
+            data: this.compressedStyles
+          }
         ],
         options: {
           legend: {
-            display: false,
-          },
-          scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: true,
-                max: Math.max(...this.compressedMonths) + 1,
-              },
-            }],
-          },
-        },
+            labels: {
+              boxWidth: 10
+            }
+          }
+        }
+      };
+      this.popularcollection = {
+        labels: this.popBeerLabels,
+        datasets: [
+          {
+            backgroundColor: this.popularColors,
+            data: this.popBeerValues
+          }
+        ],
+        options: {
+          legend: {
+            labels: {
+              boxWidth: 10
+            }
+          }
+        }
       };
     },
     compressArray(original, compressed) {
@@ -324,39 +344,26 @@ export default {
             delete copy[w];
           }
         }
-        if (myCount > 0) {
+        if (myCount > 1) {
           compressed.push(myCount);
         }
       }
       return compressed;
     },
     dynamicColors() {
-      var letters = '0123456789ABCDEF';
-      var color = '#';
+      var letters = "0123456789ABCDEF";
+      var color = "#";
       for (var i = 0; i < 6; i++) {
         color += letters[Math.floor(Math.random() * 16)];
       }
       return color;
-    },
-    getCountMap(values) {
-      const countMap = new Map();
-      values.forEach(value => {
-        if (countMap.has(value)) {
-          const count = countMap.get(value);
-          const newCount = count++;
-          countMap.set(value, newCount);
-        } else {
-          countMap.set(value, 1);
-        }
-      });
     }
-  },
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-
-@import '../scss/materials';
+@import "../scss/materials";
 
 .card-text {
   width: 100% !important;
