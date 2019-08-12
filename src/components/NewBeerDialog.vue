@@ -173,6 +173,7 @@ export default {
         } else {
           db.collection("beers").add(beer);
           this.$emit("closeDialog");
+          this.resetValidation();
         }
       }
     },
