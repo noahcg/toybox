@@ -58,13 +58,8 @@
     <v-layout row wrap>
       <v-flex xs12 md4>
         <v-card class="v-card--material-stats">
-          <div class="v-offset" style="top: -24px; margin-bottom: -24px;">
-            <div class="pa-4 v-card theme--dark green elevation-10">
-              <i aria-hidden="true" class="v-icon mdi mdi-tag theme--dark" style="font-size: 40px;"></i>
-            </div>
-          </div>
           <div class="v-card__text">
-            <div class="text-xs-right">
+            <div class="text-xs-left">
               <h3 class="title display-1 font-weight-light">
                 Top Breweries
                 <small></small>
@@ -83,17 +78,8 @@
       </v-flex>
       <v-flex xs12 md4>
         <v-card class="v-card--material-stats">
-          <div class="v-offset" style="top: -24px; margin-bottom: -24px;">
-            <div class="pa-4 v-card theme--dark orange elevation-10">
-              <i
-                aria-hidden="true"
-                class="v-icon mdi mdi-face theme--dark"
-                style="font-size: 40px;"
-              ></i>
-            </div>
-          </div>
           <div class="v-card__text">
-            <div class="text-xs-right">
+            <div class="text-xs-left">
               <h3 class="title display-1 font-weight-light">
                 Top Beers
                 <small></small>
@@ -112,17 +98,8 @@
       </v-flex>
       <v-flex xs12 md4>
         <v-card class="v-card--material-stats">
-          <div class="v-offset" style="top: -24px; margin-bottom: -24px;">
-            <div class="pa-4 v-card theme--dark info elevation-10">
-              <i
-                aria-hidden="true"
-                class="v-icon mdi mdi-book theme--dark"
-                style="font-size: 40px;"
-              ></i>
-            </div>
-          </div>
           <div class="v-card__text">
-            <div class="text-xs-right">
+            <div class="text-xs-left">
               <h3 class="title display-1 font-weight-light">
                 Top Styles
                 <small></small>
