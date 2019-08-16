@@ -4,7 +4,7 @@ import { firestorePlugin } from "vuefire";
 import firebase from "firebase/app";
 import App from "./App.vue";
 import router from "./router";
-import store from "./store";
+import store from "./store/index";
 import "firebase/firestore";
 import "firebase/auth";
 import env from "../env.json";

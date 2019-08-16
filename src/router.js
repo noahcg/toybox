@@ -4,7 +4,7 @@ import Inventory from "./views/Inventory.vue";
 import Management from "./views/Management.vue";
 import Reports from "./views/Reports.vue";
 import Login from "./views/Login.vue";
-import store from "./store";
+import store from "./store/index";
 
 Vue.use(Router);
 
@@ -22,7 +22,7 @@ const router = new Router({
       name: "reports",
       component: Reports,
       beforeEnter: (to, from, next) => {
-        if (!store.state.authenticated && to.name !== "login") {
+        if (!store.state.authenticate.authenticated && to.name !== "login") {
           next("/login");
         } else {
           next();
@@ -34,7 +34,7 @@ const router = new Router({
       name: "management",
       component: Management,
       beforeEnter: (to, from, next) => {
-        if (!store.state.authenticated && to.name !== "login") {
+        if (!store.state.authenticate.authenticated && to.name !== "login") {
           next("/login");
         } else {
           next();
@@ -46,7 +46,7 @@ const router = new Router({
       name: "login",
       component: Login,
       beforeEnter: (to, from, next) => {
-        if (!store.state.authenticated && to.name !== "login") {
+        if (!store.state.authenticate.authenticated && to.name !== "login") {
           next("/login");
         } else {
           next();

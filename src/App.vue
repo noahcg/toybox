@@ -60,7 +60,7 @@ export default {
     };
   },
   computed: mapState({
-    authStatus: state => state.authenticated
+    authStatus: state => state.authenticate.authenticated
   }),
   methods: {
     signOut() {
