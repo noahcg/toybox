@@ -1,3 +1,7 @@
+<a href="https://www.netlify.com">
+  <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg"/>
+</a>
+
 ## Dave's Beer Cellar
 
 ### What is this?
@@ -6,7 +10,7 @@ This is an application so that Dave's beer inventory can be managed without need
 
 ### How was it built?
 
-This app was built using Vue.js for the front end javascript framework. I used Vuetify as my material design component framework. I also used Firebase for my backend including the database, authentication, storage and hosting.
+This app was built using Vue.js for the front end javascript framework. I used Vuetify as my material design component framework. I also used Firebase for my backend including the database, authentication. Hosting is now being done on Netlify.
 
 ### Ecosystem
 
