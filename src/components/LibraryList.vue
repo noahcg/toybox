@@ -1,7 +1,39 @@
 <template>
   <div>
-    <v-container>
-      <v-flex md12 class="py-5">
+    <v-container fluid grid-list-md>
+      <v-layout row wrap class="mb-5">
+        <v-flex xs12 md4 v-for="book in books" :key="book.id">
+          <v-card>
+            <v-card-title primary-title class="py-4">
+              <v-icon large>menu_book</v-icon>
+            </v-card-title>
+            <v-divider light></v-divider>
+            <v-card-text class="py-3 book-data">
+              <p class="subtitle-1">
+                <strong>Title:</strong>
+                {{ book.title }}
+              </p>
+              <p class="subtitle-1">
+                <strong>Author:</strong>
+                {{ book.author }}
+              </p>
+              <p class="subtitle-1">
+                <strong>Category:</strong>
+                {{ book.category }}
+              </p>
+              <p class="subtitle-1">
+                <strong>Ownership:</strong>
+                {{ book.ownership }}
+              </p>
+              <p class="subtitle-1">
+                <strong>Pagecount:</strong>
+                {{ book.pagecount }}
+              </p>
+            </v-card-text>
+          </v-card>
+        </v-flex>
+      </v-layout>
+      <!-- <v-flex md12>
         <v-card light>
           <div class="v-card__text">
             <v-layout row wrap class="mb-4">
@@ -16,6 +48,7 @@
                 ></v-text-field>
               </v-flex>
             </v-layout>
+
             <v-data-table
               :items="books"
               :search="search"
@@ -39,7 +72,7 @@
             </v-data-table>
           </div>
         </v-card>
-      </v-flex>
+      </v-flex>-->
     </v-container>
   </div>
 </template>
@@ -99,6 +132,21 @@ export default {
 
 <style lang="scss" scoped>
 @import "../scss/materials";
+
+.v-icon {
+  display: block;
+  margin: 0 auto;
+  background: #eee;
+  border-radius: 50%;
+  padding: 15px;
+}
+
+.book-data p {
+  margin-bottom: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 
 .v-expansion-panel {
   box-shadow: none !important;

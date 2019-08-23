@@ -1,18 +1,33 @@
 <template>
   <v-app>
-    <v-toolbar color="blue lighten-4">
-      <v-toolbar-title class="headline text-uppercase">
-        <span>My</span>
-        <span class="font-weight-light">personal</span>
-        <span>library</span>
+    <v-toolbar color="blue lighten-4" class="py-4">
+      <v-toolbar-title class="display-2 text-uppercase blue-grey--text font-weight-light mb-4">
+        My
+        <br />personal
+        <br />library
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn to="/library" flat>Library</v-btn>
-        <v-btn v-if="authStatus" to="/reports" flat>Reports</v-btn>
-        <v-btn v-if="authStatus" to="/management" flat>Management</v-btn>
-        <v-btn v-if="!authStatus" to="/login" flat>Login</v-btn>
-        <v-btn v-if="authStatus" @click.native="signOut" flat>Logout</v-btn>
+        <v-btn to="/library" class="blue-grey--text font-weight-light headline" flat>Library</v-btn>
+        <v-btn
+          v-if="authStatus"
+          class="blue-grey--text font-weight-light headline"
+          to="/reports"
+          flat
+        >Reports</v-btn>
+        <v-btn
+          v-if="authStatus"
+          class="blue-grey--text font-weight-light headline"
+          to="/management"
+          flat
+        >Management</v-btn>
+        <v-btn v-if="!authStatus" class="blue-grey--text subtitle-1 login" to="/login" flat>Login</v-btn>
+        <v-btn
+          v-if="authStatus"
+          class="blue-grey--text subtitle-1 logout"
+          @click.native="signOut"
+          flat
+        >Logout</v-btn>
       </v-toolbar-items>
     </v-toolbar>
     <v-content>
@@ -31,10 +46,6 @@
         </v-btn>
       </v-bottom-nav>
     </v-card>
-    <v-footer class="pa-3" color="blue lighten-4">
-      <v-spacer></v-spacer>
-      <div>My Personal Library &copy; {{ new Date().getFullYear() }}</div>
-    </v-footer>
   </v-app>
 </template>
 
@@ -63,8 +74,44 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
+.application--wrap {
+  flex-direction: row;
+  overflow: auto;
+}
+.v-toolbar {
+  display: block;
+  height: 100%;
+  position: fixed;
+  width: 25%;
+}
+.v-toolbar__content {
+  display: block;
+}
+.v-toolbar__items {
+  flex-direction: column;
+}
+.v-toolbar__items .v-btn {
+  border-bottom: 1px solid #fff;
+  width: 100%;
+}
+main {
+  position: absolute;
+  right: 0;
+  width: 75%;
+}
 .v-item-group.v-bottom-nav {
   bottom: 60px !important;
+}
+
+.login,
+.logout {
+  border: none !important;
+  bottom: 0;
+  position: absolute;
+
+  &:hover {
+    position: absolute;
+  }
 }
 </style>
