@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-toolbar color="blue lighten-4" class="py-4">
+    <v-toolbar color="blue lighten-4" class="py-4" flat>
       <v-toolbar-title class="display-2 text-uppercase blue-grey--text font-weight-light mb-4">
         My
         <br />personal
@@ -83,7 +83,7 @@ export default {
   display: block;
   height: 100%;
   position: fixed;
-  width: 25%;
+  width: 350px;
 }
 .v-toolbar__content {
   display: block;
@@ -98,7 +98,7 @@ export default {
 main {
   position: absolute;
   right: 0;
-  width: 75%;
+  width: calc(100vw - 350px);
 }
 .v-item-group.v-bottom-nav {
   bottom: 60px !important;
