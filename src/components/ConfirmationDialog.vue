@@ -1,8 +1,8 @@
 <template>
   <v-dialog v-model="show" persistent max-width="290">
     <v-card>
-      <v-card-title class="headline">Remove {{ deletedBeer.beer }} from fridge?</v-card-title>
-      <v-card-text>Are you sure you want to remove {{ deletedBeer.beer}} from the fridge?</v-card-text>
+      <v-card-title class="headline">Remove {{ deletedBook.title }} from library?</v-card-title>
+      <v-card-text>Are you sure you want to remove {{ deletedBook.title}} from the library?</v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="green darken-1" flat @click="cancelDialog">No</v-btn>
@@ -14,14 +14,13 @@
 
 <script>
 import { db } from "../main";
-
 export default {
   name: "ConfirmationDialog",
-  props: ["show", "deletedBeer"],
+  props: ["show", "deletedBook"],
   methods: {
     deleteItem() {
-      db.collection("beers")
-        .doc(this.deletedBeer.id)
+      db.collection("books")
+        .doc(this.deletedBook.id)
         .delete();
       // this.show = false;
       this.$emit("confirmation:close", false);
