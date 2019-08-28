@@ -55,8 +55,4 @@ export default {
     }
   }
 };
-<<<<<<< HEAD:src/components/LoginForm.vue
 </script>
-=======
-</script>
->>>>>>> updated-interface:src/components/LoginScreen.vue
