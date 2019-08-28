@@ -15,7 +15,7 @@
             <v-icon>fa fa-book</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Library</v-list-item-title>
+            <v-list-item-title>Books</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item v-if="authStatus" to="/metrics">
