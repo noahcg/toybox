@@ -5,8 +5,8 @@
       <v-card-text>Are you sure you want to remove {{ deletedBook.title}} from the library?</v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="green darken-1" flat @click="cancelDialog">No</v-btn>
-        <v-btn color="green darken-1" flat @click="deleteItem">Yes</v-btn>
+        <v-btn color="green darken-1" @click="cancelDialog">No</v-btn>
+        <v-btn color="green darken-1" @click="deleteItem">Yes</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
