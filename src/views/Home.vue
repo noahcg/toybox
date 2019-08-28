@@ -1,17 +1,14 @@
 <template>
   <div class="home">
-    <v-container class="fill-height pa-0" fluid>
-      <div
-        class="v-responsive white--text py-12"
-        style="background:linear-gradient(to bottom, #1867c0, #5CBBF6);"
-      >
+    <v-container class="pa-0" fluid>
+      <div class="v-responsive white--text py-12 hero">
         <div class="v-responsive__content">
           <div class="container">
             <div class="layout align-center justify-center wrap">
               <div class="text-left text-md-center" style="flex:0 1 auto;">
                 <h1 class="font-weight-light mb-6 mx-4 custom-headline">
-                  Go Ahead...
-                  <br />Start Keeping Track of Your Books
+                  An App That Let's
+                  <br />You Start Keeping Track of Your Books
                 </h1>
               </div>
             </div>
@@ -38,7 +35,9 @@
                         ></div>
                       </div>
                       <div class="v-card__text">
-                        <p class="mb-2">Review a collection of the books we own.</p>
+                        <p
+                          class="mb-2"
+                        >Display your collection of books and allow other people to view them. All without having to login.</p>
                       </div>
                     </div>
                   </div>
@@ -61,7 +60,9 @@
                         <div class="v-responsive__content"></div>
                       </div>
                       <div class="v-card__text">
-                        <p class="mb-2">Analyize the data from your library.</p>
+                        <p
+                          class="mb-2"
+                        >Login to your library to view some data about your library. Don't worry, non-logged-in user's won't see this.</p>
                       </div>
                     </div>
                   </div>
@@ -84,7 +85,9 @@
                         <div class="v-responsive__content"></div>
                       </div>
                       <div class="v-card__text">
-                        <p class="mb-2">Manage the entire library from one interface.</p>
+                        <p
+                          class="mb-2"
+                        >Manage your entire library from an easy-to-use interface. Again, non-logged-in users will not be able to manipulate your library.</p>
                       </div>
                     </div>
                   </div>
@@ -93,6 +96,21 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="pa-12 theme--light grey lighten-4">
+        <section class="layout wrap mb-12">
+          <div class="flex">
+            <div class="container grey--text text--darken-2 container--fluid grid-list-md pa-0">
+              <p class="title">Updates for the Future</p>
+              <ul>
+                <li>Add multiple users</li>
+                <li>List individual libraries</li>
+                <li>Fix the bar chart on the metrics page</li>
+                <li>Fix route guards</li>
+              </ul>
+            </div>
+          </div>
+        </section>
       </div>
     </v-container>
   </div>
@@ -104,11 +122,14 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.hero {
+  background: linear-gradient(to bottom, #1867c0, #5cbbf6);
+}
 @media (min-width: 768px) {
   h1 {
-    font-size: 3.75rem !important;
+    font-size: 2.75rem !important;
     font-weight: 300;
-    line-height: 4.5rem;
+    line-height: 3.5rem;
     letter-spacing: -0.0083333333em !important;
     font-family: "Roboto", sans-serif !important;
   }
