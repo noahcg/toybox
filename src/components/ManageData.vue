@@ -25,8 +25,12 @@
       />
       <v-data-table :headers="headers" :items="books" class="elevation-1" :search="search">
         <template v-slot:item.action="{ item }">
-          <v-icon small class="mr-2" @click="editItem(item)">fa fa-pencil</v-icon>
-          <v-icon small @click="deleteItem(item)">delete</v-icon>
+          <v-btn icon class="mx-0" @click="editItem(item)">
+            <v-icon>fa fa-pencil</v-icon>
+          </v-btn>
+          <v-btn icon class="mx-0" @click="confirmDelete(item)">
+            <v-icon>fa fa-trash</v-icon>
+          </v-btn>
         </template>
       </v-data-table>
       <confirmation-dialog
@@ -68,7 +72,7 @@ export default {
       { text: "Date", value: "date" },
       {
         text: "Actions",
-        value: "actions",
+        value: "action",
         sortable: false,
         align: "center"
       }
