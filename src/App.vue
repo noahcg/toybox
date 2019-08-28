@@ -1,16 +1,33 @@
 <template>
   <v-app>
-    <v-toolbar color="#ffcc00">
-      <v-toolbar-title class="headline text-uppercase">
-        <span>Dave's Beer Cellar</span>
+    <v-toolbar color="blue lighten-4" class="py-4" flat>
+      <v-toolbar-title class="display-2 text-uppercase blue-grey--text font-weight-light mb-4">
+        My
+        <br />personal
+        <br />library
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn to="/inventory" flat>Inventory</v-btn>
-        <v-btn v-if="authStatus" to="/reports" flat>Reports</v-btn>
-        <v-btn v-if="authStatus" to="/management" flat>Management</v-btn>
-        <v-btn v-if="!authStatus" to="/login" flat>Login</v-btn>
-        <v-btn v-if="authStatus" @click.native="signOut" flat>Logout</v-btn>
+        <v-btn to="/library" class="blue-grey--text font-weight-light headline" flat>Library</v-btn>
+        <v-btn
+          v-if="authStatus"
+          class="blue-grey--text font-weight-light headline"
+          to="/reports"
+          flat
+        >Reports</v-btn>
+        <v-btn
+          v-if="authStatus"
+          class="blue-grey--text font-weight-light headline"
+          to="/management"
+          flat
+        >Management</v-btn>
+        <v-btn v-if="!authStatus" class="blue-grey--text subtitle-1 login" to="/login" flat>Login</v-btn>
+        <v-btn
+          v-if="authStatus"
+          class="blue-grey--text subtitle-1 logout"
+          @click.native="signOut"
+          flat
+        >Logout</v-btn>
       </v-toolbar-items>
     </v-toolbar>
     <v-content>
@@ -40,10 +57,6 @@
         </v-btn>
       </v-bottom-nav>
     </v-card>
-    <v-footer class="pa-3" color="#ffcc00">
-      <v-spacer></v-spacer>
-      <div class="footer-copy">Dave's Beer Cellar &copy; {{ new Date().getFullYear() }}</div>
-    </v-footer>
   </v-app>
 </template>
 
@@ -73,19 +86,43 @@ export default {
 };
 </script>
 <style lang="scss">
+.application--wrap {
+  flex-direction: row;
+  overflow: auto;
+}
+.v-toolbar {
+  display: block;
+  height: 100%;
+  position: fixed;
+  width: 350px;
+}
+.v-toolbar__content {
+  display: block;
+}
+.v-toolbar__items {
+  flex-direction: column;
+}
+.v-toolbar__items .v-btn {
+  border-bottom: 1px solid #fff;
+  width: 100%;
+}
+main {
+  position: absolute;
+  right: 0;
+  width: calc(100vw - 350px);
+}
 .v-item-group.v-bottom-nav {
   bottom: 60px !important;
 }
-.headline,
-.footer-copy {
-  color: #814923;
-}
-.theme--dark.application {
-  background: #f5f2e8;
-}
-.v-btn:not(.v-btn--disabled):not(.v-btn--floating):not(.v-btn--icon)
-  .v-btn__content
-  .v-icon.logout-icon {
-  transform: rotate(180deg);
+
+.login,
+.logout {
+  border: none !important;
+  bottom: 0;
+  position: absolute;
+
+  &:hover {
+    position: absolute;
+  }
 }
 </style>
