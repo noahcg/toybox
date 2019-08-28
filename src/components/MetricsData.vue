@@ -1,13 +1,14 @@
 <template>
   <v-container fluid grid-list-md>
     <v-layout row wrap>
-      <v-flex xs12 md6>
-        <h1 class="text-xs-left font-weight-regular">By the numbers</h1>
+      <v-flex xs6>
+        <p class="display-1 mb-0 text-xs-left">By the numbers</p>
       </v-flex>
-      <v-flex xs12 md6>
-        <h2
-          class="text-xs-right font-weight-regular"
-        >Last book read on {{ this.$moment.max(this.dateArray).format("MMM Do YYYY") }}</h2>
+      <v-flex xs6>
+        <p
+          v-if="dateArray.length"
+          class="headline mb-0 text-right"
+        >Last book read on {{ this.$moment.max(this.dateArray).format("MMM Do YYYY") }}</p>
       </v-flex>
     </v-layout>
     <v-layout row wrap class="mb-5">
@@ -71,11 +72,6 @@
           <v-card-text class="pt-4 pb-4">
             <doughnut-chart :chart-data="categorycollection" :options="categorycollection.options"></doughnut-chart>
           </v-card-text>
-          <v-card-actions class="card-actions">
-            <p class="category grey--text font-weight-light">
-              <v-icon class="calendar-icon">folder_special</v-icon>Top Categories
-            </p>
-          </v-card-actions>
         </v-card>
       </v-flex>
       <v-flex xs12 md4>
@@ -91,11 +87,6 @@
           <v-card-text class="pt-4 pb-4">
             <doughnut-chart :chart-data="authorcollection" :options="authorcollection.options"></doughnut-chart>
           </v-card-text>
-          <v-card-actions class="card-actions">
-            <p class="category grey--text font-weight-light">
-              <v-icon class="calendar-icon">stars</v-icon>Top Authors
-            </p>
-          </v-card-actions>
         </v-card>
       </v-flex>
       <v-flex xs12 md4>
@@ -109,13 +100,13 @@
             </div>
           </div>
           <v-card-text class="pt-4 pb-4">
-            <bar-chart :chart-data="monthcollection" :options="monthcollection.options"></bar-chart>
+            <bar-chart
+              v-if="reducedBooks.length"
+              :chart-data="monthcollection"
+              :options="monthcollection.options"
+            ></bar-chart>
+            <p v-else class="text-center">Read more books</p>
           </v-card-text>
-          <v-card-actions class="card-actions">
-            <p class="category grey--text font-weight-light">
-              <v-icon class="calendar-icon">mdi-calendar</v-icon>Last 3 Months
-            </p>
-          </v-card-actions>
         </v-card>
       </v-flex>
     </v-layout>
@@ -175,9 +166,6 @@ export default {
     totalPageCount() {
       return this.pageCountArray.reduce((a, b) => a + b, 0).toLocaleString();
     },
-    monthCount() {
-      return this.getCountMap(this.monthArray);
-    },
     pageCountArray() {
       const pageCount = [];
       this.books.forEach(item => {
@@ -196,7 +184,7 @@ export default {
       });
     },
     dateArray() {
-      return this.reducedBooks.map(book => {
+      return this.books.map(book => {
         return this.$moment(book.date);
       });
     },
@@ -352,11 +340,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.v-card--material-stats {
+  height: 100%;
+}
 .card-text {
   width: 100% !important;
-}
-.calendar-icon {
-  font-size: 16px;
 }
 .card-actions {
   border-top: 1px solid #ccc;
