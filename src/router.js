@@ -1,57 +1,42 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Inventory from "./views/Inventory.vue";
-import Management from "./views/Management.vue";
-import Reports from "./views/Reports.vue";
+import Home from "./views/Home.vue";
+import Library from "./views/Library.vue";
 import Login from "./views/Login.vue";
+import Manage from "./views/Manage.vue";
+import Metrics from "./views/Metrics.vue";
 import store from "./store";
 
 Vue.use(Router);
 
-const router = new Router({
+export default new Router({
   mode: "history",
+  base: process.env.BASE_URL,
   routes: [
     {
       path: "/",
-      name: "inventory",
-      component: Inventory,
-      alias: "/inventory"
+      name: "home",
+      component: Home
     },
     {
-      path: "/reports",
-      name: "reports",
-      component: Reports,
-      beforeEnter: (to, from, next) => {
-        if (!store.state.authenticated && to.name !== "login") {
-          next("/login");
-        } else {
-          next();
-        }
-      }
+      path: "/library",
+      name: "library",
+      component: Library
     },
     {
-      path: "/management",
-      name: "management",
-      component: Management,
-      beforeEnter: (to, from, next) => {
-        if (!store.state.authenticated && to.name !== "login") {
-          next("/login");
-        } else {
-          next();
-        }
-      }
+      path: "/metrics",
+      name: "metrics",
+      component: Metrics
+    },
+    {
+      path: "/manage",
+      name: "manage",
+      component: Manage
     },
     {
       path: "/login",
       name: "login",
-      component: Login,
-      beforeEnter: (to, from, next) => {
-        if (!store.state.authenticated && to.name !== "login") {
-          next("/login");
-        } else {
-          next();
-        }
-      }
+      component: Login
     }
   ]
 });
@@ -64,4 +49,4 @@ const router = new Router({
 //   }
 // });
 
-export default router;
+// export default router;

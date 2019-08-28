@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  name: "LoginForm",
+  name: "LoginScreen",
   data: () => ({
     authenticated: false,
     valid: true,
@@ -55,4 +55,8 @@ export default {
     }
   }
 };
+<<<<<<< HEAD:src/components/LoginForm.vue
 </script>
+=======
+</script>
+>>>>>>> updated-interface:src/components/LoginScreen.vue

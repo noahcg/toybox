@@ -1,62 +1,75 @@
 <template>
-  <v-app>
-    <v-toolbar color="blue lighten-4" class="py-4" flat>
-      <v-toolbar-title class="display-2 text-uppercase blue-grey--text font-weight-light mb-4">
-        My
-        <br />personal
-        <br />library
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn to="/library" class="blue-grey--text font-weight-light headline" flat>Library</v-btn>
-        <v-btn
-          v-if="authStatus"
-          class="blue-grey--text font-weight-light headline"
-          to="/reports"
-          flat
-        >Reports</v-btn>
-        <v-btn
-          v-if="authStatus"
-          class="blue-grey--text font-weight-light headline"
-          to="/management"
-          flat
-        >Management</v-btn>
-        <v-btn v-if="!authStatus" class="blue-grey--text subtitle-1 login" to="/login" flat>Login</v-btn>
-        <v-btn
+  <v-app id="inspire">
+    <v-navigation-drawer v-model="drawer" app clipped>
+      <v-list dense>
+        <v-list-item to="/">
+          <v-list-item-action>
+            <v-icon>fa fa-home</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Home</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/library">
+          <v-list-item-action>
+            <v-icon>fa fa-book</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Books</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item v-if="authStatus" to="/metrics">
+          <v-list-item-action>
+            <v-icon>fa fa-bar-chart</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Metrics</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item v-if="authStatus" to="/manage">
+          <v-list-item-action>
+            <v-icon>fa fa-table</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Manage</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item v-if="!authStatus" to="/login">
+          <v-list-item-action>
+            <v-icon>fa fa-sign-in</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Login</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          to="/"
           v-if="authStatus"
           class="blue-grey--text subtitle-1 logout"
           @click.native="signOut"
-          flat
-        >Logout</v-btn>
-      </v-toolbar-items>
-    </v-toolbar>
+        >
+          <v-list-item-action>
+            <v-icon>fa fa-sign-out</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Logout</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-app-bar app clipped-left>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title>Book Repo</v-toolbar-title>
+    </v-app-bar>
+
     <v-content>
       <router-view />
     </v-content>
-    <v-card flat class="hidden-md-and-up bottom-nav">
-      <v-bottom-nav fixed>
-        <v-btn color="secondary" flat value="inventory" to="/inventory">
-          <span>Inventory</span>
-          <v-icon>local_drink</v-icon>
-        </v-btn>
-        <v-btn v-if="authStatus" color="secondary" flat value="reports" to="/reports">
-          <span>Reports</span>
-          <v-icon>assessment</v-icon>
-        </v-btn>
-        <v-btn v-if="authStatus" color="secondary" flat value="management" to="/management">
-          <span>Management</span>
-          <v-icon>assignment</v-icon>
-        </v-btn>
-        <v-btn v-if="!authStatus" color="secondary" flat value="login" to="/login">
-          <span>Login</span>
-          <v-icon>exit_to_app</v-icon>
-        </v-btn>
-        <v-btn v-if="authStatus" color="secondary" flat value="logout" @click.native="signOut">
-          <span>Logout</span>
-          <v-icon class="logout-icon">exit_to_app</v-icon>
-        </v-btn>
-      </v-bottom-nav>
-    </v-card>
+
+    <v-footer app>
+      <span>&copy; 2019</span>
+    </v-footer>
   </v-app>
 </template>
 
@@ -65,13 +78,13 @@ import { mapState } from "vuex";
 import { auth } from "./main";
 
 export default {
-  name: "App",
-  data() {
-    return {
-      drawer: false,
-      left: false
-    };
+  props: {
+    source: String
   },
+
+  data: () => ({
+    drawer: null
+  }),
   computed: mapState({
     authStatus: state => state.authenticated
   }),
@@ -85,6 +98,7 @@ export default {
   }
 };
 </script>
+<<<<<<< HEAD
 <style lang="scss">
 .application--wrap {
   flex-direction: row;
@@ -126,3 +140,5 @@ main {
   }
 }
 </style>
+=======
+>>>>>>> updated-interface

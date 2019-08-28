@@ -1,12 +1,12 @@
-## Dave's Beer Cellar
+## My Personal Library
 
 ### What is this?
 
-This is an application so that Dave's beer inventory can be managed without needing a Google Sheet.
+This project was started so I could keep track of the books I've read. I decided I would rather build my own app for storing my list instead of looking for a pre-built product.
 
 ### How was it built?
 
-This app was built using Vue.js for the front end javascript framework. I used Vuetify as my material design component framework. I also used Firebase for my backend including the database, authentication, storage and hosting.
+This app was built using Vue.js for my front end javascript framework. I used Vuetify as my material design component framework. I also used Firebase for my backend including the database, authentication, storage and hosting.
 
 ### Ecosystem
 

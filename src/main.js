@@ -1,10 +1,11 @@
 import Vue from "vue";
-import "./plugins/vuetify";
 import { firestorePlugin } from "vuefire";
 import firebase from "firebase/app";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+import vuetify from "./plugins/vuetify";
+import "@babel/polyfill";
 import "firebase/firestore";
 import "firebase/auth";
 import env from "../env.json";
@@ -24,5 +25,6 @@ Vue.prototype.$auth = auth;
 new Vue({
   router,
   store,
+  vuetify,
   render: h => h(App)
 }).$mount("#app");
