@@ -1,9 +1,8 @@
 <template>
   <div>
-    <v-container fluid grid-list-md>
-      <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
+    <v-container fluid>
       <v-row>
-        <v-col v-for="book in books" :key="book.id" cols="6" md="4">
+        <v-col v-for="book in books" :key="book.id" md="4" sm="6" cols="12">
           <v-card>
             <v-card-title primary-title class="py-4">
               <v-icon large>fa fa-book</v-icon>
