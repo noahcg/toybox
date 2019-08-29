@@ -1,10 +1,10 @@
 <template>
   <div>
     <v-container>
-      <v-layout wrap class="mb-4">
-        <v-flex xs4 sm6 md8>
-          <v-btn @click="dialog = true" color="grey ">
-            <v-icon>fa fa-plus-square</v-icon>
+      <v-layout wrap class="mb-4 pt-4">
+        <v-flex xs4 sm6 md8 pt-2>
+          <v-btn @click="dialog = true" color="blue" class="white--text">
+            <v-icon class="mr-3" color="white">fa fa-plus-square</v-icon>Add Book
           </v-btn>
         </v-flex>
         <v-flex xs8 sm6 md4>
@@ -63,13 +63,14 @@ export default {
         align: "left",
         sortable: true,
         value: "title",
-        width: "300px"
+        width: "200px"
       },
       { text: "Author", value: "author" },
-      { text: "Category", value: "category" },
+      { text: "Category", value: "category", width: "200px" },
       { text: "Ownership", value: "ownership" },
       { text: "Page Count", value: "pagecount" },
       { text: "Date", value: "date" },
+      { text: "Read or Not", value: "readOrNot" },
       {
         text: "Actions",
         value: "action",
@@ -84,7 +85,8 @@ export default {
       category: "",
       ownership: "",
       pagecount: 0,
-      date: ""
+      date: "",
+      readOrNot: ""
     },
     defaultItem: {
       title: "",
@@ -92,7 +94,8 @@ export default {
       category: "",
       ownership: "",
       pagecount: 0,
-      date: ""
+      date: "",
+      readOrNot: ""
     },
     deletingBook: {}
   }),

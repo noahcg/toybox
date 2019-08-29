@@ -24,7 +24,7 @@
                   required
                 />
               </v-flex>
-              <v-flex xs12 md6>
+              <v-flex xs12 md4>
                 <v-select
                   @change="selectCategory($event)"
                   :items="categories"
@@ -34,7 +34,7 @@
                   label="Categories"
                 ></v-select>
               </v-flex>
-              <v-flex xs12 md6>
+              <v-flex xs12 md4>
                 <v-select
                   @change="selectOwnership($event)"
                   :items="ownership"
@@ -44,7 +44,7 @@
                   label="Ownership"
                 ></v-select>
               </v-flex>
-              <v-flex xs12 md2>
+              <v-flex xs12 md4>
                 <v-text-field
                   v-model="editedBook.pagecount"
                   label="Page Count"
@@ -52,9 +52,25 @@
                   required
                 />
               </v-flex>
-              <v-flex xs12 offset-md2 md8>
+              <v-flex xs12>
+                <v-radio-group v-model="editedBook.readOrNot">
+                  <template v-slot:label>
+                    <div>Did you read this book, or do you just own it?</div>
+                  </template>
+                  <v-radio value="Yes">
+                    <template v-slot:label>
+                      <div>Yes, I actually read it</div>
+                    </template>
+                  </v-radio>
+                  <v-radio value="No">
+                    <template v-slot:label>
+                      <div>No, I just own it</div>
+                    </template>
+                  </v-radio>
+                </v-radio-group>
+              </v-flex>
+              <v-flex xs12 md6>
                 <v-date-picker
-                  color="blue-grey"
                   v-model="editedBook.date"
                   :landscape="landscape"
                   :reactive="reactive"
@@ -121,7 +137,8 @@ export default {
       author: "",
       category: "",
       pagecount: 0,
-      date: ""
+      date: "",
+      readOrNot: ""
     },
     itemID: "",
     landscape: true,
