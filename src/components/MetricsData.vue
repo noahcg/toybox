@@ -1,32 +1,54 @@
 <template>
-  <v-container fluid grid-list-md>
-    <v-layout row wrap>
+  <v-container container fluid grid-list-xl>
+    <v-layout row wrap mb-4>
       <v-flex xs6>
-        <p class="display-1 mb-0 text-xs-left">By the numbers</p>
+        <p class="headline mb-0 text-xs-left">By the numbers</p>
       </v-flex>
       <v-flex xs6>
         <p
           v-if="dateArray.length"
-          class="headline mb-0 text-right"
+          class="title font-weight-light mb-0 text-right"
         >Last book read on {{ this.$moment.max(this.dateArray).format("MMM Do YYYY") }}</p>
       </v-flex>
     </v-layout>
     <v-layout row wrap class="mb-5">
-      <v-flex xs12 md3>
+      <v-flex sm6 xs12 md6 lg3>
         <v-card>
           <v-card-title primary-title>
-            <span class="title font-weight-light">Books</span>
+            <span class="body-2 font-weight-light">Books You Own</span>
           </v-card-title>
           <v-divider light></v-divider>
           <v-card-text class="py-5">
-            <p class="display-2 mb-0 blue--text font-weight-black">{{ books.length }}</p>
+            <p class="display-2 mb-0 blue--text font-weight-black">{{ myOwnBooks.length }}</p>
           </v-card-text>
         </v-card>
       </v-flex>
-      <v-flex xs12 md3>
+      <v-flex sm6 xs12 md6 lg3>
         <v-card>
           <v-card-title primary-title>
-            <span class="title font-weight-light">Pages</span>
+            <span class="body-2 font-weight-light">Books You've Read</span>
+          </v-card-title>
+          <v-divider light></v-divider>
+          <v-card-text class="py-5">
+            <p class="display-2 mb-0 blue--text font-weight-black">{{ didYouRead.length }}</p>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+      <v-flex sm6 xs12 md6 lg3>
+        <v-card>
+          <v-card-title primary-title>
+            <span class="body-2 font-weight-light">Library Books You've Checked Out</span>
+          </v-card-title>
+          <v-divider light></v-divider>
+          <v-card-text class="py-5">
+            <p class="display-2 mb-0 blue--text font-weight-black">{{ libraryBooks.length }}</p>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+      <v-flex sm6 xs12 md6 lg3>
+        <v-card>
+          <v-card-title primary-title>
+            <span class="body-2 font-weight-light">Total Pagecount in Library</span>
           </v-card-title>
           <v-divider light></v-divider>
           <v-card-text class="py-5">
@@ -34,10 +56,21 @@
           </v-card-text>
         </v-card>
       </v-flex>
-      <v-flex xs12 md3>
+      <v-flex sm6 xs12 md6 lg3>
         <v-card>
           <v-card-title primary-title>
-            <span class="title font-weight-light">Categories</span>
+            <span class="body-2 font-weight-light">Total Pages You've Read</span>
+          </v-card-title>
+          <v-divider light></v-divider>
+          <v-card-text class="py-5">
+            <p class="display-2 mb-0 blue--text font-weight-black">{{ totalPagesRead }}</p>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+      <v-flex sm6 xs12 md6 lg3>
+        <v-card>
+          <v-card-title primary-title>
+            <span class="body-2 font-weight-light">Categories</span>
           </v-card-title>
           <v-divider light></v-divider>
           <v-card-text class="py-5">
@@ -45,10 +78,10 @@
           </v-card-text>
         </v-card>
       </v-flex>
-      <v-flex xs12 md3>
+      <v-flex sm6 xs12 md6 lg3>
         <v-card>
           <v-card-title primary-title>
-            <span class="title font-weight-light">Authors</span>
+            <span class="body-2 font-weight-light">Authors</span>
           </v-card-title>
           <v-divider light></v-divider>
           <v-card-text class="py-5">
@@ -57,7 +90,7 @@
         </v-card>
       </v-flex>
     </v-layout>
-    <h1 class="text-xs-left font-weight-regular">Breakdowns</h1>
+    <p class="headline mb-4 text-xs-left">Breakdowns</p>
     <v-layout row wrap>
       <v-flex xs12 md4>
         <v-card class="v-card--material-stats">
@@ -166,12 +199,24 @@ export default {
     totalPageCount() {
       return this.pageCountArray.reduce((a, b) => a + b, 0).toLocaleString();
     },
+    totalPagesRead() {
+      return this.pagesReadArray.reduce((a, b) => a + b, 0).toLocaleString();
+    },
     pageCountArray() {
       const pageCount = [];
       this.books.forEach(item => {
         pageCount.push(parseInt(item.pagecount, 10));
       });
       return pageCount;
+    },
+    pagesReadArray() {
+      const pagesRead = [];
+      this.books.forEach(item => {
+        if (item.readOrNot == "Yes") {
+          pagesRead.push(parseInt(item.pagecount, 10));
+        }
+      });
+      return pagesRead;
     },
     categoryArray() {
       return this.books.map(book => {
@@ -200,6 +245,33 @@ export default {
     },
     threeMonthsAgo() {
       return this.$moment(new Date()).subtract(3, "months");
+    },
+    didYouRead() {
+      const booksIRead = [];
+      this.books.forEach(item => {
+        if (item.readOrNot == "Yes") {
+          booksIRead.push(item);
+        }
+      });
+      return booksIRead;
+    },
+    libraryBooks() {
+      const libBooks = [];
+      this.books.forEach(item => {
+        if (item.ownership == "Library") {
+          libBooks.push(item);
+        }
+      });
+      return libBooks;
+    },
+    myOwnBooks() {
+      const myBooks = [];
+      this.books.forEach(item => {
+        if (item.ownership == "Own") {
+          myBooks.push(item);
+        }
+      });
+      return myBooks;
     }
   },
   methods: {
@@ -340,6 +412,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.grid-list-md {
+  padding-top: 60px;
+  padding-bottom: 30px;
+}
 .v-card--material-stats {
   height: 100%;
 }
