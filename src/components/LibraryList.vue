@@ -2,34 +2,42 @@
   <div>
     <v-container fluid>
       <v-row>
-        <v-col v-for="book in books" :key="book.id" md="4" sm="6" cols="12">
+        <v-col v-for="book in books" :key="book.id" md="3" sm="6" cols="12">
           <v-card>
-            <v-card-title primary-title class="py-4">
-              <v-icon large>fa fa-book</v-icon>
-            </v-card-title>
-            <v-divider light></v-divider>
             <v-card-text class="py-3 book-data">
-              <p class="subtitle-1">
-                <strong>Title:</strong>
+              <p class="title">
+                <!-- <strong>Title:</strong> -->
                 {{ book.title }}
               </p>
-              <p class="subtitle-1">
-                <strong>Author:</strong>
-                {{ book.author }}
-              </p>
-              <p class="subtitle-1">
-                <strong>Category:</strong>
-                {{ book.category }}
-              </p>
-              <p class="subtitle-1">
-                <strong>Ownership:</strong>
-                {{ book.ownership }}
-              </p>
-              <p class="subtitle-1">
+              <p class="subtitle-1">{{ book.author }}</p>
+              <!-- <p class="subtitle-1">
                 <strong>Pagecount:</strong>
                 {{ book.pagecount }}
-              </p>
+              </p>-->
             </v-card-text>
+            <v-card-actions>
+              <div class="flex-grow-1"></div>
+              <v-icon
+                class="mr-2"
+                v-if="book.ownership == 'Library'"
+                title="This is a library book"
+              >fa-institution</v-icon>
+              <v-icon
+                class="mr-2"
+                v-if="book.ownership == 'Own'"
+                title="I own this book"
+              >fa-user-circle</v-icon>
+              <v-icon
+                class="mr-2"
+                v-if="book.readOrNot == 'No'"
+                title="I haven't read this book"
+              >fa-frown-o</v-icon>
+              <v-icon
+                class="mr-2"
+                v-if="book.readOrNot == 'Yes'"
+                title="I did read this book"
+              >fa-smile-o</v-icon>
+            </v-card-actions>
           </v-card>
         </v-col>
       </v-row>
@@ -42,46 +50,19 @@ import { db } from "../main";
 
 export default {
   data: () => ({
-    books: [],
-    search: "",
-    headers: [
-      {
-        text: "Title",
-        align: "left",
-        sortable: true,
-        value: "title",
-        class: ["subheading", "font-weight-light", "text--darken-3"]
-      },
-      {
-        text: "Author",
-        align: "left",
-        sortable: true,
-        value: "author",
-        class: ["subheading", "font-weight-light", "text--darken-3"]
-      },
-      {
-        text: "Category",
-        align: "left",
-        sortable: true,
-        value: "category",
-        class: ["subheading", "font-weight-light", "text--darken-3"]
-      },
-      {
-        text: "Ownership",
-        align: "left",
-        sortable: true,
-        value: "ownership",
-        class: ["subheading", "font-weight-light", "text--darken-3"]
-      },
-      {
-        text: "Page Count",
-        align: "right",
-        sortable: true,
-        value: "pagecount",
-        class: ["subheading", "font-weight-light", "text--darken-3"]
-      }
-    ]
+    books: []
   }),
+  computed: {
+    didYouRead() {
+      const booksIRead = [];
+      this.books.forEach(item => {
+        if (item.readOrNot == "Yes") {
+          booksIRead.push(item);
+        }
+      });
+      return booksIRead;
+    }
+  },
   firestore() {
     return {
       books: db.collection("books")
@@ -91,20 +72,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.v-icon {
-  color: #333 !important;
-  display: block;
-  margin: 0 auto;
-  background: #eee;
-  border-radius: 50%;
-  padding: 15px;
-}
-
-.book-data p {
+.book-data .title {
   margin-bottom: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 }
 
 .v-expansion-panel {
