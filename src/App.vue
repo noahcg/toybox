@@ -20,7 +20,7 @@
         </v-list-item>
         <v-list-item v-if="authStatus" to="/metrics">
           <v-list-item-action>
-            <v-icon>fa fa-bar-chart</v-icon>
+            <v-icon size="20">fa fa-bar-chart</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Metrics</v-list-item-title>

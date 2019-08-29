@@ -101,11 +101,24 @@
         <section class="layout wrap mb-12">
           <div class="flex">
             <div class="container grey--text text--darken-2 container--fluid grid-list-md pa-0">
-              <p class="title">Updates for the Future</p>
-              <ul>
+              <p class="headline text-center">Updates for the Future</p>
+              <p class="mb-1 font-weight-bold">Home Page</p>
+              <ul class="mb-4">
+                <li>Add more content</li>
+              </ul>
+              <p class="mb-1 font-weight-bold">Book Listing Page</p>
+              <ul class="mb-4">
+                <li>Remove meta data from book cards</li>
+                <li>Add button or CTA to link to book detail page</li>
+              </ul>
+              <p class="mb-1 font-weight-bold">Metrics/Analytics Page</p>
+              <ul class="mb-4">
+                <li>Fix the bar chart</li>
+              </ul>
+              <p class="mb-1 font-weight-bold">Overall</p>
+              <ul class="mb-4">
                 <li>Add multiple users</li>
                 <li>List individual libraries</li>
-                <li>Fix the bar chart on the metrics page</li>
                 <li>Fix route guards</li>
               </ul>
             </div>
