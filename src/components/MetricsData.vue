@@ -48,7 +48,7 @@
       <v-flex sm6 xs12 md6 lg3>
         <v-card>
           <v-card-title primary-title>
-            <span class="body-2 font-weight-light">Total Pagecount in Library</span>
+            <span class="body-2 font-weight-light">Total Pages in Library</span>
           </v-card-title>
           <v-divider light></v-divider>
           <v-card-text class="py-5">
