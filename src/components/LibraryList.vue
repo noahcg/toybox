@@ -3,17 +3,10 @@
     <v-container fluid>
       <v-row>
         <v-col v-for="book in books" :key="book.id" md="3" sm="6" cols="12">
-          <v-card>
+          <v-card height="100%">
             <v-card-text class="py-3 book-data">
-              <p class="title">
-                <!-- <strong>Title:</strong> -->
-                {{ book.title }}
-              </p>
-              <p class="subtitle-1">{{ book.author }}</p>
-              <!-- <p class="subtitle-1">
-                <strong>Pagecount:</strong>
-                {{ book.pagecount }}
-              </p>-->
+              <p class="title">{{ book.title }}</p>
+              <p class="subtitle-2 font-weight-regular font-italic">{{ book.author }}</p>
             </v-card-text>
             <v-card-actions>
               <div class="flex-grow-1"></div>
@@ -72,12 +65,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.v-card > .v-card__text {
+  height: 140px !important;
+}
 .book-data .title {
   margin-bottom: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  line-height: 1.3;
 }
 
 .v-expansion-panel {
