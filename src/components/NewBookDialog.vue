@@ -52,6 +52,9 @@
                   required
                 />
               </v-flex>
+              <v-flex xs12 class="mb-0">
+                <v-textarea v-model="editedBook.description" label="Description" outlined></v-textarea>
+              </v-flex>
               <v-flex xs12>
                 <v-radio-group v-model="editedBook.readOrNot">
                   <template v-slot:label>
@@ -82,8 +85,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn color="blue darken-1" @click.native="cancel">Cancel</v-btn>
-          <v-btn color="blue darken-1" @click.native="addBook(editedBook)">Save</v-btn>
+          <v-btn color="blue white--text" @click.native="cancel">Cancel</v-btn>
+          <v-btn color="blue white--text" @click.native="addBook(editedBook)">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-form>
@@ -137,6 +140,7 @@ export default {
       author: "",
       category: "",
       pagecount: 0,
+      description: "",
       date: "",
       readOrNot: ""
     },
