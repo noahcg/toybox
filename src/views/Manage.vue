@@ -85,6 +85,7 @@ export default {
       category: "",
       ownership: "",
       pagecount: 0,
+      description: "",
       date: "",
       readOrNot: ""
     },
@@ -94,6 +95,7 @@ export default {
       category: "",
       ownership: "",
       pagecount: 0,
+      description: "",
       date: "",
       readOrNot: ""
     },
