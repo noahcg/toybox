@@ -5,6 +5,7 @@ import Library from "./views/Library.vue";
 import Login from "./views/Login.vue";
 import Manage from "./views/Manage.vue";
 import Metrics from "./views/Metrics.vue";
+import Book from "./views/Book.vue";
 import store from "./store";
 
 Vue.use(Router);
@@ -37,6 +38,11 @@ export default new Router({
       path: "/login",
       name: "login",
       component: Login
+    },
+    {
+      path: "/book/:id",
+      name: "book",
+      component: Book
     }
   ]
 });
