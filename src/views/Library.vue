@@ -3,7 +3,7 @@
     <v-container fluid>
       <v-row>
         <v-col v-for="book in books" :key="book.id" md="3" sm="6" cols="12">
-          <router-link class="cta" :to="{ name: 'book', params: {id: book.id, book: book} }">
+          <router-link class="cta" :to="{ name: 'book', params: {id: book.id} }">
             <v-card height="100%">
               <v-card-text class="py-3 book-data">
                 <p class="title">{{ book.title }}</p>
