@@ -27,12 +27,26 @@ export default new Router({
     {
       path: "/metrics",
       name: "metrics",
-      component: Metrics
+      component: Metrics,
+      beforeEnter: (to, from, next) => {
+        if (!store.state.authenticated && to.name !== "login") {
+          next("/login");
+        } else {
+          next();
+        }
+      }
     },
     {
       path: "/manage",
       name: "manage",
-      component: Manage
+      component: Manage,
+      beforeEnter: (to, from, next) => {
+        if (!store.state.authenticated && to.name !== "login") {
+          next("/login");
+        } else {
+          next();
+        }
+      }
     },
     {
       path: "/login",
