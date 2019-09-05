@@ -123,24 +123,7 @@
         </v-card>
       </v-flex>
       <v-flex xs12 md4>
-        <v-card class="v-card--material-stats">
-          <div class="v-card__text">
-            <div class="text-xs-right">
-              <h3 class="title display-1 font-weight-light">
-                Completed
-                <small></small>
-              </h3>
-            </div>
-          </div>
-          <v-card-text class="pt-4 pb-4">
-            <bar-chart
-              v-if="reducedBooks.length"
-              :chart-data="monthcollection"
-              :options="monthcollection.options"
-            ></bar-chart>
-            <p v-else class="text-center">Read more books</p>
-          </v-card-text>
-        </v-card>
+        <completed-books :books="reducedBooks" />
       </v-flex>
     </v-layout>
   </v-container>
@@ -149,12 +132,12 @@
 <script>
 import { db } from "../main";
 import DoughnutChart from "@/components/DoughnutChart.vue";
-import BarChart from "@/components/BarChart.vue";
+import CompletedBooks from "@/components/CompletedBooks.vue";
 export default {
   name: "ReportCards",
   components: {
     DoughnutChart,
-    BarChart
+    CompletedBooks
   },
   data: () => ({
     books: [],
@@ -178,7 +161,6 @@ export default {
       .then(() => {
         this.separateData();
         this.fillDoughnut();
-        this.fillBar();
       })
       .catch(error => {
         console.log(`error in loading: ${error}`);
@@ -234,11 +216,6 @@ export default {
         return this.$moment(book.date);
       });
     },
-    monthArray() {
-      return this.reducedBooks.map(book => {
-        return book.date;
-      });
-    },
     threeMonthsAgo() {
       return this.$moment(new Date()).subtract(3, "months");
     },
@@ -275,7 +252,6 @@ export default {
       // Remove duplicates in arrays
       this.uniqueCategories = [...new Set(this.categoryArray)];
       this.uniqueAuthors = [...new Set(this.authorArray)];
-      this.uniqueMonths = [...new Set(this.monthArray.sort())];
 
       const authorCount = {};
       this.authorArray.forEach(author => {
@@ -298,78 +274,6 @@ export default {
       for (let i in this.categoryArray) {
         this.categoryColors.push(this.dynamicColors());
       }
-      // Generate dynamic colors for months
-      for (let i in this.monthArray) {
-        this.monthColors.push(this.dynamicColors());
-      }
-
-      let mArray = [];
-      this.monthArray.forEach(month => {
-        mArray.push(this.$moment(month).month());
-      });
-
-      this.booksPerMonthData = this.countMonths(mArray);
-      this.booksPerMonthLabels = this.getMonthLabels();
-    },
-    getMonthLabels() {
-      var compressed = [];
-      let properMonth = [];
-
-      for (var i = 0; i < this.monthArray.length; i++) {
-        properMonth.push(this.$moment(this.monthArray[i]).format("MMMM"));
-      }
-      // make a copy of the input array
-      var copy = properMonth.slice(0);
-
-      // first loop goes over every element
-      for (var i = 0; i < properMonth.length; i++) {
-        var myCount = 0;
-        // loop over every element in the copy and see if it's the same
-        for (var w = 0; w < copy.length; w++) {
-          if (properMonth[i] == copy[w]) {
-            // increase amount of times duplicate is found
-            myCount++;
-            // sets item to undefined
-            delete copy[w];
-          }
-        }
-
-        if (myCount > 0) {
-          var a = new Object();
-          a.value = properMonth[i];
-          a.count = myCount;
-          compressed.push(a.value);
-        }
-      }
-
-      return compressed;
-    },
-    countMonths(original) {
-      var compressed = [];
-      // make a copy of the input array
-      var copy = original.slice(0);
-
-      // first loop goes over every element
-      for (var i = 0; i < original.length; i++) {
-        var myCount = 0;
-        // loop over every element in the copy and see if it's the same
-        for (var w = 0; w < copy.length; w++) {
-          if (original[i] == copy[w]) {
-            // increase amount of times duplicate is found
-            myCount++;
-            // sets item to undefined
-            delete copy[w];
-          }
-        }
-
-        if (myCount > 0) {
-          var a = new Object();
-          a.count = myCount;
-          compressed.push(myCount);
-        }
-      }
-
-      return compressed;
     },
     fillDoughnut() {
       this.categorycollection = {
@@ -401,33 +305,6 @@ export default {
             labels: {
               boxWidth: 10
             }
-          }
-        }
-      };
-    },
-    fillBar() {
-      this.monthcollection = {
-        labels: this.booksPerMonthLabels,
-        datasets: [
-          {
-            label: "Books",
-            backgroundColor: this.monthColors,
-            data: this.booksPerMonthData
-          }
-        ],
-        options: {
-          legend: {
-            display: false
-          },
-          scales: {
-            yAxes: [
-              {
-                ticks: {
-                  beginAtZero: true,
-                  max: Math.max(...this.booksPerMonthData) + 1
-                }
-              }
-            ]
           }
         }
       };
