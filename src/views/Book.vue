@@ -2,24 +2,27 @@
   <v-container>
     <div class="pa-12">
       <section class="layout wrap mb-12">
-        <div class="flex">
-          <div
-            v-if="!overlay"
-            class="container grey--text text--darken-2 container--fluid grid-list-md pa-0 book-content"
-          >
-            <p class="title">{{ book.title }}</p>
-            <p>Author: {{ book.author }}</p>
-            <p>Category: {{ book.category }}</p>
-            <p>Owner: {{ book.ownership }}</p>
-            <p>Pages: {{ book.pagecount }}</p>
-            <p>Description: {{ book.description }}</p>
-          </div>
-        </div>
+        <v-layout row wrap class="mb-5">
+          <v-flex xs12>
+            <v-card :loading="overlay">
+              <v-card-text class="py-5">
+                <div v-if="overlay">
+                  <p class="text-center mb-0">Book content is loading</p>
+                </div>
+                <div v-if="!overlay">
+                  <p class="title">{{ book.title }}</p>
+                  <p>Author: {{ book.author }}</p>
+                  <p>Category: {{ book.category }}</p>
+                  <p>Owner: {{ book.ownership }}</p>
+                  <p>Pages: {{ book.pagecount }}</p>
+                  <p>Description: {{ book.description }}</p>
+                </div>
+              </v-card-text>
+            </v-card>
+          </v-flex>
+        </v-layout>
       </section>
     </div>
-    <v-overlay :value="overlay">
-      <v-progress-circular indeterminate size="64"></v-progress-circular>
-    </v-overlay>
   </v-container>
 </template>
 
