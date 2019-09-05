@@ -108,8 +108,12 @@
               </ul>
               <p class="mb-1 font-weight-bold">Book Listing Page</p>
               <ul class="mb-4">
-                <li>Remove meta data from book cards</li>
-                <li>Add button or CTA to link to book detail page</li>
+                <li>
+                  <strike>Remove meta data from book cards</strike>
+                </li>
+                <li>
+                  <strike>Add button or CTA to link to book detail page</strike>
+                </li>
               </ul>
               <p class="mb-1 font-weight-bold">Metrics/Analytics Page</p>
               <ul class="mb-4">
@@ -119,7 +123,9 @@
               <ul class="mb-4">
                 <li>Add multiple users</li>
                 <li>List individual libraries</li>
-                <li>Fix route guards</li>
+                <li>
+                  <strike>Fix route guards</strike>
+                </li>
               </ul>
             </div>
           </div>
