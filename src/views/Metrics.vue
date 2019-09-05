@@ -169,8 +169,9 @@ export default {
     categoryColors: [],
     monthcollection: {},
     uniqueMonths: [],
-    compressedMonths: [],
-    monthColors: []
+    booksPerMonthData: [],
+    monthColors: [],
+    booksPerMonthLabels: []
   }),
   mounted() {
     this.$bind("books", db.collection("books"))
@@ -238,11 +239,6 @@ export default {
         return book.date;
       });
     },
-    convertedMonths() {
-      return this.uniqueMonths.map(month => {
-        return this.$moment(month).format("MMMM");
-      });
-    },
     threeMonthsAgo() {
       return this.$moment(new Date()).subtract(3, "months");
     },
@@ -280,6 +276,7 @@ export default {
       this.uniqueCategories = [...new Set(this.categoryArray)];
       this.uniqueAuthors = [...new Set(this.authorArray)];
       this.uniqueMonths = [...new Set(this.monthArray.sort())];
+
       const authorCount = {};
       this.authorArray.forEach(author => {
         if (authorCount[author]) {
@@ -288,10 +285,11 @@ export default {
           authorCount[author] = 1;
         }
       });
+
       // Get count of how many times an item appears in an array
       this.compressArray(this.authorArray, this.compressedAuthors);
       this.compressArray(this.categoryArray, this.compressedCategories);
-      this.compressArray(this.monthArray, this.compressedMonths);
+
       // Generate dynamic colors for authors
       for (let i in this.authorArray) {
         this.authorColors.push(this.dynamicColors());
@@ -304,6 +302,74 @@ export default {
       for (let i in this.monthArray) {
         this.monthColors.push(this.dynamicColors());
       }
+
+      let mArray = [];
+      this.monthArray.forEach(month => {
+        mArray.push(this.$moment(month).month());
+      });
+
+      this.booksPerMonthData = this.countMonths(mArray);
+      this.booksPerMonthLabels = this.getMonthLabels();
+    },
+    getMonthLabels() {
+      var compressed = [];
+      let properMonth = [];
+
+      for (var i = 0; i < this.monthArray.length; i++) {
+        properMonth.push(this.$moment(this.monthArray[i]).format("MMMM"));
+      }
+      // make a copy of the input array
+      var copy = properMonth.slice(0);
+
+      // first loop goes over every element
+      for (var i = 0; i < properMonth.length; i++) {
+        var myCount = 0;
+        // loop over every element in the copy and see if it's the same
+        for (var w = 0; w < copy.length; w++) {
+          if (properMonth[i] == copy[w]) {
+            // increase amount of times duplicate is found
+            myCount++;
+            // sets item to undefined
+            delete copy[w];
+          }
+        }
+
+        if (myCount > 0) {
+          var a = new Object();
+          a.value = properMonth[i];
+          a.count = myCount;
+          compressed.push(a.value);
+        }
+      }
+
+      return compressed;
+    },
+    countMonths(original) {
+      var compressed = [];
+      // make a copy of the input array
+      var copy = original.slice(0);
+
+      // first loop goes over every element
+      for (var i = 0; i < original.length; i++) {
+        var myCount = 0;
+        // loop over every element in the copy and see if it's the same
+        for (var w = 0; w < copy.length; w++) {
+          if (original[i] == copy[w]) {
+            // increase amount of times duplicate is found
+            myCount++;
+            // sets item to undefined
+            delete copy[w];
+          }
+        }
+
+        if (myCount > 0) {
+          var a = new Object();
+          a.count = myCount;
+          compressed.push(myCount);
+        }
+      }
+
+      return compressed;
     },
     fillDoughnut() {
       this.categorycollection = {
@@ -341,12 +407,12 @@ export default {
     },
     fillBar() {
       this.monthcollection = {
-        labels: this.convertedMonths,
+        labels: this.booksPerMonthLabels,
         datasets: [
           {
             label: "Books",
             backgroundColor: this.monthColors,
-            data: this.compressedMonths
+            data: this.booksPerMonthData
           }
         ],
         options: {
@@ -358,7 +424,7 @@ export default {
               {
                 ticks: {
                   beginAtZero: true,
-                  max: Math.max(...this.compressedMonths) + 1
+                  max: Math.max(...this.booksPerMonthData) + 1
                 }
               }
             ]
