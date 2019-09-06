@@ -3,9 +3,22 @@
     <v-layout row wrap>
       <v-flex xs10 sm6 offset-xs1>
         <v-form ref="form" v-model="valid" lazy-validation @keydown.enter.native="login">
-          <v-text-field v-model="email" :rules="emailRules" label="E-mail" required ref="myEmail"></v-text-field>
+          <v-text-field
+            v-model="email"
+            :rules="emailRules"
+            label="E-mail"
+            type="email"
+            required
+            ref="myEmail"
+          ></v-text-field>
 
-          <v-text-field v-model="password" :rules="passwordRules" label="Password" required></v-text-field>
+          <v-text-field
+            v-model="password"
+            :rules="passwordRules"
+            label="Password"
+            type="password"
+            required
+          ></v-text-field>
 
           <v-btn :disabled="!valid" color="blue-grey" class="white--text" @click="login">Login</v-btn>
         </v-form>
