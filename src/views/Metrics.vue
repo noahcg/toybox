@@ -93,19 +93,7 @@
     <p class="headline mb-4 text-xs-left">Breakdowns</p>
     <v-layout row wrap>
       <v-flex xs12 md4>
-        <v-card class="v-card--material-stats">
-          <div class="v-card__text">
-            <div class="text-xs-right">
-              <h3 class="title display-1 font-weight-light">
-                Top Categories
-                <small></small>
-              </h3>
-            </div>
-          </div>
-          <v-card-text class="pt-4 pb-4">
-            <doughnut-chart :chart-data="categorycollection" :options="categorycollection.options"></doughnut-chart>
-          </v-card-text>
-        </v-card>
+        <top-categories :books="books" />
       </v-flex>
       <v-flex xs12 md4>
         <v-card class="v-card--material-stats">
@@ -132,24 +120,26 @@
 <script>
 import { db } from "../main";
 import DoughnutChart from "@/components/DoughnutChart.vue";
+import TopCategories from "@/components/TopCategories.vue";
 import CompletedBooks from "@/components/CompletedBooks.vue";
 export default {
   name: "ReportCards",
   components: {
     DoughnutChart,
-    CompletedBooks
+    CompletedBooks,
+    TopCategories
   },
   data: () => ({
     books: [],
     uniqueCategories: [],
     uniqueAuthors: [],
     totalPages: 0,
-    categorycollection: {},
+    // categorycollection: {},
     authorcollection: {},
     compressedAuthors: [],
-    compressedCategories: [],
+    // compressedCategories: [],
     authorColors: [],
-    categoryColors: [],
+    // categoryColors: [],
     monthcollection: {},
     uniqueMonths: [],
     booksPerMonthData: [],
@@ -201,11 +191,6 @@ export default {
       });
       return pagesRead;
     },
-    categoryArray() {
-      return this.books.map(book => {
-        return book.category;
-      });
-    },
     authorArray() {
       return this.books.map(book => {
         return book.author;
@@ -218,6 +203,11 @@ export default {
     },
     threeMonthsAgo() {
       return this.$moment(new Date()).subtract(3, "months");
+    },
+    categoryArray() {
+      return this.books.map(book => {
+        return book.category;
+      });
     },
     didYouRead() {
       const booksIRead = [];
@@ -264,34 +254,13 @@ export default {
 
       // Get count of how many times an item appears in an array
       this.compressArray(this.authorArray, this.compressedAuthors);
-      this.compressArray(this.categoryArray, this.compressedCategories);
 
       // Generate dynamic colors for authors
       for (let i in this.authorArray) {
         this.authorColors.push(this.dynamicColors());
       }
-      // Generate dynamic colors for categories
-      for (let i in this.categoryArray) {
-        this.categoryColors.push(this.dynamicColors());
-      }
     },
     fillDoughnut() {
-      this.categorycollection = {
-        labels: this.uniqueCategories,
-        datasets: [
-          {
-            backgroundColor: this.categoryColors,
-            data: this.compressedCategories
-          }
-        ],
-        options: {
-          legend: {
-            labels: {
-              boxWidth: 10
-            }
-          }
-        }
-      };
       this.authorcollection = {
         labels: this.uniqueAuthors,
         datasets: [

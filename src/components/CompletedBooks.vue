@@ -68,6 +68,10 @@ export default {
 
       this.booksPerMonthData = this.countMonths(mArray);
       this.booksPerMonthLabels = this.getMonthLabels();
+
+      // console.log("month data");
+      // console.log(Math.max(...this.booksPerMonthData));
+      // console.log(this.booksPerMonthData);
     },
     getMonthLabels() {
       var compressed = [];
