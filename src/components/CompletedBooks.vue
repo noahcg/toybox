@@ -152,7 +152,8 @@ export default {
               {
                 ticks: {
                   beginAtZero: true,
-                  max: Math.max(...this.booksPerMonthData) + 1
+                  max: Math.max(...this.booksPerMonthData) + 1,
+                  stepSize: 1
                 }
               }
             ]

@@ -117,7 +117,9 @@
               </ul>
               <p class="mb-1 font-weight-bold">Metrics/Analytics Page</p>
               <ul class="mb-4">
-                <li>Fix the bar chart</li>
+                <li>
+                  <strike>Fix the bar chart</strike>
+                </li>
               </ul>
               <p class="mb-1 font-weight-bold">Overall</p>
               <ul class="mb-4">
