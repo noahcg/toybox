@@ -2,38 +2,15 @@
   <div>
     <v-container fluid>
       <v-row>
-        <v-col v-for="book in books" :key="book.id" md="3" sm="6" cols="12">
-          <router-link class="cta" :to="{ name: 'book', params: {id: book.id} }">
-            <v-card height="100%">
-              <v-card-text class="py-3 book-data">
-                <p class="title">{{ book.title }}</p>
-                <p class="subtitle-2 font-weight-regular font-italic">{{ book.author }}</p>
-              </v-card-text>
-              <v-card-actions>
-                <div class="flex-grow-1"></div>
-                <v-icon
-                  class="mr-2"
-                  v-if="book.ownership == 'Library'"
-                  title="This is a library book"
-                >fa-institution</v-icon>
-                <v-icon
-                  class="mr-2"
-                  v-if="book.ownership == 'Own'"
-                  title="I own this book"
-                >fa-user-circle</v-icon>
-                <v-icon
-                  class="mr-2"
-                  v-if="book.readOrNot == 'No'"
-                  title="I haven't read this book"
-                >fa-frown-o</v-icon>
-                <v-icon
-                  class="mr-2"
-                  v-if="book.readOrNot == 'Yes'"
-                  title="I did read this book"
-                >fa-smile-o</v-icon>
-              </v-card-actions>
-            </v-card>
-          </router-link>
+        <v-col v-for="toy in toys" :key="toy.id" md="3" sm="6" cols="12">
+          <v-card height="100%">
+            <v-card-text class="py-3 book-data">
+              <p class="title">{{ toy.name }}</p>
+              <p class="subtitle-2 font-weight-regular font-italic">
+                {{ toy.category }}
+              </p>
+            </v-card-text>
+          </v-card>
         </v-col>
       </v-row>
     </v-container>
@@ -45,22 +22,22 @@ import { db } from "../main";
 
 export default {
   data: () => ({
-    books: []
+    toys: []
   }),
   computed: {
-    didYouRead() {
-      const booksIRead = [];
-      this.books.forEach(item => {
-        if (item.readOrNot == "Yes") {
-          booksIRead.push(item);
-        }
-      });
-      return booksIRead;
-    }
+    // didYouRead() {
+    //   const booksIRead = [];
+    //   this.books.forEach(item => {
+    //     if (item.readOrNot == "Yes") {
+    //       booksIRead.push(item);
+    //     }
+    //   });
+    //   return booksIRead;
+    // }
   },
   firestore() {
     return {
-      books: db.collection("books")
+      toys: db.collection("toys")
     };
   }
 };

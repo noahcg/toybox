@@ -4,7 +4,7 @@
       <v-layout wrap class="mb-4 pt-4">
         <v-flex xs6 sm6 md8 pt-2>
           <v-btn @click="dialog = true" color="blue" class="white--text">
-            <v-icon class="mr-3" color="white">fa fa-plus-square</v-icon>Add Book
+            <v-icon class="mr-3" color="white">fa fa-plus-square</v-icon>Add Toy
           </v-btn>
         </v-flex>
         <v-flex xs12 sm6 md4>
@@ -20,10 +20,15 @@
       <new-book-dialog
         :is-open.sync="dialog"
         :new-or-edit="editedIndex"
-        :edited-book="editedItem"
+        :edited-toy="editedItem"
         @closeDialog="close()"
       />
-      <v-data-table :headers="headers" :items="books" class="elevation-1" :search="search">
+      <v-data-table
+        :headers="headers"
+        :items="toys"
+        class="elevation-1"
+        :search="search"
+      >
         <template v-slot:item.action="{ item }">
           <v-btn icon class="mx-0" @click="editItem(item)">
             <v-icon>fa fa-pencil</v-icon>
@@ -36,7 +41,7 @@
       <confirmation-dialog
         :show="confirm"
         @confirmation:close="confirm = $event"
-        :deleted-book="deletingBook"
+        :deleted-toy="deletingToy"
       />
     </v-container>
   </div>
@@ -54,7 +59,7 @@ export default {
   data: () => ({
     valid: false,
     search: "",
-    books: [],
+    toys: [],
     dialog: false,
     confirm: false,
     headers: [
@@ -99,36 +104,36 @@ export default {
       date: "",
       readOrNot: ""
     },
-    deletingBook: {}
+    deletingToy: {}
   }),
   firestore() {
     return {
-      books: db.collection("books")
+      toys: db.collection("toys")
     };
   },
   methods: {
-    addBook(book) {
+    addToy(toy) {
       if (this.$refs.form.validate()) {
         if (this.editedIndex > -1) {
-          db.collection("books")
-            .doc(book.id)
+          db.collection("toys")
+            .doc(toy.id)
             .update(this.editedItem);
           this.close();
         } else {
-          db.collection("books").add(book);
+          db.collection("toys").add(toy);
           this.close();
         }
       }
     },
     editItem(item) {
-      this.editedIndex = this.books.indexOf(item);
+      this.editedIndex = this.toys.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.editedItem.id = item.id;
       this.dialog = true;
     },
-    confirmDelete(book) {
+    confirmDelete(toy) {
       this.confirm = true;
-      this.deletingBook = book;
+      this.deletingToy = toy;
     },
     close() {
       setTimeout(() => {

@@ -45,7 +45,7 @@ export default {
   },
   firestore() {
     return {
-      book: db.collection("books").doc(this.$route.params.id)
+      book: db.collection("toys").doc(this.$route.params.id)
     };
   }
 };
