@@ -1,75 +1,60 @@
 <template>
-  <v-app id="inspire">
-    <v-navigation-drawer v-model="drawer" app clipped>
-      <v-list dense>
-        <v-list-item to="/">
-          <v-list-item-action>
-            <v-icon>fa fa-home</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Home</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item to="/library">
-          <v-list-item-action>
-            <v-icon>fa fa-book</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Books</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item v-if="authStatus" to="/metrics">
-          <v-list-item-action>
-            <v-icon size="20">fa fa-bar-chart</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Metrics</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item v-if="authStatus" to="/manage">
-          <v-list-item-action>
-            <v-icon>fa fa-table</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Manage</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item v-if="!authStatus" to="/login">
-          <v-list-item-action>
-            <v-icon>fa fa-sign-in</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Login</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item
-          to="/"
-          v-if="authStatus"
-          class="blue-grey--text subtitle-1 logout"
-          @click.native="signOut"
-        >
-          <v-list-item-action>
-            <v-icon>fa fa-sign-out</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Logout</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
+  <v-app>
+    <v-app-bar fixed>
+      <v-toolbar-title>Toybox</v-toolbar-title>
 
-    <v-app-bar app clipped-left>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>Book Repo</v-toolbar-title>
+      <v-spacer></v-spacer>
+
+      <nav>
+        <ul>
+          <li>
+            <a href="">Home</a>
+          </li>
+          <li v-if="authStatus">
+            <a href="">Manage</a>
+          </li>
+          <li v-if="authStatus">
+            <a href="">List</a>
+          </li>
+          <li v-if="!authStatus">
+            <a href="">Login</a>
+          </li>
+          <li v-if="authStatus">
+            <a href="">Logout</a>
+          </li>
+        </ul>
+      </nav>
     </v-app-bar>
 
     <v-content>
       <router-view />
     </v-content>
+    <v-bottom-navigation :value="activeBtn" color="blue" :fixed="true">
+      <v-btn>
+        <span>Home</span>
+        <v-icon>fa fa-home</v-icon>
+      </v-btn>
 
-    <v-footer app>
-      <span>&copy; Book Repo 2019</span>
-    </v-footer>
+      <v-btn v-if="authStatus">
+        <span>Manage</span>
+        <v-icon>fa fa-table</v-icon>
+      </v-btn>
+
+      <v-btn v-if="authStatus">
+        <span>List</span>
+        <v-icon>fa fa-th-list</v-icon>
+      </v-btn>
+
+      <v-btn v-if="!authStatus">
+        <span>Login</span>
+        <v-icon>fa fa-sign-in</v-icon>
+      </v-btn>
+
+      <v-btn v-if="authStatus">
+        <span>Logout</span>
+        <v-icon>fa fa-sign-out</v-icon>
+      </v-btn>
+    </v-bottom-navigation>
   </v-app>
 </template>
 
@@ -83,7 +68,8 @@ export default {
   },
 
   data: () => ({
-    drawer: null
+    drawer: null,
+    activeBtn: 1
   }),
   computed: mapState({
     authStatus: state => state.authenticated
@@ -98,3 +84,52 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+.theme--light.v-application {
+  background: #fff !important;
+}
+.container {
+  position: relative;
+}
+@media (min-width: 992px) {
+  header {
+    display: flex;
+    justify-content: space-between;
+  }
+  .v-toolbar__content {
+    width: 100%;
+  }
+}
+</style>
+<style lang="scss" scoped>
+header {
+  display: none;
+}
+@media (min-width: 992px) {
+  header {
+    display: block;
+  }
+  nav {
+    height: 100%;
+    ul {
+      align-items: center;
+      display: flex;
+      height: 100%;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    ul li {
+      flex: 1 1 auto;
+      padding: 0 10px;
+    }
+    ul li a {
+      display: block;
+      height: 100%;
+    }
+  }
+  .v-item-group.v-bottom-navigation {
+    display: none;
+  }
+}
+</style>

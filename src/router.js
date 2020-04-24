@@ -17,12 +17,12 @@ export default new Router({
     {
       path: "/",
       name: "home",
-      component: Home
+      component: Home,
     },
     {
       path: "/library",
       name: "library",
-      component: Library
+      component: Library,
     },
     {
       path: "/metrics",
@@ -34,7 +34,7 @@ export default new Router({
         } else {
           next();
         }
-      }
+      },
     },
     {
       path: "/manage",
@@ -46,19 +46,19 @@ export default new Router({
         } else {
           next();
         }
-      }
+      },
     },
     {
       path: "/login",
       name: "login",
-      component: Login
+      component: Login,
     },
     {
       path: "/book/:id",
       name: "book",
-      component: Book
-    }
-  ]
+      component: Book,
+    },
+  ],
 });
 
 // router.beforeEach((to, from, next) => {
