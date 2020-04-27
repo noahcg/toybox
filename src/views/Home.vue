@@ -1,65 +1,69 @@
 <template>
   <div class="page home">
-    <img class="bkgImg" src="/img/IMG_6829.jpeg" role="presentation" />
-    <v-container class="home-content-container">
-      <v-row justify="center">
-        <v-col class="home-callout" :md="6">
-          <h1>Oliver's Toybox</h1>
-          <p class="mb-0">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Similique
-            numquam enim ratione reiciendis consectetur optio perspiciatis
-            laborum, quo voluptates alias dignissimos impedit fuga, quisquam,
-            sequi nulla illo ex assumenda nam.
+    <v-row justify="center" class="mb-4">
+      <v-col cols="10" class="page-title-area">
+        <div v-if="authStatus">
+          <h1>Hey, everyone!</h1>
+          <p class="mb-0 mt-4">
+            Welcome to my toybox. Feel free to see what toys I already have, and
+            which ones I truly like.
           </p>
-        </v-col>
-      </v-row>
-      <v-row justify="center">
-        <v-col class="home-content" :md="10">
-          <h2>Oliver's Toybox</h2>
-          <ul>
-            <li>
-              <p>Item 1</p>
-            </li>
-            <li>
-              <p>Item 2</p>
-            </li>
-            <li>
-              <p>Item 3</p>
-            </li>
-          </ul>
-        </v-col>
-      </v-row>
-    </v-container>
+        </div>
+        <div v-else>
+          <h1>Welcome to Toybox!</h1>
+          <p class="mb-0 mt-4">
+            The place for parents and guardians to manage the inventory of their
+            children's toys.
+          </p>
+        </div>
+      </v-col>
+    </v-row>
+    <v-row class="content-row">
+      <v-col cols="12" class="page-content-area">
+        <div v-if="authStatus">
+          <h2>Time to Manage</h2>
+          <p>
+            <small>Click on the Manage link to start managing my toybox.</small>
+          </p>
+        </div>
+        <div v-else>
+          <h2>Purpose</h2>
+          <p>
+            <small
+              >Toys can be stored and then shared with family & friends. Now,
+              parents no longer need to field phone calls asking what their
+              child is currently into.</small
+            >
+          </p>
+        </div>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
-  name: "home"
+  name: "home",
+  computed: mapState({
+    authStatus: state => state.authenticated
+  })
 };
 </script>
 <style lang="scss" scoped>
-.bkgImg {
-  left: 0;
-  position: fixed;
-  top: 0;
-  width: 100%;
-}
-.home-content-container {
-  margin-top: 25%;
-  padding-bottom: 0;
-}
-.page {
-  margin-bottom: 57px;
-}
-.home-callout {
+.page-title-area {
   background: #fff;
-  margin-bottom: 40px;
   padding: 20px;
 }
-.home-content {
+.content-row {
+  height: 100%;
+}
+.page-content-area {
   background: #fff;
-  padding: 30px;
+  padding: 20px;
+}
+h1 {
+  line-height: 2.4rem;
 }
 @media (min-width: 992px) {
   .page {

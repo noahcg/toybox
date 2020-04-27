@@ -1,10 +1,9 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
-import Library from "./views/Library.vue";
+import Toys from "./views/Toys.vue";
 import Login from "./views/Login.vue";
 import Manage from "./views/Manage.vue";
-import Metrics from "./views/Metrics.vue";
 import Book from "./views/Book.vue";
 import store from "./store";
 
@@ -20,21 +19,9 @@ export default new Router({
       component: Home,
     },
     {
-      path: "/library",
-      name: "library",
-      component: Library,
-    },
-    {
-      path: "/metrics",
-      name: "metrics",
-      component: Metrics,
-      beforeEnter: (to, from, next) => {
-        if (!store.state.authenticated && to.name !== "login") {
-          next("/login");
-        } else {
-          next();
-        }
-      },
+      path: "/toys",
+      name: "toys",
+      component: Toys,
     },
     {
       path: "/manage",

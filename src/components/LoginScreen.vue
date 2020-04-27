@@ -1,8 +1,18 @@
 <template>
-  <v-container grid-list-md>
-    <v-layout row wrap>
-      <v-flex xs10 sm6 offset-xs1>
-        <v-form ref="form" v-model="valid" lazy-validation @keydown.enter.native="login">
+  <div class="page">
+    <v-row justify="center" class="mb-4">
+      <v-col cols="10" class="page-title-area">
+        <h1>Login</h1>
+      </v-col>
+    </v-row>
+    <v-row class="content-row">
+      <v-col cols="12" class="page-content-area">
+        <v-form
+          ref="form"
+          v-model="valid"
+          lazy-validation
+          @keydown.enter.native="login"
+        >
           <v-text-field
             v-model="email"
             :rules="emailRules"
@@ -20,11 +30,17 @@
             required
           ></v-text-field>
 
-          <v-btn :disabled="!valid" color="blue-grey" class="white--text" @click="login">Login</v-btn>
+          <v-btn
+            :disabled="!valid"
+            color="blue-grey"
+            class="white--text"
+            @click="login"
+            >Login</v-btn
+          >
         </v-form>
-      </v-flex>
-    </v-layout>
-  </v-container>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>
@@ -62,10 +78,36 @@ export default {
         .then(() => {
           this.$store.commit("setAuthenticated", true);
           this.authenticated = true;
-          this.$router.push({ name: "library" });
+          this.$router.push({ name: "home" });
         })
         .catch(e => console.log(e.message));
     }
   }
 };
 </script>
+<style lang="scss" scoped>
+.page-title-area {
+  background: #fff;
+  padding: 20px;
+}
+.content-row {
+  height: 100%;
+}
+.page-content-area {
+  background: #fff;
+  padding: 20px;
+}
+h1 {
+  line-height: 2.4rem;
+}
+
+.login-content-container {
+  margin-top: 25%;
+  padding-bottom: 0;
+}
+.login-callout {
+  background: #fff;
+  max-width: 90%;
+  padding: 20px;
+}
+</style>

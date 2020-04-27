@@ -1,60 +1,79 @@
 <template>
-  <div>
-    <v-container>
-      <v-layout wrap class="mb-4 pt-4">
-        <v-flex xs6 sm6 md8 pt-2>
-          <v-btn @click="dialog = true" color="blue" class="white--text">
-            <v-icon class="mr-3" color="white">fa fa-plus-square</v-icon>Add Toy
-          </v-btn>
-        </v-flex>
-        <v-flex xs12 sm6 md4>
-          <v-text-field
-            v-model="search"
-            append-icon="fa fa-search"
-            label="Search"
-            single-line
-            hide-details
-          ></v-text-field>
-        </v-flex>
-      </v-layout>
-      <new-book-dialog
-        :is-open.sync="dialog"
-        :new-or-edit="editedIndex"
-        :edited-toy="editedItem"
-        @closeDialog="close()"
-      />
-      <v-data-table
-        :headers="headers"
-        :items="toys"
-        class="elevation-1"
-        :search="search"
-      >
-        <template v-slot:item.action="{ item }">
-          <v-btn icon class="mx-0" @click="editItem(item)">
-            <v-icon>fa fa-pencil</v-icon>
-          </v-btn>
-          <v-btn icon class="mx-0" @click="confirmDelete(item)">
-            <v-icon>fa fa-trash</v-icon>
-          </v-btn>
-        </template>
-      </v-data-table>
-      <confirmation-dialog
-        :show="confirm"
-        @confirmation:close="confirm = $event"
-        :deleted-toy="deletingToy"
-      />
-    </v-container>
+  <div class="page">
+    <v-row justify="center" class="mb-4">
+      <v-col cols="10" class="page-title-area">
+        <h1>Manage</h1>
+      </v-col>
+    </v-row>
+    <v-row class="content-row">
+      <v-col cols="12" class="page-content-area" style="background:#fff;">
+        <v-row>
+          <v-col>
+            <v-btn @click="dialog = true" color="blue" class="white--text">
+              <v-icon class="mr-3" color="white">fa fa-plus-square</v-icon>Add
+              Toy
+            </v-btn>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12">
+            <v-text-field
+              v-model="search"
+              append-icon="fa fa-search"
+              label="Search"
+              single-line
+              hide-details
+            ></v-text-field>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <p class="message-to-parents" v-if="toys.length < 1">
+              Awww! I don't have any toys in my toybox.
+            </p>
+            <v-data-table
+              v-if="toys.length"
+              :headers="headers"
+              :items="toys"
+              class="elevation-1"
+              :search="search"
+            >
+              <template v-slot:item.action="{ item }">
+                <v-btn icon class="mx-0" @click="editItem(item)">
+                  <v-icon>fa fa-pencil</v-icon>
+                </v-btn>
+                <v-btn icon class="mx-0" @click="confirmDelete(item)">
+                  <v-icon>fa fa-trash</v-icon>
+                </v-btn>
+              </template>
+            </v-data-table>
+          </v-col>
+        </v-row>
+      </v-col>
+    </v-row>
+    <new-toy-dialog
+      :is-open.sync="dialog"
+      :new-or-edit="editedIndex"
+      :edited-toy="editedItem"
+      @closeDialog="close()"
+    />
+
+    <confirmation-dialog
+      :show="confirm"
+      @confirmation:close="confirm = $event"
+      :deleted-toy="deletingToy"
+    />
   </div>
 </template>
 
 <script>
 import { db } from "../main";
 import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
-import NewBookDialog from "@/components/NewBookDialog.vue";
+import NewToyDialog from "@/components/NewToyDialog.vue";
 export default {
   components: {
     ConfirmationDialog,
-    NewBookDialog
+    NewToyDialog
   },
   data: () => ({
     valid: false,
@@ -64,18 +83,14 @@ export default {
     confirm: false,
     headers: [
       {
-        text: "Title",
+        text: "Name",
         align: "left",
         sortable: true,
-        value: "title",
+        value: "name",
         width: "200px"
       },
-      { text: "Author", value: "author" },
       { text: "Category", value: "category", width: "200px" },
-      { text: "Ownership", value: "ownership" },
-      { text: "Page Count", value: "pagecount" },
-      { text: "Date", value: "date" },
-      { text: "Read or Not", value: "readOrNot" },
+      { text: "Like it?", value: "radios", width: "200px" },
       {
         text: "Actions",
         value: "action",
@@ -85,24 +100,14 @@ export default {
     ],
     editedIndex: -1,
     editedItem: {
-      title: "",
-      author: "",
+      name: "",
       category: "",
-      ownership: "",
-      pagecount: 0,
-      description: "",
-      date: "",
-      readOrNot: ""
+      radios: ""
     },
     defaultItem: {
-      title: "",
-      author: "",
+      name: "",
       category: "",
-      ownership: "",
-      pagecount: 0,
-      description: "",
-      date: "",
-      readOrNot: ""
+      radios: ""
     },
     deletingToy: {}
   }),
@@ -144,3 +149,19 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+.page-title-area {
+  background: #fff;
+  padding: 20px;
+}
+.content-row {
+  height: 100%;
+}
+.page-content-area {
+  background: #fff;
+  padding: 20px;
+}
+h1 {
+  line-height: 2.4rem;
+}
+</style>
