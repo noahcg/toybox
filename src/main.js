@@ -5,7 +5,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
-import "@babel/polyfill";
+import "./plugins";
 import "firebase/firestore";
 import "firebase/auth";
 import env from "../env.json";
@@ -13,7 +13,6 @@ import env from "../env.json";
 Vue.config.productionTip = false;
 
 Vue.use(firestorePlugin);
-Vue.use(require("vue-moment"));
 
 firebase.initializeApp(env.firebase);
 
@@ -24,7 +23,7 @@ Vue.prototype.$auth = auth;
 
 new Vue({
   router,
-  store,
   vuetify,
-  render: (h) => h(App),
+  store,
+  render: h => h(App)
 }).$mount("#app");
