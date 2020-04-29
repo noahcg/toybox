@@ -12,6 +12,7 @@
           height="100%"
           max-width="600"
           width="100%"
+          v-if="!authStatus"
         >
           <base-heading title="LETTING MY FAMILY & FRIENDS SEE MY TOYS" />
 
@@ -35,20 +36,52 @@
             </base-btn>
           </div>
         </v-responsive>
+
+        <v-responsive
+          class="d-flex align-center"
+          height="100%"
+          max-width="600"
+          width="100%"
+          v-if="authStatus"
+        >
+          <base-heading title="GREAT JOB!" />
+
+          <base-body>
+            Now you can start looking at my toys.
+          </base-body>
+
+          <div
+            :class="
+              $vuetify.breakpoint.smAndDown
+                ? 'flex-column align-start'
+                : 'align-center'
+            "
+            class="d-flex flex-wrap"
+          >
+            <base-btn to="/toys">
+              View Toys
+            </base-btn>
+          </div>
+        </v-responsive>
       </v-container>
     </v-img>
   </section>
 </template>
 
 <script>
+import { mapState } from "vuex";
+import { auth } from "../../main";
+
 export default {
   name: "SectionHero",
 
   provide: {
     theme: { isDark: true }
   },
-
   computed: {
+    ...mapState({
+      authStatus: state => state.authenticated
+    }),
     minHeight() {
       const height = this.$vuetify.breakpoint.mdAndUp ? "100vh" : "50vh";
 
