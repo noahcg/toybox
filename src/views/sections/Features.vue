@@ -1,5 +1,11 @@
 <template>
   <base-section id="features" class="secondary">
+    <base-section-heading
+      color="grey lighten-2"
+      title="Future Ideas"
+      textcolor="white--text"
+    />
+
     <v-responsive class="mx-auto" max-width="1350">
       <v-container fluid>
         <v-row justify="center">
@@ -25,22 +31,22 @@ export default {
   data: () => ({
     cards: [
       {
-        icon: "mdi-keyboard-outline",
-        title: "Trendy Design",
+        icon: "mdi-update",
+        title: "Automatic Updates",
         text:
-          "Efficiently unleash media information without cross-media value. Quickly maximize value timely deliverables schemas."
+          "Parent's can send out an updated inventory list from the toybox. This will be very helpful around birthdays and holidays."
       },
       {
-        icon: "mdi-camera-outline",
-        title: "Photography",
+        icon: "mdi-calendar-clock",
+        title: "Coordinate",
         text:
-          "Efficiently unleash media information without cross-media value. Quickly maximize value timely deliverables schemas."
+          "Family and friends will be able to coordinate their gift purchases with each other."
       },
       {
-        icon: "mdi-pencil-outline",
-        title: "Brand Making",
+        icon: "mdi-lightbulb-on-outline",
+        title: "Toy Recommendations",
         text:
-          "Efficiently unleash media information without cross-media value. Quickly maximize value timely deliverables schemas."
+          "Toys and other gift recommendations will be generated based on the items in the toybox."
       }
     ]
   })
