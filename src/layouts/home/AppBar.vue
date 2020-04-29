@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-app-bar id="home-app-bar" app color="white" elevation="1" height="80">
-      <h1>Toybox <small>v.0.1.0</small></h1>
+      <h1>Toybox <small>v.0.1.1</small></h1>
 
       <v-spacer />
 
