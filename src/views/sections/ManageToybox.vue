@@ -112,21 +112,18 @@ export default {
   },
   methods: {
     addToy(toy) {
-      if (this.$refs.form.validate()) {
-        if (this.editedIndex > -1) {
-          db.collection("toys")
-            .doc(toy.id)
-            .update(this.editedItem);
-          this.close();
-        } else {
-          db.collection("toys").add(toy);
-          this.close();
-        }
+      if (this.editedIndex > -1) {
+        db.collection("toys")
+          .doc(toy.id)
+          .update(this.editedItem);
+        this.close();
+      } else {
+        db.collection("toys").add(toy);
+        this.close();
       }
     },
     editItem(item) {
       this.editedIndex = this.toys.indexOf(item);
-      console.log(this.editedIndex);
       this.editedItem = Object.assign({}, item);
       this.editedItem.id = item.id;
       this.dialog = true;

@@ -27,3 +27,4 @@ tmp/
 
 # Brunch output folder.
 public/
+dist/

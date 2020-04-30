@@ -21,22 +21,22 @@ const router = new Router({
       children: [
         {
           path: "",
-          name: "Home",
+          name: "home",
           component: () => import("@/views/home/Index.vue")
         },
         {
           path: "login",
-          name: "Login",
+          name: "login",
           component: () => import("@/views/login/Index.vue"),
           meta: { src: require("@/assets/login.jpg") }
         },
         {
           path: "manage",
-          name: "Manage",
+          name: "manage",
           component: () => import("@/views/manage/Index.vue"),
           meta: { src: require("@/assets/login.jpg") },
           beforeEnter: (to, from, next) => {
-            if (!store.state.authenticated && to.name !== "Login") {
+            if (!store.state.authenticated && to.name !== "login") {
               next("/login");
             } else {
               next();
@@ -45,11 +45,11 @@ const router = new Router({
         },
         {
           path: "toys",
-          name: "Toys",
+          name: "toys",
           component: () => import("@/views/toys/Index.vue"),
           meta: { src: require("@/assets/login.jpg") },
           beforeEnter: (to, from, next) => {
-            if (!store.state.authenticated && to.name !== "Login") {
+            if (!store.state.authenticated && to.name !== "login") {
               next("/login");
             } else {
               next();

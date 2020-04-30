@@ -17,7 +17,7 @@
             >Home</v-tab
           >
           <v-tab
-            to="Manage"
+            to="manage"
             :ripple="false"
             active-class="text--primary"
             class="font-weight-bold"
@@ -27,7 +27,7 @@
             >Manage</v-tab
           >
           <v-tab
-            to="Toys"
+            to="toys"
             :ripple="false"
             active-class="text--primary"
             class="font-weight-bold"
@@ -37,7 +37,7 @@
             >Toys</v-tab
           >
           <v-tab
-            to="Login"
+            to="login"
             :ripple="false"
             active-class="text--primary"
             class="font-weight-bold"
