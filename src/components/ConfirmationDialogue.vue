@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="show" persistent max-width="290">
+  <v-dialog v-model="show" persistent max-width="400">
     <v-card>
       <v-card-title class="headline"
         >Remove {{ deletedToy.name }} from toybox?</v-card-title
