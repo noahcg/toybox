@@ -7,7 +7,7 @@
       color="primary"
     />
 
-    <base-text-field label="Email" v-model="email" type="email" />
+    <base-text-field label="Email" v-model="email" type="email" autofocus />
 
     <base-text-field label="Password" v-model="password" type="password" />
 
@@ -58,7 +58,7 @@ export default {
   },
   mounted() {
     if (this.authenticated) {
-      this.$router.replace({ name: "Home" });
+      this.$router.replace({ name: "home" });
     }
   },
   methods: {
@@ -68,7 +68,7 @@ export default {
         .then(() => {
           this.$store.commit("setAuthenticated", true);
           this.authenticated = true;
-          this.$router.push({ name: "Home" });
+          this.$router.push({ name: "home" });
         })
         .catch(e => console.log(e.message));
     }
