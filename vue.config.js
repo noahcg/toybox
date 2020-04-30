@@ -1,5 +1,5 @@
 module.exports = {
-  publicPath: "./",
+  publicPath: "https://toybox-app.netlify.app/",
   devServer: {
     disableHostCheck: true
   },
